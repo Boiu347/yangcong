@@ -134,4 +134,28 @@ export class AiController {
     const vocList = await this.aiService.extractVOCs(body.text);
     return { vocList };
   }
+
+  @Post('generate-report')
+  async generateReport(
+    @Body() body: { vocItems: VOCItem[] },
+  ): Promise<Record<string, { coreFindings: string[]; typicalAttitudes: string[]; strengths: string[]; painPoints: string[] }>> {
+    if (!body.vocItems || !Array.isArray(body.vocItems)) {
+      throw new BadRequestException('Request body must contain a "vocItems" array');
+    }
+
+    this.logger.log(`Generate report request: ${body.vocItems.length} VOC items`);
+    return this.aiService.generateBrandReport(body.vocItems);
+  }
+
+  @Post('generate-summary')
+  async generateSummary(
+    @Body() body: { vocItems: VOCItem[]; projectName: string },
+  ): Promise<{ coreFindings: string[]; actionItems: string[]; methodology: string }> {
+    if (!body.vocItems || !Array.isArray(body.vocItems)) {
+      throw new BadRequestException('Request body must contain a "vocItems" array');
+    }
+
+    this.logger.log(`Generate summary request: ${body.vocItems.length} VOC items for "${body.projectName}"`);
+    return this.aiService.generateProjectSummary(body.vocItems, body.projectName || '未命名项目');
+  }
 }

@@ -143,6 +143,96 @@ export class AiService {
     return vocItems;
   }
 
+  async generateBrandReport(
+    vocItems: VOCItem[],
+  ): Promise<Record<string, { coreFindings: string[]; typicalAttitudes: string[]; strengths: string[]; painPoints: string[] }>> {
+    this.logger.log(`Generating brand report from ${vocItems.length} VOC items`);
+
+    const prompt = `你是一位用户研究专家。请根据以下VOC（用户之声）数据，按品牌进行横向对比分析，为每个品牌生成结构化总结。
+
+输出格式为JSON对象，key为品牌名称，value为包含以下字段的对象：
+- coreFindings: 核心发现（3-5条）
+- typicalAttitudes: 用户典型态度（2-3条代表性引用或总结）
+- strengths: 优势亮点（2-4条）
+- painPoints: 痛点槽点（2-4条）
+
+如果某个品牌的数据不足，可以标注"数据不足，无法充分分析"。
+只输出JSON，不要其他文字。`;
+
+    const vocText = vocItems.map(v => `[${v.brand}][${v.sentiment}][${v.dimension || ''}] ${v.respondent}: ${v.text}`).join('\n');
+
+    const response = await axios.post(
+      `${this.baseUrl}/chat/completions`,
+      {
+        model: this.aiModel,
+        messages: [
+          { role: 'system', content: prompt },
+          { role: 'user', content: vocText },
+        ],
+        max_tokens: 8192,
+        temperature: 0.3,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${this.apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        timeout: 120_000,
+      },
+    );
+
+    const raw = response.data?.choices?.[0]?.message?.content?.trim() ?? '{}';
+    const parsed = this.parseJsonObjectFromResponse(raw);
+    this.logger.log(`Brand report generated for ${Object.keys(parsed).length} brands`);
+    return parsed;
+  }
+
+  async generateProjectSummary(
+    vocItems: VOCItem[],
+    projectName: string,
+  ): Promise<{ coreFindings: string[]; actionItems: string[]; methodology: string }> {
+    this.logger.log(`Generating project summary for "${projectName}"`);
+
+    const prompt = `你是一位用户研究专家。请根据以下VOC数据，生成该研究项目的总结报告。
+
+输出格式为JSON对象，包含以下字段：
+- coreFindings: 核心发现（5-8条，按重要性排序）
+- actionItems: 行动建议/Next Steps（3-5条具体可执行的建议）
+- methodology: 研究方法简述（一段话）
+
+只输出JSON，不要其他文字。`;
+
+    const vocText = vocItems.map(v => `[${v.brand}][${v.sentiment}][${v.dimension || ''}] ${v.respondent}: ${v.text}`).join('\n');
+
+    const response = await axios.post(
+      `${this.baseUrl}/chat/completions`,
+      {
+        model: this.aiModel,
+        messages: [
+          { role: 'system', content: prompt },
+          { role: 'user', content: `项目名称：${projectName}\n\nVOC数据：\n${vocText}` },
+        ],
+        max_tokens: 4096,
+        temperature: 0.3,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${this.apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        timeout: 120_000,
+      },
+    );
+
+    const raw = response.data?.choices?.[0]?.message?.content?.trim() ?? '{}';
+    const parsed = this.parseJsonObjectFromResponse(raw);
+    return {
+      coreFindings: Array.isArray(parsed.coreFindings) ? parsed.coreFindings : [],
+      actionItems: Array.isArray(parsed.actionItems) ? parsed.actionItems : [],
+      methodology: typeof parsed.methodology === 'string' ? parsed.methodology : '深度访谈 + 问卷调研',
+    };
+  }
+
   async parseDocument(textContent: string): Promise<string> {
     this.logger.log(
       `Parsing document text (${textContent.length} chars)`,
@@ -180,7 +270,6 @@ export class AiService {
   private parseJsonFromResponse(raw: string): Record<string, unknown>[] {
     let jsonStr = raw;
 
-    // Strip markdown code fences if present
     const fenceMatch = jsonStr.match(/```(?:json)?\s*\n?([\s\S]*?)\n?\s*```/);
     if (fenceMatch) {
       jsonStr = fenceMatch[1];
@@ -195,6 +284,25 @@ export class AiService {
       this.logger.error(`Failed to parse AI response as JSON: ${err}`);
       this.logger.debug(`Raw response: ${raw.slice(0, 500)}`);
       return [];
+    }
+  }
+
+  private parseJsonObjectFromResponse(raw: string): Record<string, any> {
+    let jsonStr = raw;
+
+    const fenceMatch = jsonStr.match(/```(?:json)?\s*\n?([\s\S]*?)\n?\s*```/);
+    if (fenceMatch) {
+      jsonStr = fenceMatch[1];
+    }
+
+    jsonStr = jsonStr.trim();
+
+    try {
+      return JSON.parse(jsonStr);
+    } catch (err) {
+      this.logger.error(`Failed to parse AI response as JSON object: ${err}`);
+      this.logger.debug(`Raw response: ${raw.slice(0, 500)}`);
+      return {};
     }
   }
 
