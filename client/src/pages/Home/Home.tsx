@@ -424,9 +424,9 @@ const AddFileDialog = ({
 };
 
 const Sidebar = ({
-  projects, activeProject, onProjectChange, onCreateProject, onDeleteProject
+  projects, activeProject, onProjectChange, onCreateProject, onDeleteProject, activeTab, onTabChange
 }: {
-  projects: Project[]; activeProject: Project; onProjectChange: (p: Project) => void; onCreateProject: () => void; onDeleteProject: (p: Project) => void;
+  projects: Project[]; activeProject: Project; onProjectChange: (p: Project) => void; onCreateProject: () => void; onDeleteProject: (p: Project) => void; activeTab: string; onTabChange: (tab: string) => void;
 }) => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
@@ -441,10 +441,20 @@ const Sidebar = ({
         </h1>
       </div>
       <nav className="flex-1 p-4 space-y-1">
-        <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all bg-indigo-50 text-indigo-700 font-bold shadow-sm">
-          <MessageSquareQuote size={20} className="text-indigo-600" />
-          定性洞察
-        </button>
+        {[
+          { icon: MessageSquareQuote, label: '定性洞察', id: 'qualitative-insights' },
+          { icon: Sparkles, label: '定性报告', id: 'qualitative-report' },
+          { icon: LayoutDashboard, label: '定量报告', id: 'quantitative-report' },
+          { icon: FileText, label: '项目总结', id: 'project-summary' },
+        ].map(item => {
+          const isActive = activeTab === item.id;
+          return (
+            <button key={item.id} onClick={() => onTabChange(item.id)} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive ? 'bg-indigo-50 text-indigo-700 font-bold shadow-sm' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700'}`}>
+              <item.icon size={20} className={isActive ? 'text-indigo-600' : 'text-gray-400'} />
+              {item.label}
+            </button>
+          );
+        })}
       </nav>
       <div className="p-4 border-t border-gray-50 space-y-3">
         <button onClick={onCreateProject} className="w-full flex items-center gap-2 px-4 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl transition-all font-medium">
@@ -660,6 +670,17 @@ const EmptyState = ({ onCreate }: { onCreate: () => void }) => (
 );
 
 // --- Main ---
+const PlaceholderPage = ({ title, description, icon: Icon }: { title: string; description: string; icon: React.ElementType }) => (
+  <div className="flex flex-col items-center justify-center h-full py-20">
+    <div className="w-20 h-20 bg-indigo-50 rounded-full flex items-center justify-center mb-6">
+      <Icon size={40} className="text-indigo-400" />
+    </div>
+    <h3 className="text-xl font-bold text-gray-900 mb-2">{title}</h3>
+    <p className="text-gray-500 mb-6">{description}</p>
+    <span className="px-4 py-2 bg-indigo-50 text-indigo-600 text-sm font-medium rounded-full">即将上线</span>
+  </div>
+);
+
 const Home = () => {
   const [projects, setProjects] = React.useState<Project[]>(DEFAULT_PROJECTS);
   const [activeProject, setActiveProject] = React.useState<Project>(DEFAULT_PROJECTS[0]);
@@ -668,6 +689,7 @@ const Home = () => {
   const [projectToDelete, setProjectToDelete] = React.useState<Project | null>(null);
   const [isParsing, setIsParsing] = React.useState(false);
   const [isAddFileDialogOpen, setIsAddFileDialogOpen] = React.useState(false);
+  const [activeTab, setActiveTab] = React.useState('qualitative-insights');
 
   React.useEffect(() => {
     const saved = localStorage.getItem('insight_projects');
@@ -772,14 +794,25 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans text-gray-900 flex">
-      <Sidebar projects={projects} activeProject={activeProject} onProjectChange={setActiveProject} onCreateProject={() => setIsCreateDialogOpen(true)} onDeleteProject={handleDeleteProject} />
+      <Sidebar projects={projects} activeProject={activeProject} onProjectChange={setActiveProject} onCreateProject={() => setIsCreateDialogOpen(true)} onDeleteProject={handleDeleteProject} activeTab={activeTab} onTabChange={setActiveTab} />
       <main className="flex-1 ml-64 overflow-y-auto h-screen bg-gray-50/50">
         {projects.length === 0 ? (
           <EmptyState onCreate={() => setIsCreateDialogOpen(true)} />
         ) : (
           <AnimatePresence mode="wait">
-            <motion.div key={activeProject.id} initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} transition={{ duration: 0.3 }}>
-              <InsightsPage project={activeProject} onParseFiles={handleParseFiles} onAddFiles={() => setIsAddFileDialogOpen(true)} />
+            <motion.div key={`${activeProject.id}-${activeTab}`} initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} transition={{ duration: 0.3 }}>
+              {activeTab === 'qualitative-insights' && (
+                <InsightsPage project={activeProject} onParseFiles={handleParseFiles} onAddFiles={() => setIsAddFileDialogOpen(true)} />
+              )}
+              {activeTab === 'qualitative-report' && (
+                <PlaceholderPage title="定性报告" description="基于定性洞察数据自动生成分析报告" icon={Sparkles} />
+              )}
+              {activeTab === 'quantitative-report' && (
+                <PlaceholderPage title="定量报告" description="问卷数据统计分析与可视化报告" icon={LayoutDashboard} />
+              )}
+              {activeTab === 'project-summary' && (
+                <PlaceholderPage title="项目总结" description="汇总定性定量数据，生成项目研究总结" icon={FileText} />
+              )}
             </motion.div>
           </AnimatePresence>
         )}
