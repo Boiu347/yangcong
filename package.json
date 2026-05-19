@@ -190,5 +190,5 @@
     "format": "prettier --write \"{server,client,test}/**/*.{js,ts,tsx,json,md}\"",
     "test": "jest"
   },
-  "version": "2.2.4",
+  "version": "2.2.4"
 }
