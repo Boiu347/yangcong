@@ -9,6 +9,9 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
+import * as mammoth from 'mammoth';
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const pdfParse = require('pdf-parse');
 import { AiService, VOCItem } from './ai.service';
 
 const AUDIO_MIME_TYPES = new Set([
@@ -113,7 +116,25 @@ export class AiController {
       `Parse document request: ${file.originalname} (${file.mimetype}, ${file.size} bytes)`,
     );
 
-    const text = file.buffer.toString('utf-8');
+    const ext = file.originalname.split('.').pop()?.toLowerCase() ?? '';
+    let text: string;
+
+    if (ext === 'docx' || ext === 'doc') {
+      const result = await mammoth.extractRawText({ buffer: file.buffer });
+      text = result.value;
+    } else if (ext === 'pdf') {
+      const result = await pdfParse(file.buffer);
+      text = result.text;
+    } else {
+      text = file.buffer.toString('utf-8');
+    }
+
+    this.logger.log(`Document parsed: ${text.length} chars from .${ext} file`);
+
+    if (!text || text.trim().length === 0) {
+      throw new BadRequestException('文档内容为空，无法提取VOC数据');
+    }
+
     const vocList = await this.aiService.extractVOCs(text);
 
     return { text, vocList };
