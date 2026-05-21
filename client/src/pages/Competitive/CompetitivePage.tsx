@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { BarChart2, ChevronDown, ChevronRight, MapPin, X } from 'lucide-react';
+import { BarChart2, ChevronDown, ChevronRight, MapPin, X, Layers } from 'lucide-react';
 import { useProjectVOCs } from '../../store/useProjectStore';
 import {
   DEFAULT_COMPETITIVE_DATA,
@@ -54,6 +54,133 @@ function groupByL1(insight: BrandInsight): Record<string, BrandInsightGroup[]> {
     result[l1].push({ ...g, l1 });
   }
   return result;
+}
+
+// ── Cross-brand summary data (edit conclusions here) ─────────────────────────
+
+const CROSS_BRAND_CONCLUSIONS: string[] = [
+  '（待填写）核心结论 1——跨品牌共性发现',
+  '（待填写）核心结论 2——市场机会或空白',
+  '（待填写）核心结论 3——家长决策的关键因素',
+];
+
+/** Compute dominant sentiment per brand × L1 from hardcoded insight data */
+function computeSentimentMatrix() {
+  const score = { positive: 2, neutral: 1, negative: 0 } as const;
+  const result: Record<string, Record<string, 'positive' | 'neutral' | 'negative'>> = {};
+  for (const [brand, insight] of Object.entries(DEFAULT_COMPETITIVE_DATA)) {
+    result[brand] = {};
+    const byL1 = groupByL1(insight);
+    for (const l1 of L1_ORDER) {
+      const groups = byL1[l1] ?? [];
+      if (groups.length === 0) continue;
+      const avg = groups.reduce((s, g) => s + score[g.sentiment], 0) / groups.length;
+      result[brand][l1] = avg >= 1.5 ? 'positive' : avg >= 0.5 ? 'neutral' : 'negative';
+    }
+  }
+  return result;
+}
+
+const SENTIMENT_MATRIX = computeSentimentMatrix();
+
+// ── Cross-brand overview panel ────────────────────────────────────────────────
+
+function CrossBrandOverview() {
+  const [open, setOpen] = React.useState(true);
+  const brands = Object.keys(DEFAULT_COMPETITIVE_DATA).sort();
+
+  return (
+    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-6">
+      {/* Header */}
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="w-full flex items-center gap-2.5 px-5 py-4 text-left hover:bg-gray-50/50 transition-colors"
+      >
+        <Layers size={14} className="text-[#4361EE] shrink-0" />
+        <span className="text-[13px] font-bold text-gray-900 flex-1">跨品牌洞察</span>
+        <span className="text-[11px] text-gray-400 mr-1">
+          {brands.length} 个品牌 · {L1_ORDER.length} 个维度
+        </span>
+        {open ? <ChevronDown size={13} className="text-gray-400" /> : <ChevronRight size={13} className="text-gray-400" />}
+      </button>
+
+      {open && (
+        <div className="border-t border-gray-50 px-5 pb-5 space-y-5">
+          {/* Core conclusions */}
+          <div className="pt-4">
+            <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-3">核心结论</p>
+            <div className="space-y-2.5">
+              {CROSS_BRAND_CONCLUSIONS.map((c, i) => (
+                <div key={i} className="flex gap-3">
+                  <span className="shrink-0 w-5 h-5 rounded-full bg-[#4361EE]/10 text-[#4361EE] text-[11px] font-bold flex items-center justify-center mt-0.5">
+                    {i + 1}
+                  </span>
+                  <p className="text-[13px] text-gray-600 leading-relaxed">{c}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Sentiment matrix table */}
+          <div>
+            <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-3">品牌横向对比</p>
+            <div className="overflow-x-auto">
+              <table className="text-left border-collapse">
+                <thead>
+                  <tr>
+                    <th className="text-[11px] font-medium text-gray-400 pb-2 pr-6 min-w-[120px]">品牌</th>
+                    {L1_ORDER.map((l1) => (
+                      <th
+                        key={l1}
+                        className="text-[11px] font-semibold pb-2 px-4 min-w-[90px]"
+                        style={{ color: L1_CONFIG[l1].color }}
+                      >
+                        {l1}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {brands.map((brand) => (
+                    <tr key={brand} className="border-t border-gray-50">
+                      <td className="py-2 pr-6">
+                        <div className="flex items-center gap-1.5">
+                          <div
+                            className="w-5 h-5 rounded-md flex items-center justify-center text-white text-[9px] font-bold shrink-0"
+                            style={{ backgroundColor: brandColor(brand) }}
+                          >
+                            {brand.charAt(0)}
+                          </div>
+                          <span className="text-[12px] text-gray-700 whitespace-nowrap">{brand}</span>
+                        </div>
+                      </td>
+                      {L1_ORDER.map((l1) => {
+                        const s = SENTIMENT_MATRIX[brand]?.[l1];
+                        if (!s) return (
+                          <td key={l1} className="py-2 px-4">
+                            <span className="text-[11px] text-gray-200">—</span>
+                          </td>
+                        );
+                        const sc = SENTIMENT_CONFIG[s];
+                        return (
+                          <td key={l1} className="py-2 px-4">
+                            <span className={cn('inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full border font-medium', sc.tag)}>
+                              <span className={cn('w-1.5 h-1.5 rounded-full shrink-0', sc.dot)} />
+                              {sc.label}
+                            </span>
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
 // ── Evidence list with source tags ───────────────────────────────────────────
@@ -458,6 +585,9 @@ export default function CompetitivePage() {
 
       {/* Content */}
       <div className="flex-1 overflow-auto p-6">
+        {/* Cross-brand overview — always visible */}
+        <CrossBrandOverview />
+
         {selectedBrands.length === 0 && (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <BarChart2 size={36} className="text-gray-200 mb-4" />
