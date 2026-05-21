@@ -49,104 +49,17 @@ export async function apiParseDocument(
   return handleResponse(res);
 }
 
-/** Generate AI project summary from VOC list.
- *  Tries the NestJS backend first; falls back to calling the AI gateway directly
- *  from the browser so the button works even when only the Vite dev server is running.
- */
+/** Generate AI project summary from VOC list */
 export async function apiGenerateSummary(
   vocItems: VOCItem[],
   projectName: string,
 ): Promise<{ coreFindings: string[]; actionItems: string[]; methodology: string }> {
-  // Try backend proxy first
-  try {
-    const res = await fetch(`${BASE}/generate-summary`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', ...authHeaders() },
-      body: JSON.stringify({ vocItems, projectName }),
-      signal: AbortSignal.timeout(5000), // quick probe — if backend is down, fail fast
-    });
-    if (res.ok) return handleResponse(res);
-  } catch {
-    // Backend unreachable — fall through to client-side call
-  }
-
-  // Client-side fallback: call the AI gateway directly
-  return generateSummaryClientSide(vocItems, projectName);
-}
-
-async function generateSummaryClientSide(
-  vocItems: VOCItem[],
-  projectName: string,
-): Promise<{ coreFindings: string[]; actionItems: string[]; methodology: string }> {
-  const gatewayUrl = import.meta.env.VITE_AI_GATEWAY_URL as string | undefined;
-  const apiKey = import.meta.env.VITE_AI_API_KEY as string | undefined;
-  const model = (import.meta.env.VITE_AI_MODEL as string | undefined) ?? 'claude-sonnet-4-6';
-
-  if (!gatewayUrl || !apiKey) {
-    throw new Error('AI 配置缺失，请确认 client/.env 中包含 VITE_AI_GATEWAY_URL 和 VITE_AI_API_KEY');
-  }
-
-  const systemPrompt = `你是一位用户研究专家。请根据以下VOC数据，生成该研究项目的总结报告。
-
-输出格式为JSON对象，包含以下字段：
-- coreFindings: 核心发现，值为字符串数组，每条是一句话的字符串（5-8条）。注意：数组元素必须是字符串，不能是对象。示例：["发现1", "发现2"]
-- actionItems: 行动建议，值为字符串数组，每条是一句话的字符串（3-5条）。注意：数组元素必须是字符串。示例：["建议1", "建议2"]
-- methodology: 研究方法简述，值为一段话的字符串
-
-只输出JSON，不要其他文字。`;
-
-  const vocText = vocItems
-    .map((v) => `[${v.brand}][${v.sentiment}][${v.dimension ?? ''}] ${v.respondent}: ${v.text}`)
-    .join('\n');
-
-  const res = await fetch(`${gatewayUrl}/chat/completions`, {
+  const res = await fetch(`${BASE}/generate-summary`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
-      model,
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: `项目名称：${projectName}\n\nVOC数据：\n${vocText}` },
-      ],
-      max_tokens: 4096,
-      temperature: 0.3,
-    }),
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
+    body: JSON.stringify({ vocItems, projectName }),
   });
-
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({})) as Record<string, unknown>;
-    throw new Error((err?.error as Record<string, unknown>)?.message as string || `AI 请求失败 (${res.status})`);
-  }
-
-  const data = await res.json() as { choices: Array<{ message: { content: string } }> };
-  const raw = data.choices?.[0]?.message?.content?.trim() ?? '{}';
-
-  // Strip markdown code fences if present
-  const json = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim();
-  const parsed = JSON.parse(json) as Record<string, unknown>;
-
-  const toStringArray = (arr: unknown): string[] => {
-    if (!Array.isArray(arr)) return [];
-    return arr
-      .map((item) => {
-        if (typeof item === 'string') return item;
-        if (item && typeof item === 'object') {
-          const o = item as Record<string, unknown>;
-          return String(o.finding ?? o.text ?? o.content ?? o.description ?? o.item ?? JSON.stringify(item));
-        }
-        return String(item);
-      })
-      .filter(Boolean);
-  };
-
-  return {
-    coreFindings: toStringArray(parsed.coreFindings),
-    actionItems: toStringArray(parsed.actionItems),
-    methodology: typeof parsed.methodology === 'string' ? parsed.methodology : '深度访谈 + 问卷调研',
-  };
+  return handleResponse(res);
 }
 
 /** Generate competitive brand reports from VOC list */
