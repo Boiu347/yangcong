@@ -7,6 +7,11 @@ import { existsSync } from 'fs';
 export class ViewController {
   private readonly clientDir = join(process.cwd(), 'dist/client');
 
+  @Get('api/health')
+  health() {
+    return { status: 'ok', ts: Date.now() };
+  }
+
   @Get('*')
   serve(@Req() req: Request, @Res() res: Response) {
     if (req.path.startsWith('/api')) {

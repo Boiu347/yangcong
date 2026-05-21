@@ -6,6 +6,7 @@ import {
   UseInterceptors,
   BadRequestException,
   Logger,
+  Query,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
@@ -107,7 +108,7 @@ export class AiController {
   @UseInterceptors(
     FileInterceptor('file', {
       storage: memoryStorage(),
-      limits: { fileSize: 25 * 1024 * 1024 },
+      limits: { fileSize: 200 * 1024 * 1024 }, // 200MB
       fileFilter: (_req, file, cb) => {
         if (AUDIO_MIME_TYPES.has(file.mimetype)) {
           cb(null, true);
@@ -124,7 +125,8 @@ export class AiController {
   )
   async transcribe(
     @UploadedFile() file: Express.Multer.File,
-  ): Promise<{ text: string; vocList: VOCItem[] }> {
+    @Body() body: { fileId?: string },
+  ): Promise<{ text: string; vocList: VOCItem[]; audioUrl?: string }> {
     if (!file) {
       throw new BadRequestException('No file uploaded');
     }
@@ -133,15 +135,17 @@ export class AiController {
       `Transcribe request: ${file.originalname} (${file.mimetype}, ${file.size} bytes)`,
     );
 
-    const text = await this.aiService.transcribeAudio(
+    const fileId = body?.fileId || `file-${Date.now()}`;
+
+    // Full pipeline: extract audio → transcribe with timestamps → extract VOCs → create clips
+    const result = await this.aiService.processMediaFile(
       file.buffer,
       file.mimetype,
       file.originalname,
+      fileId,
     );
 
-    const vocList = await this.aiService.extractVOCs(text);
-
-    return { text, vocList };
+    return result;
   }
 
   @Post('parse-document')

@@ -12,6 +12,10 @@ async function bootstrap() {
   const clientDir = join(process.cwd(), 'dist/client');
   app.useStaticAssets(clientDir);
 
+  // Serve uploaded audio files and clips
+  const uploadsDir = join(process.cwd(), 'uploads');
+  app.useStaticAssets(uploadsDir, { prefix: '/uploads' });
+
   const logger = new Logger('Bootstrap');
   const host = process.env.SERVER_HOST || '0.0.0.0';
   const port = Number(process.env.PORT || '3000');

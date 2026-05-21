@@ -1,16 +1,31 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-
-import Layout from './components/Layout';
+import { Route, Routes, Navigate } from 'react-router-dom';
+import AppLayout from './components/layout/AppLayout';
+import ProjectsPage from './pages/Projects/ProjectsPage';
+import SummaryPage from './pages/Summary/SummaryPage';
+import QualitativePage from './pages/Qualitative/QualitativePage';
+import CompetitivePage from './pages/Competitive/CompetitivePage';
+import QuantitativePage from './pages/Quantitative/QuantitativePage';
 import NotFound from './pages/NotFound/NotFound';
-import Home from './pages/Home/Home';
 
 const RoutesComponent = () => {
   return (
     <Routes>
-      <Route element={<Layout />}>
-        <Route index element={<Home />} />
+      {/* Root → go to projects list */}
+      <Route index element={<Navigate to="/projects" replace />} />
+
+      {/* Project list / creation */}
+      <Route path="/projects" element={<ProjectsPage />} />
+
+      {/* Project pages (with shared layout) */}
+      <Route path="/projects/:projectId" element={<AppLayout />}>
+        <Route index element={<Navigate to="summary" replace />} />
+        <Route path="summary" element={<SummaryPage />} />
+        <Route path="qualitative" element={<QualitativePage />} />
+        <Route path="competitive" element={<CompetitivePage />} />
+        <Route path="quantitative" element={<QuantitativePage />} />
       </Route>
+
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
