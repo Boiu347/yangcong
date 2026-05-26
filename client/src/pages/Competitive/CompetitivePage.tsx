@@ -624,6 +624,15 @@ export default function CompetitivePage() {
             );
           })}
 
+          {selectedBrands.length < allBrands.length && (
+            <button
+              onClick={() => setSelectedBrands([...allBrands])}
+              className="flex items-center gap-1 px-2 py-1 rounded-full text-[11px] text-gray-400 hover:text-gray-600 border border-gray-200 hover:border-gray-300 transition-colors"
+            >
+              全选
+            </button>
+          )}
+
           {selectedBrands.length > 1 && (
             <button
               onClick={() => setSelectedBrands([])}

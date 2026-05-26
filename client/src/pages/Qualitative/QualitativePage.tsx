@@ -304,6 +304,14 @@ export default function QualitativePage() {
                   </button>
                 );
               })}
+              {selectedBrands.size < allBrands.length && (
+                <button
+                  onClick={() => setSelectedBrands(new Set(allBrands))}
+                  className="flex items-center gap-0.5 px-2 py-1 rounded-full text-[11px] text-gray-400 hover:text-gray-600 border border-gray-200 transition-colors"
+                >
+                  全选
+                </button>
+              )}
               {selectedBrands.size > 0 && (
                 <button
                   onClick={() => setSelectedBrands(new Set())}
