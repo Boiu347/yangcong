@@ -60,10 +60,22 @@ function getSourceSummary(evidence: string[]): string {
   return `访谈${sortedNums.join('·')} / ${uniqueCities.join('·')}`;
 }
 
+// ── Tag colors ────────────────────────────────────────────────────────────────
+
+const TAG_STYLES: Record<string, { bg: string; text: string }> = {
+  '启蒙-兴趣启蒙': { bg: '#ECFDF5', text: '#059669' },
+  '启蒙-学科启蒙': { bg: '#EFF6FF', text: '#2563EB' },
+  '应试-衔接先修': { bg: '#FFF7ED', text: '#EA580C' },
+  '应试-校内同步': { bg: '#FFFBEB', text: '#D97706' },
+  '学科启蒙':      { bg: '#EFF6FF', text: '#2563EB' },
+  '兴趣启蒙':      { bg: '#ECFDF5', text: '#059669' },
+};
+
 // ── Single evidence quote ─────────────────────────────────────────────────────
 
-function QuoteItem({ text, color }: { text: string; color: string }) {
+function QuoteItem({ text, color, tag }: { text: string; color: string; tag?: string }) {
   const src = lookupSource(text);
+  const tagStyle = tag ? TAG_STYLES[tag] : undefined;
   return (
     <div className="flex gap-3 pt-3 border-t border-gray-100 first:border-0 first:pt-0">
       <span
@@ -73,7 +85,17 @@ function QuoteItem({ text, color }: { text: string; color: string }) {
         "
       </span>
       <div className="min-w-0">
-        <p className="text-[13px] text-gray-700 leading-relaxed">{text}</p>
+        <div className="flex items-start gap-2 flex-wrap">
+          <p className="text-[13px] text-gray-700 leading-relaxed flex-1">{text}</p>
+          {tag && tagStyle && (
+            <span
+              className="shrink-0 px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap mt-0.5"
+              style={{ backgroundColor: tagStyle.bg, color: tagStyle.text }}
+            >
+              {tag}
+            </span>
+          )}
+        </div>
         {src && (
           <p className="text-[11px] text-gray-400 mt-1.5">
             — {shortSource(src)}
@@ -86,12 +108,19 @@ function QuoteItem({ text, color }: { text: string; color: string }) {
 
 // ── Brand card ────────────────────────────────────────────────────────────────
 
+interface TaggedEvidence {
+  text: string;
+  tag?: string;
+}
+
 function BrandCard({ entry }: { entry: QualBrandEntry }) {
   const [expanded, setExpanded] = React.useState(false);
   const bColor = brandColor(entry.brand);
 
-  const allEvidence = entry.bullets.flatMap((b) => b.evidence);
-  const sourceSummary = getSourceSummary(allEvidence);
+  const allEvidence: TaggedEvidence[] = entry.bullets.flatMap((b) =>
+    b.evidence.map((e) => ({ text: e, tag: b.tag }))
+  );
+  const sourceSummary = getSourceSummary(allEvidence.map((e) => e.text));
 
   const PREVIEW = 3;
   const shown = expanded ? allEvidence : allEvidence.slice(0, PREVIEW);
@@ -132,7 +161,7 @@ function BrandCard({ entry }: { entry: QualBrandEntry }) {
         {/* Evidence quotes */}
         <div className="space-y-0">
           {shown.map((e, i) => (
-            <QuoteItem key={i} text={e} color={bColor} />
+            <QuoteItem key={i} text={e.text} color={bColor} tag={e.tag} />
           ))}
         </div>
 

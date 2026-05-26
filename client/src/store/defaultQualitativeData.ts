@@ -4,6 +4,7 @@
 export interface QualBullet {
   text: string;
   evidence: string[];
+  tag?: string;
 }
 
 export interface QualBrandEntry {
@@ -41,6 +42,7 @@ export const DEFAULT_QUALITATIVE_DATA: Record<string, QualDimension> = {
             "bullets": [
               {
                 "text": "家长的核心诉求是满足孩子日常好奇心，而非提前布局学科学习，驱动力来自孩子主动发问的真实场景",
+                "tag": "启蒙-兴趣启蒙",
                 "evidence": [
                   "不是说为了他校内的学习提前学什么的，就是让他了解一下，就是有一些自然现象，他小孩不是有的时候可能会问吗",
                   "让他了解一下，就是有一些自然现象，他小孩不是有的时候可能会问吗"
@@ -48,6 +50,7 @@ export const DEFAULT_QUALITATIVE_DATA: Record<string, QualDimension> = {
               },
               {
                 "text": "家长希望内容能弥补自身知识局限，提供比家长解释更权威、更规范的答案",
+                "tag": "启蒙-兴趣启蒙",
                 "evidence": [
                   "对于我们家长跟他解释的话可能有的时候不一定那么的正规",
                   "让他通过这些比较专业的内容了解，他可能会就是更准确一些"
@@ -63,6 +66,7 @@ export const DEFAULT_QUALITATIVE_DATA: Record<string, QualDimension> = {
             "bullets": [
               {
                 "text": "家长的核心诉求是建立直观印象与知识基础，而非应试提前学，降低未来正式学习的排斥感",
+                "tag": "启蒙-兴趣启蒙",
                 "evidence": [
                   "不是说让他为了让他学习这个提前学什么的，不是为了让他干这个",
                   "我想的就是让他不排斥，就是他印象里面有这个东西，他就更感兴趣去学，就学的容易一些"
@@ -70,12 +74,14 @@ export const DEFAULT_QUALITATIVE_DATA: Record<string, QualDimension> = {
               },
               {
                 "text": "家长意识到自身讲解的局限性，寻求专业内容替代家长口头表述，弥补表达不准确的短板",
+                "tag": "启蒙-兴趣启蒙",
                 "evidence": [
                   "对于我们家长跟他解释的话，可能有的时候不一定那么的正规，或者表述不一定那么的准确，但是让他通过这些比较专业的内容了解"
                 ]
               },
               {
                 "text": "存在对实体实验场所的潜在需求，但线下资源匮乏，虚拟实验室填补了现实中难以实现的体验空白",
+                "tag": "启蒙-兴趣启蒙",
                 "evidence": [
                   "想过不知道哪个地方能够做个实验，就是物理实验、化学实验这一块，也想过但不知道哪里能做",
                   "这些我都想让他多了解一点，物理地理历史这些，但不知道哪个地方能做实验"
@@ -91,6 +97,7 @@ export const DEFAULT_QUALITATIVE_DATA: Record<string, QualDimension> = {
             "bullets": [
               {
                 "text": "家长对启蒙的介入时间点极早，低龄阶段即主动寻求系统性学科启蒙，而非等待学校引导",
+                "tag": "启蒙-学科启蒙",
                 "evidence": [
                   "他这个小孩从一年级报的课报的学而思，对那一年级他都有学科启蒙的诉求了"
                 ]
@@ -105,6 +112,7 @@ export const DEFAULT_QUALITATIVE_DATA: Record<string, QualDimension> = {
             "bullets": [
               {
                 "text": "学科先发优势：家长希望通过提前接触物理，让孩子在正式学习时比同龄人更有吸收优势",
+                "tag": "应试-衔接先修",
                 "evidence": [
                   "等到他真正学物理的时候，他可以大概知道了，不至于一点都不懂，比其他同学的话就可以提前知道一些东西，他就可以到时候更加好吸收老师讲的",
                   "因为以后到初中也会学到物理，然后可以提前让他认识知道一些就是跟物理相关的知识"
@@ -112,6 +120,7 @@ export const DEFAULT_QUALITATIVE_DATA: Record<string, QualDimension> = {
               },
               {
                 "text": "兴趣保护优先：家长有明确的升学焦虑，但更核心的诉求是防止孩子未来对理科产生排斥",
+                "tag": "启蒙-兴趣启蒙",
                 "evidence": [
                   "还是不想让他之后对理科失去兴趣，所以抓住从小应该掌握这个理科的黄金期，让他去早早的有所渗透",
                   "毕竟升学需求，考试科目的选取，还是从小激发这个物理的学习兴趣，也能不排斥以后"
@@ -119,6 +128,7 @@ export const DEFAULT_QUALITATIVE_DATA: Record<string, QualDimension> = {
               },
               {
                 "text": "学科思维培育：家长期待孩子养成主动观察、追问现象背后原因的思维习惯，而非单纯记忆知识点",
+                "tag": "启蒙-学科启蒙",
                 "evidence": [
                   "希望他看到这种现实中的生活现象之后，能去想一下为什么会有这个现象，比如出去遛弯看到一些现象，他不是说看过就看过了，而会联想这是怎么导致的",
                   "希望他看到这种现实中的生活现象之后，能去想一下为什么会有这个现象，希望培养他这个学科思维"
@@ -134,6 +144,7 @@ export const DEFAULT_QUALITATIVE_DATA: Record<string, QualDimension> = {
             "bullets": [
               {
                 "text": "家长在启蒙阶段主动回避「学习」标签，倾向于用「玩」的包装降低孩子的心理抵触",
+                "tag": "启蒙-兴趣启蒙",
                 "evidence": [
                   "我就给他说的是帮你看嘛，看着玩，他就没那么抵触",
                   "我怕他现在接触那种应试一点的，就是给他感觉就是让他学，他又怕他排斥"
@@ -141,6 +152,7 @@ export const DEFAULT_QUALITATIVE_DATA: Record<string, QualDimension> = {
               },
               {
                 "text": "妙懂被感知为「应试向」内容，与家长在启蒙阶段「轻松探索」的核心诉求存在明显错位",
+                "tag": "启蒙-兴趣启蒙",
                 "evidence": [
                   "一个好像妙懂，它就是那种真偏应试一点的，知识框架不怎么一样",
                   "妙懂的话就是偏应试的，孩子也不爱看，我也没去看"
@@ -156,6 +168,7 @@ export const DEFAULT_QUALITATIVE_DATA: Record<string, QualDimension> = {
             "bullets": [
               {
                 "text": "用户明确感知到洋葱数学内容与校内课程高度同步，满足跟上学校进度的核心诉求",
+                "tag": "应试-校内同步",
                 "evidence": [
                   "洋葱数学跟校内是高度同步的，这几个点比较吸引我购买",
                   "跟数学的那个洋葱做对比，数学的就是一个非常同步的状态"
@@ -163,6 +176,7 @@ export const DEFAULT_QUALITATIVE_DATA: Record<string, QualDimension> = {
               },
               {
                 "text": "用户对内容讲解的详细程度有正向感知，认为能够辅助理解课内知识点",
+                "tag": "应试-校内同步",
                 "evidence": [
                   "当时直播里就是在详细介绍洋葱数学怎么跟校内同步的，下面公屏有很多大家打问题"
                 ]
@@ -183,6 +197,7 @@ export const DEFAULT_QUALITATIVE_DATA: Record<string, QualDimension> = {
             "bullets": [
               {
                 "text": "家长对启蒙的期待停留在「了解」层面，强调直观感知而非系统掌握，低压力是核心态度",
+                "tag": "兴趣启蒙",
                 "evidence": [
                   "我就觉得他可以大概了解一下，有个概念就行",
                   "这一类的可能会有一些比较直观的，包括我给他弄那个NB实验室，他有一些现象会比较直观的能够表现出来"
@@ -198,6 +213,7 @@ export const DEFAULT_QUALITATIVE_DATA: Record<string, QualDimension> = {
             "bullets": [
               {
                 "text": "家长主动选择以「看现象」代替「讲道理」，认为直观体验是启蒙认知最自然的路径",
+                "tag": "兴趣启蒙",
                 "evidence": [
                   "他有一些现象会，他会给你比较直观的能够表现出来，然后大概了解一下",
                   "科思维的话也比较枯燥，通过理解比较枯燥，理解方面有一点的难度，你做实验的话就更直观的感"
@@ -205,6 +221,7 @@ export const DEFAULT_QUALITATIVE_DATA: Record<string, QualDimension> = {
               },
               {
                 "text": "家长将虚拟实验视为正式学习的「前置缓冲带」，策略是先用兴趣铺垫，再过渡到应试内容",
+                "tag": "学科启蒙",
                 "evidence": [
                   "等他把里面基本上能看完了，然后可以就看那种比较应试一点的",
                   "他印象里面有这个东西，他就更感兴趣去学，就学的容易一些"
@@ -220,6 +237,7 @@ export const DEFAULT_QUALITATIVE_DATA: Record<string, QualDimension> = {
             "bullets": [
               {
                 "text": "低频轻量、顺势而为：家长倾向于温和渐进的启蒙节奏，不急于系统学习，以生活场景为载体自然渗透",
+                "tag": "兴趣启蒙",
                 "evidence": [
                   "让他多坚持，好像有基本上一个星期学两三次这样子，可以慢慢地接触一下就是生活中的物理",
                   "因为它比较贴近生活，生活中也处处都有物理现象"
@@ -227,6 +245,7 @@ export const DEFAULT_QUALITATIVE_DATA: Record<string, QualDimension> = {
               },
               {
                 "text": "动手体验优于被动接受：家长认为亲自动手做实验是建立物理认知最有效的方式，重视具身学习体验",
+                "tag": "兴趣启蒙",
                 "evidence": [
                   "可以动手，自己动手去发现、去体验了。让他动手去自己利用那个做小实验，可以更具体地去知道这个物理是怎么回事",
                   "从实验也好，或者课程的讲解动画也好，能更好地理解和掌握"
@@ -242,6 +261,7 @@ export const DEFAULT_QUALITATIVE_DATA: Record<string, QualDimension> = {
             "bullets": [
               {
                 "text": "家长在启蒙阶段对「知识框架感强」的产品持警惕态度，担心过早结构化会压抑孩子兴趣",
+                "tag": "兴趣启蒙",
                 "evidence": [
                   "一个好像妙懂，它就是那种真偏应试一点的，知识框架不怎么一样",
                   "我怕他现在接触那种应试一点的，就是给他感觉就是让他学，他又怕他排斥"
@@ -249,6 +269,7 @@ export const DEFAULT_QUALITATIVE_DATA: Record<string, QualDimension> = {
               },
               {
                 "text": "即便已付费购买，家长和孩子双方都未产生持续使用动力，购而不用成为常态",
+                "tag": "学科启蒙",
                 "evidence": [
                   "买了小四门都买了，道法也买了，但孩子也不爱看，我也没去看"
                 ]
