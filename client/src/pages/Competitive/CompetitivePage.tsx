@@ -443,7 +443,8 @@ function ComparisonMatrix({
   const l1l2Pairs: { l1: string; l2: string }[] = [];
   const seen = new Set<string>();
 
-  for (const l1 of L1_ORDER) {
+  const matrixL1 = ['产品体验'];
+  for (const l1 of matrixL1) {
     for (const brand of brands) {
       const brandInsight = insights[brand];
       if (!brandInsight) continue;
@@ -491,8 +492,8 @@ function ComparisonMatrix({
         ))}
       </div>
 
-      {/* L1 blocks */}
-      {L1_ORDER.map((l1) => {
+      {/* L1 blocks — only 产品体验 in comparison matrix */}
+      {matrixL1.map((l1) => {
         const l2List = byL1[l1];
         if (!l2List || l2List.length === 0) return null;
         const cfg = L1_CONFIG[l1] ?? L1_CONFIG['产品体验'];
