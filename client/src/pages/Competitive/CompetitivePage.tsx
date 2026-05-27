@@ -16,6 +16,19 @@ import { cn } from '@/lib/utils';
 
 const L1_ORDER = ['启蒙认知', '购买决策', '产品体验'];
 
+const BRAND_ORDER = ['洋葱', '妙懂', '万物指南', 'NB虚拟实验室'];
+
+function sortBrands(brands: string[]): string[] {
+  return brands.sort((a, b) => {
+    const ai = BRAND_ORDER.indexOf(a);
+    const bi = BRAND_ORDER.indexOf(b);
+    if (ai >= 0 && bi >= 0) return ai - bi;
+    if (ai >= 0) return -1;
+    if (bi >= 0) return 1;
+    return a.localeCompare(b, 'zh');
+  });
+}
+
 const L1_CONFIG: Record<string, { color: string; bg: string; border: string; text: string }> = {
   启蒙认知: { color: '#8B5CF6', bg: 'bg-purple-50', border: 'border-purple-100', text: 'text-purple-700' },
   购买决策: { color: '#F59E0B', bg: 'bg-amber-50', border: 'border-amber-100', text: 'text-amber-700' },
@@ -116,7 +129,7 @@ const SENTIMENT_MATRIX = computeSentimentMatrix();
 
 function CrossBrandOverview() {
   const [open, setOpen] = React.useState(true);
-  const brands = Object.keys(DEFAULT_COMPETITIVE_DATA).sort();
+  const brands = sortBrands(Object.keys(DEFAULT_COMPETITIVE_DATA));
 
   return (
     <div className="rounded-2xl border border-[#E8E2D9] shadow-[3px_4px_0_rgba(0,0,0,0.06)] overflow-hidden mb-6 bg-white">
@@ -575,7 +588,7 @@ export default function CompetitivePage() {
   const [selectedBrands, setSelectedBrands] = React.useState<string[]>([]);
 
   // All brands with available insights
-  const allBrands = Object.keys(DEFAULT_COMPETITIVE_DATA).sort();
+  const allBrands = sortBrands(Object.keys(DEFAULT_COMPETITIVE_DATA));
 
   // Auto-select first brand
   React.useEffect(() => {
