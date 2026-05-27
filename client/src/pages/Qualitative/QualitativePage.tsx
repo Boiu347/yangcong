@@ -16,27 +16,27 @@ const DIMENSIONS = ['启蒙认知', '购买决策', '产品体验'] as const;
 type Dimension = (typeof DIMENSIONS)[number];
 
 const DIM_CONFIG: Record<Dimension, { color: string; tab: string }> = {
-  启蒙认知: { color: '#FF5722', tab: 'border-[#FF5722] text-[#FF5722]' },
-  购买决策: { color: '#D97706', tab: 'border-amber-500 text-amber-600' },
-  产品体验: { color: '#2563EB', tab: 'border-blue-500 text-blue-600' },
+  启蒙认知: { color: '#6B7FA6', tab: 'border-[#6B7FA6] text-[#6B7FA6]' },
+  购买决策: { color: '#A68B6B', tab: 'border-[#A68B6B] text-[#A68B6B]' },
+  产品体验: { color: '#6BA6A0', tab: 'border-[#6BA6A0] text-[#6BA6A0]' },
 };
 
 // ── Brand colors ─────────────────────────────────────────────────────────────
 
 const BRAND_COLORS: Record<string, string> = {
-  '洋葱':            '#FF6B6B',
-  '妙懂':            '#EC4899',
-  '万物指南':        '#45B7D1',
-  'NB虚拟实验室':    '#6366F1',
-  '学而思':          '#F59E0B',
-  '叫叫':            '#34D399',
-  '赛先生科学课':    '#10B981',
-  '南开大学AI物理课':'#F97316',
-  '从小学物理':      '#FF5722',
+  '洋葱':            '#E8857A',
+  '妙懂':            '#B08DB5',
+  '万物指南':        '#7BAFBE',
+  'NB虚拟实验室':    '#8B8FCC',
+  '学而思':          '#D4AA6B',
+  '叫叫':            '#7BC4A4',
+  '赛先生科学课':    '#7EB89C',
+  '南开大学AI物理课':'#CCA06E',
+  '从小学物理':      '#C49879',
 };
 
 function brandColor(brand: string) {
-  return BRAND_COLORS[brand] ?? '#A78BFA';
+  return BRAND_COLORS[brand] ?? '#A0A0B0';
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -63,12 +63,12 @@ function getSourceSummary(evidence: string[]): string {
 // ── Tag colors ────────────────────────────────────────────────────────────────
 
 const TAG_STYLES: Record<string, { bg: string; text: string }> = {
-  '启蒙-兴趣启蒙': { bg: '#ECFDF5', text: '#059669' },
-  '启蒙-学科启蒙': { bg: '#EFF6FF', text: '#2563EB' },
-  '应试-衔接先修': { bg: '#FFF7ED', text: '#EA580C' },
-  '应试-校内同步': { bg: '#FFFBEB', text: '#D97706' },
-  '学科启蒙':      { bg: '#EFF6FF', text: '#2563EB' },
-  '兴趣启蒙':      { bg: '#ECFDF5', text: '#059669' },
+  '启蒙-兴趣启蒙': { bg: '#F0F5F3', text: '#6B9B8A' },
+  '启蒙-学科启蒙': { bg: '#F0F3F8', text: '#7088A6' },
+  '应试-衔接先修': { bg: '#F5F1ED', text: '#A6876B' },
+  '应试-校内同步': { bg: '#F5F3ED', text: '#A69A6B' },
+  '学科启蒙':      { bg: '#F0F3F8', text: '#7088A6' },
+  '兴趣启蒙':      { bg: '#F0F5F3', text: '#6B9B8A' },
 };
 
 // ── Single evidence quote ─────────────────────────────────────────────────────
@@ -79,8 +79,7 @@ function QuoteItem({ text, color, tag }: { text: string; color: string; tag?: st
   return (
     <div className="flex gap-3 pt-3 border-t border-gray-100 first:border-0 first:pt-0">
       <span
-        className="text-[22px] leading-none font-serif shrink-0 mt-0.5 select-none"
-        style={{ color }}
+        className="text-[22px] leading-none font-serif shrink-0 mt-0.5 select-none text-gray-300"
       >
         "
       </span>
@@ -130,16 +129,14 @@ function BrandCard({ entry }: { entry: QualBrandEntry }) {
 
   return (
     <div className="bg-white rounded-2xl border border-[#E8E2D9] shadow-[3px_4px_0_rgba(0,0,0,0.06)] overflow-hidden">
-      {/* Top brand color bar */}
-      <div className="h-1 w-full" style={{ backgroundColor: bColor }} />
+      {/* Top subtle divider */}
+      <div className="h-[2px] w-full bg-gray-100" />
 
       <div className="p-5">
         {/* Card header */}
         <div className="flex items-center justify-between mb-4">
-          <span
-            className="px-2.5 py-1 rounded-full text-[12px] font-semibold text-white"
-            style={{ backgroundColor: bColor }}
-          >
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[12px] font-semibold bg-gray-100 text-gray-700">
+            <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: bColor }} />
             {entry.brand}用户
           </span>
           {sourceSummary && (
@@ -150,10 +147,10 @@ function BrandCard({ entry }: { entry: QualBrandEntry }) {
         {/* AI summary */}
         <div className="mb-4 bg-gray-50 rounded-xl p-3.5">
           <div className="flex items-center gap-1.5 mb-1.5">
-            <span className="text-[10px]" style={{ color: bColor }}>◆</span>
+            <span className="text-[10px] text-gray-400">◆</span>
             <span className="text-[11px] font-semibold text-gray-400">AI 总结</span>
           </div>
-          <p className="text-[13px] font-semibold leading-relaxed" style={{ color: bColor }}>
+          <p className="text-[13px] font-semibold leading-relaxed text-gray-700">
             {entry.subtitle}
           </p>
         </div>
