@@ -30,31 +30,31 @@ function sortBrands(brands: string[]): string[] {
 }
 
 const L1_CONFIG: Record<string, { color: string; bg: string; border: string; text: string }> = {
-  启蒙认知: { color: '#6B7FA6', bg: 'bg-slate-50', border: 'border-slate-100', text: 'text-[#6B7FA6]' },
-  购买决策: { color: '#A68B6B', bg: 'bg-stone-50', border: 'border-stone-100', text: 'text-[#A68B6B]' },
-  产品体验: { color: '#6BA6A0', bg: 'bg-gray-50', border: 'border-gray-100', text: 'text-[#6BA6A0]' },
+  启蒙认知: { color: '#5B7BBF', bg: 'bg-slate-50', border: 'border-slate-100', text: 'text-[#5B7BBF]' },
+  购买决策: { color: '#BF9455', bg: 'bg-stone-50', border: 'border-stone-100', text: 'text-[#BF9455]' },
+  产品体验: { color: '#4BA69E', bg: 'bg-gray-50', border: 'border-gray-100', text: 'text-[#4BA69E]' },
 };
 
 const SENTIMENT_CONFIG = {
-  positive: { dot: 'bg-emerald-300', tag: 'bg-emerald-50 text-emerald-600 border-emerald-100', label: '正面' },
+  positive: { dot: 'bg-emerald-400', tag: 'bg-emerald-50 text-emerald-600 border-emerald-200', label: '正面' },
   neutral:  { dot: 'bg-gray-300',    tag: 'bg-gray-50 text-gray-500 border-gray-200',          label: '中性' },
-  negative: { dot: 'bg-red-300',     tag: 'bg-red-50 text-red-500 border-red-100',             label: '负面' },
+  negative: { dot: 'bg-red-400',     tag: 'bg-red-50 text-red-500 border-red-200',             label: '负面' },
 };
 
 const BRAND_COLORS: Record<string, string> = {
-  '洋葱':            '#E8857A',
-  '妙懂':            '#B08DB5',
-  '万物指南':        '#7BAFBE',
-  'NB虚拟实验室':    '#8B8FCC',
-  '学而思':          '#D4AA6B',
-  '叫叫':            '#7BC4A4',
-  '赛先生科学课':    '#7EB89C',
-  '南开大学AI物理课':'#CCA06E',
-  '从小学物理':      '#C49879',
+  '洋葱':            '#E07A6E',
+  '妙懂':            '#A87DB0',
+  '万物指南':        '#5AABB8',
+  'NB虚拟实验室':    '#7578C8',
+  '学而思':          '#D49E55',
+  '叫叫':            '#5BBF96',
+  '赛先生科学课':    '#5DAD8A',
+  '南开大学AI物理课':'#CC9450',
+  '从小学物理':      '#C48A62',
 };
 
 function brandColor(brand: string) {
-  return BRAND_COLORS[brand] ?? '#A0A0B0';
+  return BRAND_COLORS[brand] ?? '#9090A8';
 }
 
 // Sort and group an insight's groups by L1 → L2
@@ -90,19 +90,19 @@ const BRAND_SUMMARIES: Record<string, string> = {
 const CROSS_BRAND_CONCLUSIONS: { text: string; color: string }[] = [
   {
     text: '兴趣启蒙是首要需求，但"能坚持用"才是真壁垒——家长购买的核心动机是让孩子建立对理科的兴趣而非应试，然而主科压力下使用频率普遍偏低，跨品牌都面临"买了不用"的留存难题。',
-    color: '#6B7FA6',
+    color: '#5B7BBF',
   },
   {
     text: '产品发现高度依赖直播/社群口碑——NB、万物指南、从小学物理、叫叫等品牌用户均通过抖音直播间或学习社群发现产品，KOL 推荐是小众品牌触达家长的核心渠道，品牌主动曝光能力普遍不足。',
-    color: '#A68B6B',
+    color: '#BF9455',
   },
   {
     text: '权益透明度是购买信任的关键门槛——洋葱大会员边界不清、叫叫隐性附加收费、学而思教具拉高门槛，均使家长产生"上当感"；反之，NB 终身制低价和万物指南"永久题库"则被高度认可。',
-    color: '#8A8A8A',
+    color: '#E07A6E',
   },
   {
     text: '孩子主动参与是续费最强信号——无论哪个品牌，家长续费的核心依据是"孩子愿意自己打开"；产品能否将初始兴趣转化为孩子的自主学习习惯，是留存决策的决定性因素。',
-    color: '#6BA6A0',
+    color: '#4BA69E',
   },
 ];
 
@@ -268,6 +268,18 @@ function CrossBrandOverview() {
   );
 }
 
+// ── Highlight **keywords** in evidence text ──────────────────────────────────
+
+function renderHighlightedText(text: string) {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={i} className="text-gray-900 font-semibold">{part.slice(2, -2)}</strong>;
+    }
+    return <span key={i}>{part}</span>;
+  });
+}
+
 // ── Evidence list with source tags ───────────────────────────────────────────
 
 function EvidenceList({ evidence, brand }: { evidence: string[]; brand?: string }) {
@@ -277,7 +289,7 @@ function EvidenceList({ evidence, brand }: { evidence: string[]; brand?: string 
         const src = lookupSource(e, brand);
         return (
           <div key={i} className="bg-gray-50 border border-gray-100 rounded-lg px-2.5 py-2">
-            <p className="text-[11px] text-gray-600 leading-relaxed italic">{e}</p>
+            <p className="text-[11px] text-gray-600 leading-relaxed italic">{renderHighlightedText(e)}</p>
             {src && (
               <div className="flex items-center gap-0.5 mt-1">
                 <MapPin size={8} className="text-gray-300 shrink-0" />
@@ -562,7 +574,7 @@ function CompactInsightItem({ item, brand }: { item: BrandInsightItem; brand: st
             const src = lookupSource(e, brand);
             return (
               <div key={i} className="bg-white/80 border border-gray-100 rounded-md px-2 py-1.5">
-                <p className="text-[10px] text-gray-500 italic leading-relaxed">{e}</p>
+                <p className="text-[10px] text-gray-500 italic leading-relaxed">{renderHighlightedText(e)}</p>
                 {src && (
                   <div className="flex items-center gap-0.5 mt-0.5">
                     <MapPin size={7} className="text-gray-300 shrink-0" />

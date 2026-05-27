@@ -16,27 +16,27 @@ const DIMENSIONS = ['启蒙认知', '购买决策', '产品体验'] as const;
 type Dimension = (typeof DIMENSIONS)[number];
 
 const DIM_CONFIG: Record<Dimension, { color: string; tab: string }> = {
-  启蒙认知: { color: '#6B7FA6', tab: 'border-[#6B7FA6] text-[#6B7FA6]' },
-  购买决策: { color: '#A68B6B', tab: 'border-[#A68B6B] text-[#A68B6B]' },
-  产品体验: { color: '#6BA6A0', tab: 'border-[#6BA6A0] text-[#6BA6A0]' },
+  启蒙认知: { color: '#5B7BBF', tab: 'border-[#5B7BBF] text-[#5B7BBF]' },
+  购买决策: { color: '#BF9455', tab: 'border-[#BF9455] text-[#BF9455]' },
+  产品体验: { color: '#4BA69E', tab: 'border-[#4BA69E] text-[#4BA69E]' },
 };
 
 // ── Brand colors ─────────────────────────────────────────────────────────────
 
 const BRAND_COLORS: Record<string, string> = {
-  '洋葱':            '#E8857A',
-  '妙懂':            '#B08DB5',
-  '万物指南':        '#7BAFBE',
-  'NB虚拟实验室':    '#8B8FCC',
-  '学而思':          '#D4AA6B',
-  '叫叫':            '#7BC4A4',
-  '赛先生科学课':    '#7EB89C',
-  '南开大学AI物理课':'#CCA06E',
-  '从小学物理':      '#C49879',
+  '洋葱':            '#E07A6E',
+  '妙懂':            '#A87DB0',
+  '万物指南':        '#5AABB8',
+  'NB虚拟实验室':    '#7578C8',
+  '学而思':          '#D49E55',
+  '叫叫':            '#5BBF96',
+  '赛先生科学课':    '#5DAD8A',
+  '南开大学AI物理课':'#CC9450',
+  '从小学物理':      '#C48A62',
 };
 
 function brandColor(brand: string) {
-  return BRAND_COLORS[brand] ?? '#A0A0B0';
+  return BRAND_COLORS[brand] ?? '#9090A8';
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -63,13 +63,25 @@ function getSourceSummary(evidence: string[]): string {
 // ── Tag colors ────────────────────────────────────────────────────────────────
 
 const TAG_STYLES: Record<string, { bg: string; text: string }> = {
-  '启蒙-兴趣启蒙': { bg: '#F0F5F3', text: '#6B9B8A' },
-  '启蒙-学科启蒙': { bg: '#F0F3F8', text: '#7088A6' },
-  '应试-衔接先修': { bg: '#F5F1ED', text: '#A6876B' },
-  '应试-校内同步': { bg: '#F5F3ED', text: '#A69A6B' },
-  '学科启蒙':      { bg: '#F0F3F8', text: '#7088A6' },
-  '兴趣启蒙':      { bg: '#F0F5F3', text: '#6B9B8A' },
+  '启蒙-兴趣启蒙': { bg: '#E8F5F0', text: '#2E8B6E' },
+  '启蒙-学科启蒙': { bg: '#E8EEF8', text: '#3D6BA6' },
+  '应试-衔接先修': { bg: '#F5EDE5', text: '#B07030' },
+  '应试-校内同步': { bg: '#F5F0E0', text: '#9A8520' },
+  '学科启蒙':      { bg: '#E8EEF8', text: '#3D6BA6' },
+  '兴趣启蒙':      { bg: '#E8F5F0', text: '#2E8B6E' },
 };
+
+// ── Highlight **keywords** in evidence text ──────────────────────────────────
+
+function renderHighlightedText(text: string) {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={i} className="text-gray-900 font-semibold">{part.slice(2, -2)}</strong>;
+    }
+    return <span key={i}>{part}</span>;
+  });
+}
 
 // ── Single evidence quote ─────────────────────────────────────────────────────
 
@@ -85,7 +97,7 @@ function QuoteItem({ text, color, tag }: { text: string; color: string; tag?: st
       </span>
       <div className="min-w-0">
         <div className="flex items-start gap-2 flex-wrap">
-          <p className="text-[13px] text-gray-700 leading-relaxed flex-1">{text}</p>
+          <p className="text-[13px] text-gray-700 leading-relaxed flex-1">{renderHighlightedText(text)}</p>
           {tag && tagStyle && (
             <span
               className="shrink-0 px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap mt-0.5"

@@ -5,7 +5,8 @@ import { EVIDENCE_SOURCE_MAP } from './evidenceLookup';
  * Uses a pre-computed exact-key map (100% coverage, built at analysis time).
  */
 export function lookupSource(evidence: string, _brand?: string): string | null {
-  return EVIDENCE_SOURCE_MAP[evidence] ?? null;
+  const plain = evidence.replace(/\*\*/g, '');
+  return EVIDENCE_SOURCE_MAP[plain] ?? EVIDENCE_SOURCE_MAP[evidence] ?? null;
 }
 
 /**
