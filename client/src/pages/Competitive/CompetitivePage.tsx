@@ -467,6 +467,7 @@ function ComparisonMatrix({
   }
 
   const colWidth = Math.max(180, Math.floor(700 / brands.length));
+  let firstItemRendered = false;
 
   return (
     <div className="space-y-6">
@@ -538,9 +539,11 @@ function ComparisonMatrix({
                         <p className="text-[11px] text-gray-300 italic">—</p>
                       ) : (
                         <div className="space-y-1.5">
-                          {group.items.map((item, i) => (
-                            <CompactInsightItem key={i} item={item} brand={brand} />
-                          ))}
+                          {group.items.map((item, i) => {
+                            const shouldOpen = !firstItemRendered && item.evidence.length > 0;
+                            if (shouldOpen) firstItemRendered = true;
+                            return <CompactInsightItem key={i} item={item} brand={brand} defaultOpen={shouldOpen} />;
+                          })}
                         </div>
                       )}
                     </div>
@@ -556,8 +559,8 @@ function ComparisonMatrix({
 }
 
 /** Compact L3 item for comparison cells */
-function CompactInsightItem({ item, brand }: { item: BrandInsightItem; brand: string }) {
-  const [open, setOpen] = React.useState(false);
+function CompactInsightItem({ item, brand, defaultOpen }: { item: BrandInsightItem; brand: string; defaultOpen?: boolean }) {
+  const [open, setOpen] = React.useState(defaultOpen ?? false);
   const sc = SENTIMENT_CONFIG[item.sentiment];
   const evidence = filterEvidenceByActiveFiles(item.evidence);
 
@@ -567,6 +570,12 @@ function CompactInsightItem({ item, brand }: { item: BrandInsightItem; brand: st
         <span className={cn('w-1.5 h-1.5 rounded-full mt-1 shrink-0', sc.dot)} />
         <p className="text-[11px] text-gray-700 leading-snug group-hover:text-gray-900 transition-colors">
           {item.l3}
+          {evidence.length > 0 && (
+            <span className="text-[9px] text-gray-400 whitespace-nowrap ml-1 inline-flex items-center gap-0.5 align-middle">
+              {evidence.length}条
+              {open ? <ChevronDown size={8} /> : <ChevronRight size={8} />}
+            </span>
+          )}
         </p>
       </div>
       {open && evidence.length > 0 && (
@@ -679,7 +688,7 @@ export default function CompetitivePage() {
 
       {/* Legend */}
       <div className="bg-white border-b border-gray-50 px-6 py-2 flex items-center gap-4">
-        <span className="text-[11px] text-gray-400">点击洞察卡片可展开用户原声</span>
+        <span className="text-[11px] text-gray-500 bg-gray-100 px-2 py-0.5 rounded">点击洞察条目可展开用户原声</span>
         <div className="flex items-center gap-3 ml-auto">
           {Object.entries(SENTIMENT_CONFIG).map(([k, v]) => (
             <div key={k} className="flex items-center gap-1">
