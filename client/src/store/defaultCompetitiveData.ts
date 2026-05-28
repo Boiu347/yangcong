@@ -148,7 +148,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "neutral",
         "items": [
           {
-            "l3": "动画形式直观生动获好评",
+            "l3": "动画讲知识点，孩子一看就懂",
             "sentiment": "positive",
             "evidence": [
               "数学的课程里面配备的一些**动画**很直观，能引导孩子，我看这知识点是什么样？它是一个动画的形式展现出来的",
@@ -156,21 +156,21 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
             ]
           },
           {
-            "l3": "部分内容偏简单难以激发兴趣",
+            "l3": "孩子嫌太简单，提不起兴趣",
             "sentiment": "negative",
             "evidence": [
               "他就说这个**太简单**了，因为我当时我看着他那个计算营的那个内容是有点超前的。就是他相当于是那种有点**超前学**的那种性质，我就想给他那个就相当预习一下。然后他就说那个太简单了，就是兴趣也不是很很大"
             ]
           },
           {
-            "l3": "视频冗余内容多影响学习体验",
+            "l3": "视频啰嗦内容多，浪费时间",
             "sentiment": "negative",
             "evidence": [
               "你们**洋葱**的那个视频好多那种啰里啰嗦的这些东西，反正就感觉就不灵的东西太多，太浪费时间"
             ]
           },
           {
-            "l3": "紧贴校内同步是内容核心优势",
+            "l3": "跟课本同步，复习预习都方便",
             "sentiment": "positive",
             "evidence": [
               "**洋葱**的紧贴校内，根据课程培优，这个还是很适合当下孩子的学习的",
@@ -185,7 +185,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "positive",
         "items": [
           {
-            "l3": "互动选题设计有效保持注意力",
+            "l3": "中间穿插选题，孩子不容易走神",
             "sentiment": "positive",
             "evidence": [
               "它会抛出一些问题让孩子去选，让孩子更集中注意力，如果说只是单纯的课程讲解，他真的很容易就溜号了。他只要去点去选，当时就能出题的对错，如果是错的话，会再出类似知识点，之后针对错题再做",
@@ -193,14 +193,14 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
             ]
           },
           {
-            "l3": "碎片化短视频形式契合学习场景",
+            "l3": "每天看5-15分钟，比直播课更灵活",
             "sentiment": "positive",
             "evidence": [
               "我更希望每天有5到10分钟或15分钟，随时想翻都能看到，更直观地去学某一些知识点。他不像那种集中两个小时高度集中的**直播**课，**洋葱**这种对我们现阶段来说更适用一些"
             ]
           },
           {
-            "l3": "会员权益入口不清晰影响使用",
+            "l3": "大会员说啥都能看，结果好多打不开",
             "sentiment": "negative",
             "evidence": [
               "我当时想看来着，他点不开，那个**大会员**里边不包括这个。那当时那个大会员也是那个开的时候，当时跟我说这是小学的所有内容都能看。结果发现他那个什么就是什么期末复习，什么规划，什么黄子，那些都废，然后我就退了",
@@ -215,7 +215,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "positive",
         "items": [
           {
-            "l3": "知识点搜索复习形成学习闭环",
+            "l3": "不会的知识点能搜出来再看一遍",
             "sentiment": "positive",
             "evidence": [
               "遇到不会的难点，会返回到**洋葱**学园搜索关键词，再同步找到匹配的知识点，进行答题，进行知识讲解",
@@ -223,7 +223,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
             ]
           },
           {
-            "l3": "孩子学科偏好影响实际使用效果",
+            "l3": "买了学数学，孩子偏爱看语文",
             "sentiment": "neutral",
             "evidence": [
               "我之前也买了**洋葱**的那个，让他学数学。然后我发现他竟然不太**喜欢**用那个数学，他就喜欢用那个看语文",
@@ -238,14 +238,14 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "neutral",
         "items": [
           {
-            "l3": "家长仍需陪同辅助减负效果有限",
+            "l3": "比自己教省事一点，但省不了太多",
             "sentiment": "negative",
             "evidence": [
               "做了一期之后发现这个形式就是怎么说呢？就是比你自己让带着孩子的话稍微有稍微省事一点，但是省不了太多，所以就是也不打算再那个啥了，再跟了"
             ]
           },
           {
-            "l3": "家长主动提醒是孩子持续使用关键",
+            "l3": "得家长提醒才会打开看",
             "sentiment": "neutral",
             "evidence": [
               "有的时候我们会在家里提醒，反正你这会闲着也没事，那你就拿着iPad看一会**洋葱**学园",
@@ -253,7 +253,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
             ]
           },
           {
-            "l3": "家长期待产品提供学情反馈",
+            "l3": "想知道孩子学了什么、学到哪了",
             "sentiment": "neutral",
             "evidence": [
               "如果它比较全面，比如说能给家长反馈孩子学的怎么样，那种还可以。要看它里面有什么，如果它跟着这些几个APP差不多那种的话，就**不感兴趣**"
@@ -404,14 +404,14 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "positive",
         "items": [
           {
-            "l3": "实验内容精细度获认可",
+            "l3": "实验做得很细，图也画得精致",
             "sentiment": "positive",
             "evidence": [
               "他的每一个**实验**我觉得他做得很细，包括他生物，他那个鸟类的结构，鸟的结构，他的图画。就挺精细"
             ]
           },
           {
-            "l3": "内容定位偏启蒙成体系感不强",
+            "l3": "适合启蒙玩一玩，但不够成体系",
             "sentiment": "neutral",
             "evidence": [
               "就感觉他也不是那么成体系，就感觉就是挺适合给孩子**启蒙**的那种",
@@ -419,7 +419,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
             ]
           },
           {
-            "l3": "模拟与真实实验存在明显落差",
+            "l3": "模拟毕竟不是真做实验，有差距",
             "sentiment": "negative",
             "evidence": [
               "后来又觉得他这种模拟**实验**其实跟你实际做实验的话，他是有差距的。他也不能完全的，他只是模拟那个**动画**场景。但是他不是，他跟你当时你做实验的那种真实的这种感受，他是还是有很大区别的",
@@ -434,28 +434,28 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "neutral",
         "items": [
           {
-            "l3": "自主探索操作模式趣味性强",
+            "l3": "能自己配试剂做实验，孩子觉得有意思",
             "sentiment": "positive",
             "evidence": [
               "它主要是它那个那些**实验**。它是自主性，它可以自己开发那些稍微试剂去。**自己去**组合。这个对于他来他觉得挺有意思"
             ]
           },
           {
-            "l3": "低龄孩子操作门槛偏高",
+            "l3": "字不认识、实验不会拖，低龄用着费劲",
             "sentiment": "negative",
             "evidence": [
               "**NB** 的话他得自己乱拖，他自己有些字他还不认识，然后那实验操作的话，兴许他还做不好。然后我看见他了，也就有的时候我也会批评他，他可能刚提上来点**兴趣**，可能被我浇灭了"
             ]
           },
           {
-            "l3": "界面改版后体验明显提升",
+            "l3": "以前界面像盗版APP，改版后好多了",
             "sentiment": "positive",
             "evidence": [
               "当时就是因为它现在变了，以前的那种界面看着看着很不舒服，很像盗版的APP一样，看着不舒服。然后题的话好像也不是像现在这么丰富，所以我当时退了，但是后面不是我又试用啥，然后发现他们变了，他更新了，然后才买的"
             ]
           },
           {
-            "l3": "主科挤压导致实际使用频率极低",
+            "l3": "时间全给主科了，只有寒暑假才用",
             "sentiment": "negative",
             "evidence": [
               "平时可能时间上来不及，因为全贡献给**主科**了。频率不高，我不就只用寒暑假吧",
@@ -471,21 +471,21 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "positive",
         "items": [
           {
-            "l3": "长期使用后理科兴趣显著提升",
+            "l3": "用了几年，孩子对理科真感兴趣了",
             "sentiment": "positive",
             "evidence": [
               "肯定是学习兴趣越来越浓吧。他前期肯定也有那个**学而思**科学的铺垫，打的基础，后来转的NB，然后慢慢对理科这个**感兴趣**"
             ]
           },
           {
-            "l3": "产品质量认可但消化效果取决于家庭投入",
+            "l3": "产品没问题，就看家里有没有时间用",
             "sentiment": "neutral",
             "evidence": [
               "买的产品是好的，但是你自己家的孩子有多少时间去消化这个是自己家的问题，对吧？产品是没有问题"
             ]
           },
           {
-            "l3": "孩子兴趣随年龄增长逐渐提升",
+            "l3": "一年级没感觉，现在看得很认真了",
             "sentiment": "positive",
             "evidence": [
               "当时比如一年级，我让他看的时候他在看，但是好像没有特别**感兴趣**。就是然后我问他要不要看，他说要，但是他也感觉他没那么感兴趣，我能感觉到。但是现在看，看的话就是真的还是挺认真的，挺感兴趣的"
@@ -499,14 +499,14 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "neutral",
         "items": [
           {
-            "l3": "缺乏讲解引导需家长在旁陪同",
+            "l3": "没有讲解，得家长在旁边陪着操作",
             "sentiment": "neutral",
             "evidence": [
               "**NB**实验室也有这方面，但是他可能会因为没有讲解，没有辅助，主要是更多的是**自己去**线上的动手操作这个实验，家长在旁边会多一些"
             ]
           },
           {
-            "l3": "家长主动控制使用时长抑制孩子使用意愿",
+            "l3": "家长控制屏幕时间，孩子想用也用不了",
             "sentiment": "negative",
             "evidence": [
               "**NB****实验**室是属于自己有这个工具软件，因为我会控制它时长嘛，就是人为干预，它可能会使用频率低。看得出来孩子是想用的，但我要控制时间，所以实际用得不多",
@@ -684,21 +684,21 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "positive",
         "items": [
           {
-            "l3": "讲解简洁有学科感，非低幼化",
+            "l3": "讲得简洁不低幼，像正经上课",
             "sentiment": "positive",
             "evidence": [
               "物理十分通里面非常的简洁明了，他就是说的没有过多的废话。因为他这个东西你总不能以永远都以一个低幼的一个儿童的一个视角去看待这些东西，他早晚他得适应这个课堂，他在课堂上的老师是以这种讲课的形式，不是这种玩乐的形式"
             ]
           },
           {
-            "l3": "博物馆授权内容权威且高清",
+            "l3": "博物馆授权拍的高清藏品，线下看不到",
             "sentiment": "positive",
             "evidence": [
               "它的质量是比较高的，包括它的一些跟它的那个博物馆的那些藏品，非常的高清拍的，它是都是有授权的，它是可以有一些不能展出的一些藏品，它是可以进去拍的，它这个肯定它是有官方的背书才能达到的"
             ]
           },
           {
-            "l3": "系统知识体系尚不完整",
+            "l3": "看完全部视频还不够系统，差个校内对标",
             "sentiment": "negative",
             "evidence": [
               "学化学的话给到90分吧。扣的10分就是，比如说我孩子把这个万物视频全部看完了，他能吸收多少呢？如果后面有一些系统的再系统的学习就更好了，就是**提前学**那种，对标初中、高中校内课表，知识体系一样的"
@@ -712,21 +712,21 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "positive",
         "items": [
           {
-            "l3": "交互式题目即时反馈体验好",
+            "l3": "做题马上出对错，错了还有解析",
             "sentiment": "positive",
             "evidence": [
               "他后面的那个题，他不是像视频一样给你放过去，他是让你就是点，然后有对错，然后错了是怎么错的，后面会有这个解释。就是这种形式。我觉得就是还是他后面的这个题很好"
             ]
           },
           {
-            "l3": "藏品互动放大功能超越线下体验",
+            "l3": "藏品能放大看细节，比去博物馆还清楚",
             "sentiment": "positive",
             "evidence": [
               "它不光是看的视频，它还可以点开，把这个藏品点开看它的细节，哪个地方的纹路？哪个地方有磕碰？从那个视频上可以把它放大，正反面都可以看，就相当于你在博物馆里，你去博物馆的时候你是看不到的，因为它有个玻璃挡着"
             ]
           },
           {
-            "l3": "碎片化场景自然融入日常",
+            "l3": "吃饭时就能看两三个，碎片时间正好",
             "sentiment": "positive",
             "evidence": [
               "化学主要是用**万物指南**，用学科**启蒙**。他周一到周五基本上就是完成校内作业，然后这些看的话就是零碎的时间看，比如吃饭时间，在学习机上面看，能看两个、三个，有时候他吃饭特别慢，有可能四个、五个都有可能"
@@ -740,7 +740,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "neutral",
         "items": [
           {
-            "l3": "长期记忆留存依赖实验强化",
+            "l3": "光看视频容易忘，得有实验才记得住",
             "sentiment": "negative",
             "evidence": [
               "如果他只看了这个视频的话，他当时可能记得，后面他可能忘掉。如果他有这个**实验**的话，他能更清楚里面的原理，然后可能就真的会记住，记得住脑子里面就不会忘记。所以实验和**启蒙**是有关系的",
@@ -748,14 +748,14 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
             ]
           },
           {
-            "l3": "持续观看后知识积累有感知",
+            "l3": "一开始看不懂，看多了慢慢就知道了",
             "sentiment": "positive",
             "evidence": [
               "他最先看化学的时候其实挺懵的，**看不懂**，很多东西他都不知道那是啥。但后面看多了，他就慢慢就知道有一些原理，也知道里面这是什么名称、什么元素，还是挺**感兴趣**的"
             ]
           },
           {
-            "l3": "学习产出难以被家长感知量化",
+            "l3": "不知道孩子到底学了多少、记住了什么",
             "sentiment": "negative",
             "evidence": [
               "没看出，因为我有没，没有，我不知道怎么去看这个东西。就说孩子学了多少东西，因为我平时又没看的，没去，一直关注他看的是什么。然后我想知道他到底学了什么东西？学到了什么东西？学了多少？能记住什么",
@@ -770,7 +770,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "negative",
         "items": [
           {
-            "l3": "APP反馈界面简陋，家长无从监督",
+            "l3": "APP界面太简单，看不出孩子学到哪了",
             "sentiment": "negative",
             "evidence": [
               "我关注过，但我没看到就有这些东西。就没他的，他那个APP里面就很简单。就是特别简单，画面特别简单，所以说我都不知道孩子学的到底是怎个情况",
@@ -778,7 +778,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
             ]
           },
           {
-            "l3": "家长期待学习报告与能力反馈",
+            "l3": "希望有学情报告，告诉我孩子学了啥",
             "sentiment": "neutral",
             "evidence": [
               "就是如果它比较全面，比如说能给家长反馈孩子学的是怎，学的怎么样，那种还可以",
@@ -924,14 +924,14 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "negative",
         "items": [
           {
-            "l3": "讲解风格正式，缺乏儿童亲和感",
+            "l3": "讲得太正式，不像跟小孩说话",
             "sentiment": "negative",
             "evidence": [
               "**妙懂**偏应试一点，它里面讲的东西不是那种小孩能接受那种别人讲的时候那种语气，其他两个讲的时候都是小朋友讲那种，他不是，他是正儿八经的讲，很正式，孩子看着好像没有那么有感觉，就是让他学习了的那种感觉"
             ]
           },
           {
-            "l3": "内容应试框架与启蒙期望不符",
+            "l3": "偏应试不像启蒙，怕孩子反感",
             "sentiment": "negative",
             "evidence": [
               "一个好像**妙懂**，它就是那种真偏应试一点的，知识框架不怎么一样，不是那种**启蒙**的感觉",
@@ -946,7 +946,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "negative",
         "items": [
           {
-            "l3": "购买后长期搁置未正式使用",
+            "l3": "买了好久，孩子一眼没看过",
             "sentiment": "negative",
             "evidence": [
               "说实话买了好久了，到现在就是孩子一眼都没看过，我自己都还没怎么看",
@@ -954,7 +954,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
             ]
           },
           {
-            "l3": "孩子仅对AR模块感兴趣，其余内容吸引力不足",
+            "l3": "只玩AR，其他内容不爱看",
             "sentiment": "negative",
             "evidence": [
               "买了以后他就只玩那个**AR**，里面的东西他也不太爱看",
@@ -969,7 +969,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "negative",
         "items": [
           {
-            "l3": "实际使用率极低，学习效果无从体现",
+            "l3": "买了没怎么用，效果谈不上",
             "sentiment": "negative",
             "evidence": [
               "说实话买了好久了，到现在就是孩子一眼都没看过，我自己都还没怎么看",
@@ -984,7 +984,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "neutral",
         "items": [
           {
-            "l3": "家长自己也未深入体验产品",
+            "l3": "家长自己都还没看过这个产品",
             "sentiment": "neutral",
             "evidence": [
               "当时我就想我大概先了解一下，然后我觉得好的话再给他看，然后我自己都还没怎么看，然后我还没给孩子看",
@@ -992,7 +992,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
             ]
           },
           {
-            "l3": "家长采取放任策略等待孩子自驱",
+            "l3": "主播说先玩着，就没让孩子正经学",
             "sentiment": "neutral",
             "evidence": [
               "当时我问的那个主播，我说像三年级的小朋友怎样，他说三年级的话就拿着先玩，等后期的时候再系统地学，所以说我也没让他去看"
@@ -1111,14 +1111,14 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "positive",
         "items": [
           {
-            "l3": "知名高校师资背书提升内容可信度",
+            "l3": "北大博士老师讲的，家长觉得靠谱",
             "sentiment": "positive",
             "evidence": [
               "是北大的博士老师讲的，也是**直播**课，不过是大班的，方方面面自然博物，比方说是地质了、自然了、科学了，像这种他都有涉及"
             ]
           },
           {
-            "l3": "内容跨学科融合覆盖面广",
+            "l3": "地理、生物、科学全都有，覆盖面广",
             "sentiment": "positive",
             "evidence": [
               "涵盖的面更大，已经富含了里边，包括人文地理、生物科学全都有的，那都已经学过了",
@@ -1133,7 +1133,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "positive",
         "items": [
           {
-            "l3": "实物教具增强课程参与感",
+            "l3": "有实验教具，孩子动手做着玩",
             "sentiment": "positive",
             "evidence": [
               "它是一个线上的，但是它有**实验**的道具教具。就是科学课",
@@ -1141,7 +1141,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
             ]
           },
           {
-            "l3": "大班直播完课率良好",
+            "l3": "大班直播课，12期全部上完了",
             "sentiment": "positive",
             "evidence": [
               "也是**直播**课，不过是大班的……我们也都上下来，全程都上完了，应该是12个阶段，这模块都已经上完了"
@@ -1155,14 +1155,14 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "positive",
         "items": [
           {
-            "l3": "长期学习显著提升理科兴趣",
+            "l3": "学了三年，孩子对理科真的感兴趣了",
             "sentiment": "positive",
             "evidence": [
               "他前期肯定也有那个**学而思**科学的铺垫，打的基础，后来转的NB。三年长期下来，学而思跟NB前后，对这个物理书的兴趣度发生了变化，孩子对理科**感兴趣**了"
             ]
           },
           {
-            "l3": "早期科学课为后续学习打下基础",
+            "l3": "先学了学而思科学，后来转NB有基础",
             "sentiment": "positive",
             "evidence": [
               "他前期肯定也有那个**学而思**科学的铺垫，打的基础，后来转的**NB**"
@@ -1176,14 +1176,14 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "neutral",
         "items": [
           {
-            "l3": "家长被营销话术影响决策判断",
+            "l3": "被'理科人才培养'宣传打动了才买",
             "sentiment": "negative",
             "evidence": [
               "他前边铺垫了很多的，说了很多的理科的打基础吧。包括以后国家关于理科人才的培养。家长这一方面需要关注的"
             ]
           },
           {
-            "l3": "高价课让家长期待值与容忍度均升高",
+            "l3": "花了大价钱，期待更高也更挑剔",
             "sentiment": "neutral",
             "evidence": [
               "所以的话可能家长就对它有更高的需求，但是因为它很贵，所以也是很高的门槛，就很多低线家长是不会买的"
@@ -1367,7 +1367,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "positive",
         "items": [
           {
-            "l3": "动画形式趣味性强孩子爱看",
+            "l3": "像看动画片学知识，孩子很喜欢",
             "sentiment": "positive",
             "evidence": [
               "他好像特别**喜欢**看那**实验**男做实验。他当成趣味里边学知识了。确实是很喜欢",
@@ -1376,7 +1376,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
             ]
           },
           {
-            "l3": "知识体系分层清晰系统性强",
+            "l3": "知识分层清晰，孩子能自己选着看",
             "sentiment": "positive",
             "evidence": [
               "**从小学物理**的知识好像更多更系统，更多**NB**实验室来讲。孩子静下心来去做，在那去看，从小学物理讲这个概念，趣味性的概念，他投入的就是专注力更多，注意力会更吸引孩子吧",
@@ -1384,14 +1384,14 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
             ]
           },
           {
-            "l3": "低龄段概念讲解晦涩难懂",
+            "l3": "有些概念太专业，低年级孩子听不懂",
             "sentiment": "negative",
             "evidence": [
               "就是他在视频里面介绍，很多时候有一些对孩子来讲，因为我们家小低阶段一些晦涩难懂的一些概念词，孩子还是不能很好的理解，如果说这个概念同步出来的话，再根据这个概念进行口语化，或者是孩子能接受的方式进行一些举例去介绍这个专业性的概念的话，孩子能理解更好一些"
             ]
           },
           {
-            "l3": "内容量偏少与校内同步度不足",
+            "l3": "内容不够多，跟课本也没完全对上",
             "sentiment": "negative",
             "evidence": [
               "5分满分，目前3分。因为我觉得这个内容确实是再多一点就更好了。基础篇里面的东西确实不算多。就是还是知识点再多一些吧，对标校内的话，其实他们校内已经讲了很多",
@@ -1407,7 +1407,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "neutral",
         "items": [
           {
-            "l3": "课程入口不易找影响使用",
+            "l3": "找不到课在哪，孩子都没法学",
             "sentiment": "negative",
             "evidence": [
               "原来在原来的那个位置就没有了，在首页里面**从小学物理**进去，然后它直接就显示的是一个什么早鸟价，又让我立即购买。我问孩子，他最近他就没有学，就是因为没找到位置",
@@ -1415,21 +1415,21 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
             ]
           },
           {
-            "l3": "内容全开放降低学习驱动力",
+            "l3": "内容全开放，反而没动力一个个看",
             "sentiment": "negative",
             "evidence": [
               "**从小学物理**，它是全部内容已经开放给你看了嘛，所以就没有那种动力去一个个去完成这样子。不像那些课每天更新，他就比较有那种动力，每天完成它就完成，老师每天有一个目标"
             ]
           },
           {
-            "l3": "分级导航不清晰查找费力",
+            "l3": "基础、进阶分不清，找知识点费劲",
             "sentiment": "negative",
             "evidence": [
               "现阶段它是什么基础、进阶和挑战？我不知道它现在这个知识点是已经是基础还是进阶还是挑战？我只能挨个点开，然后再对应你们的那个目录往下滑，有的时候上学期就已经有电路了，我一直在基础里找，发现没有，要在进阶里找"
             ]
           },
           {
-            "l3": "答题环节缺少读题功能",
+            "l3": "答题没有读题，有些字孩子不认识",
             "sentiment": "negative",
             "evidence": [
               "这个答题环节能增加读题的功能也更好。有时候这个字不认识，如果说这个答题环节能增加读题的功能也更好"
@@ -1443,21 +1443,21 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "positive",
         "items": [
           {
-            "l3": "孩子能复述并转化所学知识",
+            "l3": "看完会考家长，能用自己话讲出来",
             "sentiment": "positive",
             "evidence": [
               "他看了之后他会考我，哎，妈妈，你知不知道怎么样？这个功率怎么用？多少电？他就会把课上看的**从小学物理**那个视频，他会转化他自己的语言，他学到了他就会跟你去分享"
             ]
           },
           {
-            "l3": "自主完课率高答题正确率可观",
+            "l3": "孩子自己学完了，答题正确率还挺高",
             "sentiment": "positive",
             "evidence": [
               "唯独这个课我就很放心，比方说我忙，我做饭的时候可以把这个时间完全的交给他去弄。他学了很多，都是100%的进度条，他去**自己学**，他那后面答题有的时候正确率也挺高的"
             ]
           },
           {
-            "l3": "实际使用频次远低于预期",
+            "l3": "本想一周看两三次，实际只看了两三节",
             "sentiment": "negative",
             "evidence": [
               "也没有说它不好，只是我们可能没有坚持去上它，没有用它而已。目前整体只看了两三节，我们最初预期是一周能看个两三节，中间是有一些落差的",
@@ -1472,7 +1472,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "neutral",
         "items": [
           {
-            "l3": "家长主导观看孩子缺乏自驱",
+            "l3": "得家长打开才看，自己不会主动学",
             "sentiment": "neutral",
             "evidence": [
               "他很少**主动**去看。有时间就带他看看，但是我们没有一个规划是固定一个时间去学这样子的，就是有时候偶尔这段时间有空我打开去看，他就跟着我看",
@@ -1480,7 +1480,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
             ]
           },
           {
-            "l3": "部分孩子高度自主家长可放手",
+            "l3": "有的孩子自己翻着学，家长很放心",
             "sentiment": "positive",
             "evidence": [
               "他自己会学习**洋葱**学园里边的**从小学物理**，这个就是他自己，就是自己会翻，然后学的特别多。如果我因为我都是强制定时的，因为他视力不是特别好。就是我经常性的就是自己定了15到20分钟之后，他还会往下串表，就会自己就会学",
@@ -1488,7 +1488,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
             ]
           },
           {
-            "l3": "学业时间挤压导致使用搁置",
+            "l3": "校内作业太多，根本没时间学这个",
             "sentiment": "negative",
             "evidence": [
               "可能还要学的东西太多了。他校是每个星期每天都要学的，晚托8点钟放学回来，学了校阅读跟思维，学校里面还有一点点作业，基本上就**没时间**上其他课了。周末要跳舞、练字，可能也要做学校的作业，剩余的时间就很少，所以就很少有空坐下来去学这个小学物理",
@@ -1496,7 +1496,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
             ]
           },
           {
-            "l3": "家长希望课程对齐校内便于引导",
+            "l3": "希望对标课本，家长知道从哪找",
             "sentiment": "neutral",
             "evidence": [
               "希望你们能看一下我们各地区的这个课本，然后根据课本去引入一些知识点，比如说贴近小学四年级的相关物理内容，我作为家长，一去找就知道，我从这个里边能找到我想要找的东西，就像数学一样，我也知道我从哪找"
@@ -1529,7 +1529,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "positive",
         "items": [
           {
-            "l3": "阅读与写作双线并行课程设计",
+            "l3": "阅读和写作两条线，都有课",
             "sentiment": "positive",
             "evidence": [
               "**叫叫**有阅读和小作家两个课，阅读是拓展的，带孩子去读书的；小作家是针对写作的",
@@ -1537,7 +1537,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
             ]
           },
           {
-            "l3": "课程与校内语文教材同步对标",
+            "l3": "对标人教版课文，跟校内同步",
             "sentiment": "positive",
             "evidence": [
               "他们就是按照大概这个时间，每周只有两节课，这两节课可能讲的都是同一个写作，对标课内的",
@@ -1552,14 +1552,14 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "positive",
         "items": [
           {
-            "l3": "录播形式时间灵活无需固定",
+            "l3": "录播课，不用固定时间看",
             "sentiment": "positive",
             "evidence": [
               "他们是录播课，在规定时间内看完就可以，一周两节课，不用固定在某一个时间去上"
             ]
           },
           {
-            "l3": "打卡提醒推动自主完课",
+            "l3": "每天打卡提醒，不完成就催",
             "sentiment": "positive",
             "evidence": [
               "每天要**打卡**，如果不完成的话都会提醒让你去上，所以他就习惯了，养成了每天都学**叫叫**"
@@ -1573,7 +1573,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "positive",
         "items": [
           {
-            "l3": "每日打卡养成自主学习习惯",
+            "l3": "打卡打习惯了，放学回来自己学",
             "sentiment": "positive",
             "evidence": [
               "他从幼儿园大班开始学**叫叫**阅读，每天要**打卡**，如果不完成的话都会提醒让你去上，所以他就习惯了，养成了每天都学叫叫",
@@ -1588,14 +1588,14 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "positive",
         "items": [
           {
-            "l3": "激励活动带动家长朋友圈参与",
+            "l3": "学满了分享朋友圈能拿小礼品",
             "sentiment": "positive",
             "evidence": [
               "有时候每个月会搞一些活动，你学满了之后分享到朋友圈截图上传就可以得到小礼品，或者是**叫叫**里面的人物可以添加皮肤装扮，也是奖励，给他们激励去学习"
             ]
           },
           {
-            "l3": "电子奖状增强孩子成就感与主动性",
+            "l3": "发电子奖状，孩子有成就感就愿意学",
             "sentiment": "positive",
             "evidence": [
               "老师会发那种电子奖状，说你是什么之星，感觉小孩子就觉得自己很有成就感了，然后他就会自己**主动**地去学。小孩子肯定**喜欢**，奖励礼品给他就是很好的激励"
@@ -1664,14 +1664,14 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "neutral",
         "items": [
           {
-            "l3": "实验内容丰富、课课涉及",
+            "l3": "每堂课都有实验，内容挺丰富",
             "sentiment": "positive",
             "evidence": [
               "可能**实验**那个方面实验还是挺丰富，因为确实他每堂课都会涉及实验，涵盖的实验内容还是比较多的"
             ]
           },
           {
-            "l3": "理论讲解不够通俗易懂",
+            "l3": "理论讲得不够通俗，孩子听不太懂",
             "sentiment": "negative",
             "evidence": [
               "引导很多时候那个讲解就包括理论讲解上，孩子不是很明白，他没有用孩子通俗易懂的他理解的话语再去讲解，所以说他不懂包括了伯努利什么，虽然他去做这个**实验**了，但是孩子还是理解得不够透",
@@ -1679,7 +1679,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
             ]
           },
           {
-            "l3": "线下手册辅助课堂练习",
+            "l3": "有配套线下手册，课后能练习",
             "sentiment": "positive",
             "evidence": [
               "线上科学**直播**课除了讲解，他还会线上做**实验**，还有线下匹配的一些手册去练习"
@@ -1693,7 +1693,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "positive",
         "items": [
           {
-            "l3": "真人直播小班互动感强",
+            "l3": "小班直播，老师能照顾到每个孩子",
             "sentiment": "positive",
             "evidence": [
               "我们线上主要是真人**直播**，又是小班的科学线上的科学课，除了讲解的话他还会线上做**实验**",
@@ -1701,14 +1701,14 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
             ]
           },
           {
-            "l3": "直播实验需家长从旁协助",
+            "l3": "做实验得家长在旁边帮忙",
             "sentiment": "neutral",
             "evidence": [
               "老师也很讲究这个安全性，确实家长得从旁协助去做这个**实验**"
             ]
           },
           {
-            "l3": "直播实时纠错提升实验效果",
+            "l3": "做实验做错了老师能实时纠正",
             "sentiment": "positive",
             "evidence": [
               "当孩子在做**实验**的时候，遇到问题老师是可以知道，就是因为**直播**可以看到，及时地指出这个问题，然后孩子也会发现自己做的有问题，他会及时纠正过来的"
@@ -1722,7 +1722,7 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "positive",
         "items": [
           {
-            "l3": "长期上课知识积累明显",
+            "l3": "上了两年，确实学到不少知识",
             "sentiment": "positive",
             "evidence": [
               "做的时间也是蛮长的了，孩子也是通过上这个课也是学到了不少知识的",
@@ -1730,14 +1730,14 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
             ]
           },
           {
-            "l3": "实验概念理解深度仍有不足",
+            "l3": "实验做了，但原理还是没吃透",
             "sentiment": "negative",
             "evidence": [
               "虽然他去做这个**实验**了，但是孩子还是理解得不够透"
             ]
           },
           {
-            "l3": "课后复习助力知识内化",
+            "l3": "课后家长带着复习，理解更深",
             "sentiment": "positive",
             "evidence": [
               "课下我也会带他去复习，知识的话就会理解得更透一些"
@@ -1751,21 +1751,21 @@ export const DEFAULT_COMPETITIVE_DATA: Record<string, BrandInsight> = {
         "sentiment": "positive",
         "items": [
           {
-            "l3": "家长全程陪课深度介入",
+            "l3": "每堂课家长都在旁边陪着",
             "sentiment": "positive",
             "evidence": [
               "赛先生我是从第一节就每堂课都不落，我是都在旁边都知道的"
             ]
           },
           {
-            "l3": "家长课后主动带孩子复习",
+            "l3": "课下家长主动带孩子复习",
             "sentiment": "positive",
             "evidence": [
               "课下我也会带他去复习，知识的话就会理解得更透一些"
             ]
           },
           {
-            "l3": "实验环节需家长协助保障安全",
+            "l3": "做实验要注意安全，得家长帮忙",
             "sentiment": "neutral",
             "evidence": [
               "老师也很讲究这个安全性，确实家长得从旁协助去做这个**实验**，当做成功的话，全程的参与感很强"
