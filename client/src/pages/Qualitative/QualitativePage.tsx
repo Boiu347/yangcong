@@ -231,11 +231,6 @@ function SubDimSection({
         style={{ borderColor: color }}
       >
         <span className="text-[15px] font-bold text-gray-900 flex-1">{subDim.name}</span>
-        {subDim.globalSummary && (
-          <span className="text-[11px] text-gray-400 hidden lg:inline max-w-xs truncate">
-            {subDim.globalSummary}
-          </span>
-        )}
         <span className="text-[11px] text-gray-400 flex items-center gap-0.5 shrink-0">
           {visible.length} 个品牌
           {collapsed ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
@@ -243,11 +238,21 @@ function SubDimSection({
       </button>
 
       {!collapsed && (
+        <>
+        {subDim.globalSummary && (
+          <div className="mb-4 bg-gray-50 rounded-xl px-4 py-3 border border-gray-100">
+            <p className="text-[13px] text-gray-600 leading-relaxed">
+              <span className="font-semibold text-gray-500 mr-1">概况</span>
+              {subDim.globalSummary}
+            </p>
+          </div>
+        )}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {visible.map((entry) => (
             <BrandCard key={entry.brand} entry={entry} />
           ))}
         </div>
+        </>
       )}
     </div>
   );
