@@ -7,6 +7,7 @@ import QualitativePage from './pages/Qualitative/QualitativePage';
 import CompetitivePage from './pages/Competitive/CompetitivePage';
 import QuantitativePage from './pages/Quantitative/QuantitativePage';
 import MarketingPage from './pages/Marketing/MarketingPage';
+import ResearchReportPage from './pages/Research/ResearchReportPage';
 import NotFound from './pages/NotFound/NotFound';
 
 const RoutesComponent = () => {
@@ -24,6 +25,7 @@ const RoutesComponent = () => {
         <Route path="summary" element={<SummaryPage />} />
         <Route path="qualitative" element={<QualitativePage />} />
         <Route path="competitive" element={<CompetitivePage />} />
+        <Route path="research" element={<ResearchReportPage />} />
         <Route path="quantitative" element={<QuantitativePage />} />
         <Route path="marketing" element={<MarketingPage />} />
       </Route>

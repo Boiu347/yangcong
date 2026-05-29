@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>用户调研报告 · 从小学系列</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#FEFDF9; --bg2:#F7F5EF; --bg3:#FFF8F0;
+  --tx:#2A2A2A; --sub:#555; --mu:#999;
+  --bd:#DDD8CE; --card:rgba(255,255,255,.72);
+  --glass:rgba(255,255,255,.55);
+  --glass-border:rgba(255,255,255,.35);
+  --o:#FF5722; --t:#3DBFBF; --y:#F5C518;
+  --r:#FF4D8B; --g:#52C278; --b:#5B8FED; --v:#A78BFA;
+  --shadow:0 8px 32px rgba(0,0,0,.06);
+  --glass-shadow:0 8px 32px rgba(0,0,0,.08);
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--tx);
+  font-family:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  overflow-x:hidden; line-height:1.6;
+}
+body::before{
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image:
+    linear-gradient(rgba(0,0,0,.02) 1px, transparent 1px),
+    linear-gradient(90deg,rgba(0,0,0,.02) 1px, transparent 1px);
+  background-size:28px 28px;
+}
+section{position:relative;z-index:1}
+
+/* Progress bar */
+#prog{position:fixed;top:0;left:0;height:3px;background:var(--o);z-index:999;box-shadow:0 0 6px rgba(255,87,34,.4);transition:width .15s}
+
+/* Side nav dots */
+#nav{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;gap:14px}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(0,0,0,.12);cursor:pointer;transition:all .3s;position:relative}
+.dot.on{background:var(--o);box-shadow:0 0 0 3px rgba(255,87,34,.18);transform:scale(1.2)}
+.dot::after{content:attr(data-tip);position:absolute;right:18px;top:50%;transform:translateY(-50%);background:var(--tx);color:#fff;font-size:11px;white-space:nowrap;padding:4px 10px;border-radius:6px;opacity:0;pointer-events:none;transition:opacity .2s}
+.dot:hover::after{opacity:1}
+
+/* Reveal anim */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+/* Layout */
+.wrap{max-width:920px;margin:0 auto;padding:72px 32px}
+
+/* Section labels */
+.ch-n{font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:800;color:var(--o);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.ch-n::before{content:'';display:inline-block;width:18px;height:2.5px;background:var(--o);border-radius:2px}
+.ch-h{font-size:clamp(24px,3.5vw,40px);font-weight:900;line-height:1.25;letter-spacing:-.5px;margin-bottom:12px}
+.ch-s{font-size:15px;color:var(--sub);line-height:1.85;margin-bottom:40px;max-width:600px}
+
+.o{color:var(--o)}.t{color:var(--t)}.b{color:var(--b)}.r{color:var(--r)}.g{color:var(--g)}
+.hl{background:rgba(255,87,34,.1);padding:1px 6px;border-radius:4px}
+.yhl{background:rgba(245,197,24,.15);padding:1px 6px;border-radius:4px}
+
+/* ─── Glass card ─── */
+.glass{
+  background:var(--glass);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1.5px solid var(--glass-border);
+  border-radius:20px;
+  box-shadow:var(--glass-shadow);
+  padding:28px;
+  position:relative;
+  overflow:hidden;
+}
+.glass::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);
+}
+.glass-sm{
+  background:rgba(255,255,255,.5);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.3);
+  border-radius:14px;
+  box-shadow:0 4px 16px rgba(0,0,0,.04);
+  padding:20px;
+}
+
+/* ─── Stat cards ─── */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:24px 0}
+.stat-card{text-align:center;padding:24px 16px}
+.stat-v{font-size:clamp(28px,4vw,42px);font-weight:900;line-height:1;letter-spacing:-1px}
+.stat-l{font-size:12px;color:var(--mu);margin-top:6px}
+
+/* ─── Bar chart ─── */
+.bar-row{display:flex;align-items:center;gap:12px;margin:8px 0}
+.bar-label{font-size:12px;color:var(--sub);width:70px;text-align:right;flex-shrink:0;font-weight:600}
+.bar-track{flex:1;height:26px;background:rgba(0,0,0,.04);border-radius:13px;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:13px;transition:width .8s ease}
+.bar-pct{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:var(--sub)}
+
+/* ─── Insight callout ─── */
+.callout{
+  border-radius:16px;padding:22px 24px;margin:20px 0;
+  border-left:4px solid;
+}
+.callout.blue{background:rgba(91,143,237,.08);border-color:var(--b)}
+.callout.orange{background:rgba(255,87,34,.06);border-color:var(--o)}
+.callout.rose{background:rgba(255,77,139,.06);border-color:var(--r)}
+.callout.teal{background:rgba(61,191,191,.08);border-color:var(--t)}
+.callout.yellow{background:rgba(245,197,24,.08);border-color:var(--y)}
+.callout-h{font-size:13px;font-weight:800;margin-bottom:8px}
+.callout-b{font-size:14px;line-height:1.85;color:var(--sub)}
+
+/* ─── Quote blocks ─── */
+.quote{
+  background:rgba(0,0,0,.025);border-left:3px solid var(--bd);
+  border-radius:0 10px 10px 0;
+  padding:14px 18px;margin:12px 0;
+  font-size:13px;color:var(--sub);line-height:1.8;font-style:italic;
+}
+
+/* ─── User cards ─── */
+.user-card{margin:20px 0}
+.user-hdr{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.user-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:14px;flex-shrink:0}
+.user-name{font-size:15px;font-weight:800}
+.user-meta{font-size:11px;color:var(--mu)}
+.user-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:700px){.user-grid{grid-template-columns:1fr}}
+.user-block{padding:16px;border-radius:12px;background:rgba(0,0,0,.02);border:1px solid rgba(0,0,0,.05)}
+.user-block-h{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--mu);margin-bottom:8px}
+.user-block-b{font-size:13px;line-height:1.8;color:var(--sub)}
+.user-block-b ul{margin:4px 0 4px 18px}
+.user-block-b li{margin:3px 0}
+
+/* ─── Comparison table ─── */
+.cmp-table{width:100%;border-collapse:separate;border-spacing:0;margin:20px 0;font-size:13px}
+.cmp-table th{background:rgba(255,87,34,.06);font-weight:800;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--o);padding:12px 14px;text-align:left;border-bottom:2px solid rgba(255,87,34,.15)}
+.cmp-table td{padding:14px;border-bottom:1px solid rgba(0,0,0,.06);vertical-align:top;line-height:1.75;color:var(--sub)}
+.cmp-table tr:last-child td{border-bottom:none}
+.cmp-table td:first-child{font-weight:700;color:var(--tx);white-space:nowrap;width:100px}
+.cmp-table .negative{color:#C4004A}
+.cmp-table .highlight{background:rgba(245,197,24,.12);padding:1px 5px;border-radius:3px}
+
+/* ─── Positioning section ─── */
+.pos-card{padding:28px;margin:20px 0;text-align:center}
+.pos-card .pos-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--o);font-weight:800;margin-bottom:10px}
+.pos-card .pos-value{font-size:clamp(16px,2vw,20px);font-weight:900;line-height:1.6}
+
+.slogan-box{margin:16px 0;padding:22px;border-radius:14px;border:1.5px dashed}
+.slogan-box.a{border-color:rgba(91,143,237,.4);background:rgba(91,143,237,.04)}
+.slogan-box.b{border-color:rgba(61,191,191,.4);background:rgba(61,191,191,.04)}
+.slogan-label{font-size:11px;font-weight:800;letter-spacing:1px;margin-bottom:8px}
+.slogan-box.a .slogan-label{color:var(--b)}
+.slogan-box.b .slogan-label{color:var(--t)}
+.slogan-text{font-size:15px;font-weight:700;line-height:1.7;color:var(--tx)}
+.slogan-note{font-size:12px;color:var(--mu);line-height:1.7;margin-top:8px}
+
+/* RTB pillars */
+.rtb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0}
+@media(max-width:700px){.rtb-grid{grid-template-columns:1fr}}
+.rtb-card{text-align:center;padding:24px 18px}
+.rtb-icon{font-size:36px;margin-bottom:10px}
+.rtb-h{font-size:16px;font-weight:900;margin-bottom:8px}
+.rtb-items{text-align:left;margin-top:14px}
+.rtb-item{margin:10px 0;padding:12px;border-radius:10px;background:rgba(0,0,0,.025)}
+.rtb-item-h{font-size:12px;font-weight:800;color:var(--o);margin-bottom:4px}
+.rtb-item-b{font-size:13px;color:var(--sub);line-height:1.7}
+
+/* Separator */
+.sep{height:1px;background:linear-gradient(90deg,transparent,var(--bd),transparent);margin:0}
+
+/* Hero */
+#hero{
+  min-height:60vh;display:flex;align-items:center;justify-content:center;text-align:center;
+  padding:60px 32px;
+  background:linear-gradient(180deg,#FFF4EE 0%,var(--bg) 100%);
+  position:relative;overflow:hidden;
+}
+#hero::after{
+  content:'';position:absolute;top:10%;right:-5%;width:300px;height:300px;
+  border-radius:50%;background:rgba(255,87,34,.06);filter:blur(60px);pointer-events:none;
+}
+#hero::before{
+  content:'';position:absolute;bottom:5%;left:-5%;width:250px;height:250px;
+  border-radius:50%;background:rgba(61,191,191,.06);filter:blur(60px);pointer-events:none;
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1.5px solid var(--glass-border);
+  color:var(--o);font-size:11px;font-weight:800;
+  letter-spacing:2px;padding:7px 20px;border-radius:100px;
+  margin-bottom:28px;
+}
+.hero-h{font-size:clamp(32px,5vw,56px);font-weight:900;line-height:1.2;letter-spacing:-1.5px;margin-bottom:16px}
+.hero-sub{font-size:clamp(16px,2.5vw,22px);font-weight:700;color:var(--sub);margin-bottom:12px}
+.hero-desc{font-size:15px;color:var(--mu);max-width:500px;margin:0 auto 36px;line-height:1.8}
+
+/* Demand type pills */
+.demand-pills{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:20px 0}
+.demand-pill{
+  padding:8px 18px;border-radius:100px;font-size:13px;font-weight:700;
+  border:1.5px solid;
+}
+.demand-pill.active{color:#fff;border-color:transparent}
+
+/* Channel insight */
+.channel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+@media(max-width:600px){.channel-grid{grid-template-columns:1fr}}
+.channel-card{text-align:center;padding:20px 14px}
+.channel-name{font-size:14px;font-weight:800;margin-bottom:4px}
+.channel-desc{font-size:12px;color:var(--mu);line-height:1.6}
+
+/* Effectiveness ladder */
+.ladder{display:flex;flex-direction:column;gap:0;margin:20px 0}
+.ladder-group-h{font-size:12px;font-weight:800;letter-spacing:1px;color:var(--mu);margin:16px 0 8px;text-transform:uppercase}
+.ladder-step{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;border-radius:12px;margin:4px 0;background:rgba(0,0,0,.02);border:1px solid rgba(0,0,0,.04)}
+.ladder-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex-shrink:0}
+.ladder-content{flex:1}
+.ladder-h{font-size:13px;font-weight:800;margin-bottom:4px}
+.ladder-q{font-size:12px;color:var(--mu);line-height:1.7;font-style:italic;margin-top:4px}
+
+/* Footer */
+footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);background:var(--bg)}
+</style>
+</head>
+<body>
+
+<div id="prog" style="width:0%"></div>
+<nav id="nav">
+  <div class="dot on" data-tip="概览" onclick="go(0)"></div>
+  <div class="dot" data-tip="售卖数据" onclick="go(1)"></div>
+  <div class="dot" data-tip="整体发现" onclick="go(2)"></div>
+  <div class="dot" data-tip="需求端" onclick="go(3)"></div>
+  <div class="dot" data-tip="供给端" onclick="go(4)"></div>
+  <div class="dot" data-tip="用户分析" onclick="go(5)"></div>
+  <div class="dot" data-tip="购买&体验" onclick="go(6)"></div>
+  <div class="dot" data-tip="定位草稿" onclick="go(7)"></div>
+</nav>
+
+<!-- ═══════ HERO ═══════ -->
+<section id="s0">
+  <div id="hero">
+    <div style="position:relative;z-index:1;max-width:680px">
+      <div class="hero-tag">从小学系列 · 用户调研报告 · 2026</div>
+      <h1 class="hero-h">【重要信息同步&讨论】<br><span class="o">从小学系列调研</span></h1>
+      <p class="hero-sub">访谈共6人，以1-4年级为主</p>
+      <p class="hero-desc">购买对象包括从小学物理、妙懂系列、NB实验室、万物指南、三五小星、学而思、赛先生等</p>
+      <div class="stat-grid" style="max-width:500px;margin:0 auto">
+        <div class="glass-sm stat-card rv d1">
+          <div class="stat-v o">6</div>
+          <div class="stat-l">深度访谈用户</div>
+        </div>
+        <div class="glass-sm stat-card rv d2">
+          <div class="stat-v t">7+</div>
+          <div class="stat-l">覆盖竞品品牌</div>
+        </div>
+        <div class="glass-sm stat-card rv d3">
+          <div class="stat-v b">1-4</div>
+          <div class="stat-l">年级覆盖范围</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══════ S1 · 售卖数据 ═══════ -->
+<section id="s1" style="background:var(--bg)">
+  <div class="wrap">
+    <div class="rv">
+      <div class="ch-n">01 · 课程售卖情况</div>
+      <h2 class="ch-h">已购用户<span class="o">年级 &amp; 渠道</span>分布</h2>
+      <p class="ch-s">截至5月12日，已购用户整体（含从小学物理、地理、生物）——1-3年级占比<strong class="o">60%</strong>（新媒体近7成），从5年级开始就断崖式下降。</p>
+    </div>
+
+    <div class="glass rv d1" style="margin-bottom:24px">
+      <p style="font-size:13px;color:var(--sub);line-height:1.8;margin-bottom:16px">和我们之前讲的优势卖点——小初衔接，不匹配。<strong style="color:var(--r)">小低和小中</strong>更愿意、<strong style="color:var(--r)">更认可从小学系列</strong>。所以，我们调研的重要人群是<strong class="b">1-4年级</strong>，为何买洋葱！以及为何买竞品。</p>
+      <p style="font-size:12px;color:var(--b);line-height:1.7">因为扩展天然用金钱投票喜欢洋葱的人，相比不喜欢洋葱的人相比来说，更简单！</p>
+    </div>
+
+    <h3 class="rv d2" style="font-size:15px;font-weight:800;margin-bottom:16px">年级分布</h3>
+    <div class="glass rv d2" style="margin-bottom:24px">
+      <div class="bar-row"><span class="bar-label">1年级</span><div class="bar-track"><div class="bar-fill" style="width:15%;background:var(--t)"></div><span class="bar-pct">约15%</span></div></div>
+      <div class="bar-row"><span class="bar-label">2年级</span><div class="bar-track"><div class="bar-fill" style="width:20%;background:var(--t)"></div><span class="bar-pct">约20%</span></div></div>
+      <div class="bar-row"><span class="bar-label">3年级</span><div class="bar-track"><div class="bar-fill" style="width:25%;background:var(--o)"></div><span class="bar-pct">约25%</span></div></div>
+      <div class="bar-row"><span class="bar-label">4年级</span><div class="bar-track"><div class="bar-fill" style="width:18%;background:var(--b)"></div><span class="bar-pct">约18%</span></div></div>
+      <div class="bar-row"><span class="bar-label">5年级</span><div class="bar-track"><div class="bar-fill" style="width:8%;background:var(--r)"></div><span class="bar-pct">↓断崖</span></div></div>
+      <div class="bar-row"><span class="bar-label">6年级+</span><div class="bar-track"><div class="bar-fill" style="width:5%;background:var(--mu)"></div><span class="bar-pct">极低</span></div></div>
+      <p style="font-size:11px;color:var(--mu);margin-top:12px">注：1-3年级合计约60%，新媒体渠道近7成</p>
+    </div>
+
+    <h3 class="rv d3" style="font-size:15px;font-weight:800;margin-bottom:16px">渠道交叉分析</h3>
+    <div class="channel-grid rv d3">
+      <div class="glass-sm">
+        <div class="channel-name" style="color:var(--o)">新媒体</div>
+        <div class="channel-desc">新用户居多</div>
+      </div>
+      <div class="glass-sm">
+        <div class="channel-name" style="color:var(--b)">APP</div>
+        <div class="channel-desc">付费用户居多</div>
+      </div>
+      <div class="glass-sm">
+        <div class="channel-name" style="color:var(--t)">电销/网销</div>
+        <div class="channel-desc">高净值付费用户居多</div>
+      </div>
+    </div>
+    <div class="glass-sm rv d4" style="margin-top:8px">
+      <p style="font-size:12px;color:var(--mu);line-height:1.7">注：APP渠道中，包含了100单电商的订单。高净值用户：过去付费过组合品（≥1000元）；续费用户：过去付费过零售品（≤1000元）</p>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══════ S2 · 整体发现 ═══════ -->
+<section id="s2" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="rv">
+      <div class="ch-n">02 · 调研结论同步 — 整体发现</div>
+      <h2 class="ch-h">四类购买诉求，<br>真正要占的是<span class="o">「学科启蒙」</span></h2>
+      <p class="ch-s">从购买诉求来看，访谈用户可分为4类。而《从小学物理》如果希望卖爆，真正要占领的是【在家长心里还没被明确定义，但确有实际需求】的中间地带。</p>
+    </div>
+
+    <div class="demand-pills rv d1">
+      <span class="demand-pill" style="border-color:var(--t);color:var(--t)">兴趣启蒙</span>
+      <span class="demand-pill active" style="background:var(--o)">学科启蒙</span>
+      <span class="demand-pill" style="border-color:var(--b);color:var(--b)">衔接先修（小初衔接）</span>
+      <span class="demand-pill" style="border-color:var(--v);color:var(--v)">校内同步学小学科学</span>
+    </div>
+
+    <div class="glass rv d2" style="margin:28px 0">
+      <p style="font-size:14px;font-weight:700;margin-bottom:14px">为什么不选择其他赛道？</p>
+      <div style="font-size:13px;color:var(--sub);line-height:1.85">
+        <p><strong class="b">兴趣启蒙：竞争激烈，红海市场</strong><br>一边有方便&实惠&护眼的绘本/科普类书籍，一边有线上化更有趣、更主流的竞品（如：斑马、叫叫等），洋葱做「课」起家，在这类的竞争不一定有优势</p>
+        <br>
+        <p><strong class="b">衔接先修/小初衔接：需求和课程解决方案不匹配</strong><br>有「提前学理科」需求的用户，更多希望能偏向直接对标课本教材，可以购买洋葱小初6年卡，直接学习【初中物理同步课】</p>
+        <br>
+        <p><strong class="b">校内同步学小学科学：需求太小众，盘子太小，且目前的内容做不到同步</strong><br>目前6位用户中，只有1位用户表示【科学是主课，希望孩子同步校内学】，但在购买后发现不同步，体验折损</p>
+        <div class="quote">"对课程的预期，虽然顺序不一样但是可能知识点都有，但是后面发现不一样，四上的内容找不到。"</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══════ S3 · 需求端 ═══════ -->
+<section id="s3" style="background:var(--bg)">
+  <div class="wrap">
+    <div class="rv">
+      <div class="ch-n">03 · 需求端洞察</div>
+      <h2 class="ch-h">家长说不出<span class="o">「学科启蒙」</span><br>但需求真实存在</h2>
+    </div>
+
+    <div class="callout blue rv d1">
+      <div class="callout-h" style="color:var(--b)">关于需求</div>
+      <div class="callout-b"><strong>家长无法直接说出口【学科启蒙】四个字，但需求真实存在</strong></div>
+    </div>
+
+    <div class="glass rv d2" style="margin:20px 0">
+      <p style="font-size:14px;line-height:1.85;color:var(--sub)">很多家长嘴上说"兴趣""启蒙"，但继续追问后，得到的答案几乎都是：</p>
+      <p style="font-size:14px;line-height:1.85;color:var(--sub);margin-top:12px">"从功利的角度，</p>
+      <ul style="font-size:14px;line-height:1.85;color:var(--sub);margin:4px 0 4px 20px">
+        <li>正式学理科别排斥、别畏难</li>
+        <li>培养理科思维</li>
+        <li>对未来升学、选科有帮助。"</li>
+      </ul>
+      <p style="font-size:14px;line-height:1.85;color:var(--sub);margin-top:12px">所以<strong>"兴趣"更像入口，未来的"学科价值"才是最终合理化购买的理由</strong></p>
+    </div>
+
+    <div class="callout blue rv d2" style="margin-top:28px">
+      <div class="callout-h" style="color:var(--b)">关于预期</div>
+      <div class="callout-b"><strong>家长对"启蒙有效"的终极判断是【未来有用】，但短期内仍以「孩子爱看」作为主要依据</strong></div>
+    </div>
+
+    <p class="rv d3" style="font-size:14px;font-weight:700;margin:24px 0 12px">终极目标：培养「学科思维」——如何衡量？</p>
+
+    <div class="rv d3">
+      <p class="ladder-group-h">短期：小学阶段</p>
+      <div class="ladder">
+        <div class="ladder-step">
+          <div class="ladder-num" style="background:var(--t)">1</div>
+          <div class="ladder-content">
+            <div class="ladder-h" style="color:var(--t)">有兴趣（多数家长集中在这部分）</div>
+            <div style="font-size:13px;color:var(--sub)">孩子喜欢看，不用父母催会主动学</div>
+            <div class="ladder-q">"有兴趣会主动去做（实验），是孩子自己要求报的，不需要家长强迫。"</div>
+          </div>
+        </div>
+        <div class="ladder-step">
+          <div class="ladder-num" style="background:var(--b)">2</div>
+          <div class="ladder-content">
+            <div class="ladder-h" style="color:var(--b)">有思考意识</div>
+            <div style="font-size:13px;color:var(--sub)">孩子看到生活现象，能知道/想到问"为什么"</div>
+            <div class="ladder-q">"生活中的现象，孩子看到了能知道是怎么回事，能想一下为啥会有这个现象。"</div>
+          </div>
+        </div>
+        <div class="ladder-step">
+          <div class="ladder-num" style="background:var(--o)">3</div>
+          <div class="ladder-content">
+            <div class="ladder-h" style="color:var(--o)">能理解本质</div>
+            <div style="font-size:13px;color:var(--sub)">孩子能大概说出现象背后的原理</div>
+            <div class="ladder-q">"孩子大概了解这个内容，能说出一些基本原理，有概念性认知即可。"</div>
+          </div>
+        </div>
+        <div class="ladder-step">
+          <div class="ladder-num" style="background:var(--r)">4</div>
+          <div class="ladder-content">
+            <div class="ladder-h" style="color:var(--r)">能承接提前学</div>
+            <div style="font-size:13px;color:var(--sub)">学完后，基本就能跟着教材同步提前学了</div>
+            <div class="ladder-q">"现在主要是先提前了解下，五六年级还是得提前学（初中物理）。"</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="ladder-group-h">长期：初中阶段</p>
+      <div class="ladder">
+        <div class="ladder-step">
+          <div class="ladder-num" style="background:var(--v)">5</div>
+          <div class="ladder-content">
+            <div class="ladder-h" style="color:var(--v)">接受度</div>
+            <div style="font-size:13px;color:var(--sub)">正式学理科时不陌生/不排斥</div>
+            <div class="ladder-q">"印象中有这个东西，不排斥这个学科就好。"</div>
+          </div>
+        </div>
+        <div class="ladder-step">
+          <div class="ladder-num" style="background:var(--g)">6</div>
+          <div class="ladder-content">
+            <div class="ladder-h" style="color:var(--g)">学习效果</div>
+            <div style="font-size:13px;color:var(--sub)">学的比别人更快更好</div>
+            <div class="ladder-q">"到真正学物理的时候，讲到的时候孩子都知道，比其他同学更好吸收老师讲的内容。"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="rv d4" style="font-size:13px;color:var(--sub);line-height:1.8;margin-top:20px">这说明洋葱可以主动定义这个品类，切分启蒙的细分赛道，而不是只跟着竞品说"启蒙"。</p>
+
+    <div class="callout rose rv d4" style="margin-top:28px">
+      <div class="callout-h" style="color:var(--r)">问题</div>
+      <div class="callout-b"><strong>【未来有用】是最终结果，但达成路径是缺失的，导致家长会因「不确定性」而打消下单</strong></div>
+      <div class="quote" style="margin-top:12px">"到初中正式学物理才能看出来，现在没法判断。"</div>
+    </div>
+
+    <div class="callout teal rv d4" style="margin-top:16px">
+      <div class="callout-h" style="color:var(--t)">机会</div>
+      <div class="callout-b"><strong>阶段性地"效果外化"，「让家长看到」是明显的机会点</strong></div>
+      <div class="quote" style="margin-top:12px">"不知道怎么看出孩子的变化、吸收了多少，还是希望看到孩子学到什么，记住什么"</div>
+    </div>
+
+    <div class="glass rv d4" style="margin-top:20px">
+      <p style="font-size:13px;font-weight:700;margin-bottom:10px">很多家长想知道：</p>
+      <ul style="font-size:13px;color:var(--sub);line-height:1.85;margin-left:18px">
+        <li>孩子学到了什么、记住了什么</li>
+        <li>能不能讲出来</li>
+        <li>哪些概念已经掌握</li>
+        <li>学科思维有没有变化</li>
+      </ul>
+      <p style="font-size:13px;color:var(--sub);line-height:1.85;margin-top:12px">但竞品普遍没有很好解决。这可能是洋葱做 Message House 时非常重要的差异点：<strong class="yhl">不仅让孩子爱看，还让家长看见启蒙效果</strong>。</p>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══════ S4 · 供给端 ═══════ -->
+<section id="s4" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="rv">
+      <div class="ch-n">04 · 供给端洞察</div>
+      <h2 class="ch-h">竞品优势清晰，<br>洋葱差异化靠<span class="o">「孩子视角」</span></h2>
+    </div>
+
+    <div class="callout blue rv d1">
+      <div class="callout-h" style="color:var(--b)">问题</div>
+      <div class="callout-b"><strong>相比竞品，洋葱在家长心中的「优势定位」不够突出</strong></div>
+    </div>
+    <div class="callout teal rv d1" style="margin-top:8px">
+      <div class="callout-h" style="color:var(--t)">洋葱差异化机会点</div>
+      <div class="callout-b">【学科启蒙】相比【教材同步】，更需要<strong class="yhl">以孩子视角和口吻</strong>讲解；而这正是竞品被家长诟病的共性问题，同时也是洋葱的核心品牌优势</div>
+    </div>
+
+    <p class="rv d2" style="font-size:14px;font-weight:700;margin:28px 0 14px">竞品：家长能非常清晰的说出购买原因，且吸引点的结果趋同</p>
+
+    <div class="glass rv d2" style="margin-bottom:16px">
+      <div style="font-size:13px;color:var(--sub);line-height:1.85">
+        <p><strong>NB实验室：</strong>强在<span class="yhl">虚拟实验</span>、终身制、教材覆盖，但孩子理解门槛和讲解陪伴弱。</p>
+        <p style="margin-top:8px"><strong>学而思/赛先生科学：</strong>强在<span class="yhl">真人老师、动手实验、课堂反馈</span>，但贵、占时间、讲解不孩子视角。</p>
+        <p style="margin-top:8px"><strong>妙懂：</strong>强在<span class="yhl">AR和题库</span>，但部分家长觉得偏正式、偏应试，孩子未必持续爱看。</p>
+        <p style="margin-top:8px"><strong>万物指南：</strong>强在<span class="yhl">IP权威</span>，但家长看不到"到底学会了什么"</p>
+      </div>
+    </div>
+
+    <p class="rv d3" style="font-size:14px;font-weight:700;margin:24px 0 14px">洋葱：购买原因偏向【品牌导向】，而非从小学物理的「课程卖点」击中</p>
+
+    <div class="glass rv d3" style="margin-bottom:16px">
+      <div style="font-size:13px;color:var(--sub);line-height:1.85">
+        <p>洋葱目前被认可的优势是：<strong>动画孩子爱看、品牌信任、买大会员冲动消费顺手带一件、校内同步</strong></p>
+        <p style="margin-top:8px">短板集中在：<strong style="color:var(--r)">不够"孩子视角"</strong>、缺少持续学习机制、实验感不足、不够同步</p>
+      </div>
+      <p style="font-size:11px;color:var(--mu);line-height:1.7;margin-top:14px;font-style:italic;text-decoration:underline">Todo：目前不确定是「课程卖点」击中率整体不高，还是没访到真正被「课程卖点」击中的用户，后续会继续针对【从小学已购用户】的访谈</p>
+    </div>
+
+    <div class="callout blue rv d4">
+      <div class="callout-h" style="color:var(--b)">售卖话术</div>
+      <div class="callout-b"><strong>"终身/永久"是很强的购买理由，但也是孩子"用不起来"的原因</strong><br><br>多位家长反复提到永久有效、终身制、以后也能看。这类课不是高频刚需，所以"现在不学以后还能用"会显著降低购买阻力。但孩子用不起来，可能对使用体验有潜在影响<span style="color:var(--mu)">（次优先级，主要是为了售卖）</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══════ S5 · 单个用户分析 ═══════ -->
+<section id="s5" style="background:var(--bg)">
+  <div class="wrap">
+    <div class="rv">
+      <div class="ch-n">05 · 单个用户归纳分析</div>
+      <h2 class="ch-h">6位家长的<span class="o">真实故事</span></h2>
+      <p class="ch-s">5人中，4人学科启蒙，1人兴趣启蒙，1人学科启蒙+兴趣启蒙</p>
+    </div>
+
+    <!-- 整体总结 -->
+    <div class="glass rv d1" style="margin-bottom:20px">
+      <p style="font-size:14px;font-weight:800;margin-bottom:12px">整体总结</p>
+      <div style="font-size:13px;color:var(--sub);line-height:1.85">
+        <p>主要涉及：从小学物理（2人）、妙懂系列小四门（1人）、NB实验室（2人）、万物指南（2人）、学而思（3人）、三五小星（1人）、赛先生（1人）</p>
+        <p style="margin-top:8px">以上产品中，除从小学物理（1人）和三五小星外，其他购买诉求均为【学科启蒙】</p>
+      </div>
+    </div>
+
+    <!-- 用户1 -->
+    <div class="user-card glass rv d1">
+      <div class="user-hdr">
+        <div class="user-av" style="background:var(--t)">1</div>
+        <div><div class="user-name">王女士</div><div class="user-meta">二年级 · 山东临沂</div></div>
+        <span class="demand-pill active" style="background:var(--o);font-size:11px;margin-left:auto;padding:4px 12px">学科启蒙</span>
+      </div>
+      <div class="user-grid">
+        <div class="user-block">
+          <div class="user-block-h">购买产品</div>
+          <div class="user-block-b">知识点：万物指南（物理+化学+历史）<br>模拟实验：NB实验室<br>真人实验：学而思自然博物/物质博物</div>
+        </div>
+        <div class="user-block">
+          <div class="user-block-h">对「启蒙」的态度</div>
+          <div class="user-block-b">不需要提前学完初中内容，能确保以后正式学时不陌生就可以了<br><br><strong>「启蒙有效」标准：</strong>大概了解下内容，说出来原理是怎么回事，有概念就行了</div>
+        </div>
+        <div class="user-block">
+          <div class="user-block-h">购买动因</div>
+          <div class="user-block-b">
+            <ul>
+              <li><strong>共性：</strong>永久有效（妙懂、NB）；覆盖初高中题库/实验（万物、NB）</li>
+              <li><strong>NB：</strong>触屏模拟安全便捷，覆盖初高中</li>
+              <li><strong>学而思：</strong>模拟实验无法代替真实动手实验</li>
+              <li><strong>万物指南：</strong>吴姥姥靠谱权威，简洁明了无废话</li>
+            </ul>
+          </div>
+        </div>
+        <div class="user-block">
+          <div class="user-block-h">对洋葱的启发</div>
+          <div class="user-block-b">
+            <ul>
+              <li><strong>定位：</strong>洋葱更合适的表达应紧扣学科启蒙：<span class="yhl">为孩子建立理科世界观、不刷题/不抢跑，但提前形成理科框架</span></li>
+              <li><strong>专业背书：</strong>中低线城市吃背书，可从<span class="yhl">权威</span>和<span class="yhl">荣誉</span>考虑</li>
+              <li><strong>内容：</strong>不要太低智，要做到<span class="yhl">"精"</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 用户2 -->
+    <div class="user-card glass rv d2">
+      <div class="user-hdr">
+        <div class="user-av" style="background:var(--b)">2</div>
+        <div><div class="user-name">王先生</div><div class="user-meta">三年级 · 北京昌平</div></div>
+        <span class="demand-pill active" style="background:var(--o);font-size:11px;margin-left:auto;padding:4px 12px">学科启蒙（偏实验）</span>
+      </div>
+      <div class="user-grid">
+        <div class="user-block">
+          <div class="user-block-h">购买产品</div>
+          <div class="user-block-b">模拟实验：NB实验室<br>真人实验：学而思科学</div>
+        </div>
+        <div class="user-block">
+          <div class="user-block-h">对「启蒙」的态度</div>
+          <div class="user-block-b">
+            <ul>
+              <li>自己是文科生，理科比较差，不想让孩子跟自己一样</li>
+              <li>学的东西未来要有用，要和中高考挂钩，不能只是玩一玩</li>
+            </ul>
+            <strong>标准：</strong>孩子有兴趣，愿意主动学；对科学书籍接纳度提升
+          </div>
+        </div>
+        <div class="user-block">
+          <div class="user-block-h">购买动因</div>
+          <div class="user-block-b">
+            <ul>
+              <li><strong>学而思：</strong>初高中理科铺垫；宣传"打比赛"吸引家长</li>
+              <li><strong>NB：</strong>终身制性价比高；覆盖学段广泛；校内同步；内容类型丰富、制作精细</li>
+            </ul>
+          </div>
+        </div>
+        <div class="user-block">
+          <div class="user-block-h">对洋葱的启发</div>
+          <div class="user-block-b">
+            <ul>
+              <li><strong>定位：</strong>"学科启蒙"是一个<span class="yhl">可被洋葱定义的市场空位</span>，竞品没讲清楚，家长也没有可感知的外化效果</li>
+              <li><strong>启发：</strong>产品不能仅停留在"孩子喜欢看"，应设计成【学科启蒙的"得到/有用"验证闭环】</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 用户3 -->
+    <div class="user-card glass rv d3">
+      <div class="user-hdr">
+        <div class="user-av" style="background:var(--g)">3</div>
+        <div><div class="user-name">周女士</div><div class="user-meta">二年级 · 广东中山</div></div>
+        <span class="demand-pill" style="border-color:var(--t);color:var(--t);font-size:11px;margin-left:auto;padding:4px 12px">兴趣启蒙</span>
+      </div>
+      <div class="user-grid">
+        <div class="user-block">
+          <div class="user-block-h">购买产品</div>
+          <div class="user-block-b">从小学物理</div>
+        </div>
+        <div class="user-block">
+          <div class="user-block-h">对「启蒙」的态度</div>
+          <div class="user-block-b">让孩子从生活中慢慢接触物理，提前认识物理现象；兴趣是起点，学科思维是最终目的<br><br><strong>标准：</strong>没有想怎么检验，能吸收多少是多少</div>
+        </div>
+        <div class="user-block">
+          <div class="user-block-h">购买动因</div>
+          <div class="user-block-b">终身制，买了可以慢慢学、回放慢慢看；做实验的材料比较简单，实验素材可以从生活中随处找到</div>
+        </div>
+        <div class="user-block">
+          <div class="user-block-h">对洋葱的启发</div>
+          <div class="user-block-b">
+            <ul>
+              <li>代表一部分冲动消费的囤课型家长</li>
+              <li>课外兴趣班和主课的时间严重挤压理科启蒙时间</li>
+              <li><span class="yhl">对洋葱来说，需要考虑联售的商业模式对这类家长的付费影响</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 用户4 -->
+    <div class="user-card glass rv d3">
+      <div class="user-hdr">
+        <div class="user-av" style="background:var(--o)">4</div>
+        <div><div class="user-name">关女士</div><div class="user-meta">二年级 · 北京顺义</div></div>
+        <span class="demand-pill active" style="background:var(--o);font-size:11px;margin-left:auto;padding:4px 12px">学科启蒙</span>
+      </div>
+      <div class="user-grid">
+        <div class="user-block">
+          <div class="user-block-h">购买产品</div>
+          <div class="user-block-b">知识点：从小学物理<br>真人实验：学而思自然博物、赛先生线上小班课</div>
+        </div>
+        <div class="user-block">
+          <div class="user-block-h">对「启蒙」的态度</div>
+          <div class="user-block-b">激发物理学习兴趣、以后不排斥；有升学需求，不想因失去理科兴趣而选科有限制<br><br><strong>课程标准：</strong>系统性、专业性、丰富的理科实验</div>
+        </div>
+        <div class="user-block">
+          <div class="user-block-h">购买动因</div>
+          <div class="user-block-b"><strong>从小学物理：</strong>偏向品牌信任+顺手买。之前看了很多老板直播，个人魅力、学历崇拜；主要是附带着和小学卡一起买的</div>
+        </div>
+        <div class="user-block">
+          <div class="user-block-h">对洋葱的启发</div>
+          <div class="user-block-b">
+            <ul>
+              <li><strong>"概念理解"是竞品共同痛点：</strong>最需要打磨的是<span class="b">【专业概念儿童化】</span></li>
+              <li><strong>品牌信任显著降低购买决策成本</strong></li>
+              <li>应把<span class="b">"孩子讲给家长听"</span>做成产品机制</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 用户5 -->
+    <div class="user-card glass rv d4">
+      <div class="user-hdr">
+        <div class="user-av" style="background:var(--v)">5</div>
+        <div><div class="user-name">王女士</div><div class="user-meta">三年级 · 重庆渝中</div></div>
+        <span class="demand-pill active" style="background:var(--o);font-size:11px;margin-left:auto;padding:4px 12px">学科+兴趣启蒙</span>
+      </div>
+      <div class="user-grid">
+        <div class="user-block">
+          <div class="user-block-h">购买产品</div>
+          <div class="user-block-b"><span class="yhl">学科启蒙</span>：万物指南（化学）<br><span class="yhl">兴趣启蒙</span>：三五小星（地理）<br><span class="yhl">应试提前学</span>：妙懂（小四门）</div>
+        </div>
+        <div class="user-block">
+          <div class="user-block-h">对「启蒙」的态度</div>
+          <div class="user-block-b"><strong>兴趣：</strong>看着玩，不排斥就好，印象中有这个东西<br><strong>学科：</strong>理想状态下，看完后基本能看比较应试的内容<br><br><strong>标准：</strong>至少看完全部集数；对应领域知识概念应该都懂</div>
+        </div>
+        <div class="user-block">
+          <div class="user-block-h">购买动因</div>
+          <div class="user-block-b">
+            <ul>
+              <li><strong>三五小星：</strong>最早退货，后来界面更新了复购</li>
+              <li><strong>妙懂：</strong>AR好玩，先玩后续再系统学</li>
+              <li><strong>万物指南：</strong>市面没化学品类（物化捆绑），吴姥姥很厉害</li>
+            </ul>
+          </div>
+        </div>
+        <div class="user-block">
+          <div class="user-block-h">对洋葱的启发</div>
+          <div class="user-block-b">
+            <ul>
+              <li>中差生更需保护好奇心，<span class="b">"不排斥"</span>是重点</li>
+              <li>家长<span class="b">区分「启蒙产品」和「应试产品」</span></li>
+              <li>家长需要"学情反馈"，但竞品没解决：<span class="b">不知道孩子吸收多少</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 用户6 -->
+    <div class="user-card glass rv d4">
+      <div class="user-hdr">
+        <div class="user-av" style="background:var(--mu)">6</div>
+        <div><div class="user-name">王女士</div><div class="user-meta">四年级 · 河南郑州</div></div>
+      </div>
+      <p style="font-size:13px;color:var(--mu);font-style:italic">（文档中该用户详细数据暂未填入）</p>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══════ S6 · 购买原因&体验横向汇总 ═══════ -->
+<section id="s6" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="rv">
+      <div class="ch-n">06 · 购买原因 &amp; 体验横向汇总</div>
+      <h2 class="ch-h">竞品<span class="o">购前 vs 购后</span>对比</h2>
+      <p class="ch-s">共性吸引购买卖点：孩子喜欢/感兴趣 ｜ 终身制/永久有效</p>
+    </div>
+
+    <div class="glass rv d1" style="overflow-x:auto;padding:0">
+      <table class="cmp-table">
+        <thead>
+          <tr><th>产品</th><th>购前：吸引购买卖点</th><th>购后：体验亮点</th><th>购后：体验折损点</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>从小学物理</td>
+            <td>1. 洋葱品牌信任/老板学霸光环<br>2. 冲动消费：买课包时顺手加购<br>3. 实验操作：素材在生活中好找</td>
+            <td>1. 每个模块讲解的知识多<br>2. 内容更系统，罗列层次好<br>3. 孩子感兴趣：能自主看实验男做实验<br>4. 时长短无压力：几分钟不会太长</td>
+            <td class="negative">1. <strong>晦涩难懂词语孩子不能理解</strong>，不够口语化<br>2. 答题中有些字不认识，读出来会更好<br>3. 孩子对物理兴趣没有培养起来，不会主动看<br>4. 课程内容与校内科学课不同步</td>
+          </tr>
+          <tr>
+            <td>NB实验室</td>
+            <td>1. <span class="highlight">触屏形式方便，避免危险实验操作</span><br>2. 初高中实验内容，以后用得上<br>3. 可选教材版本，课本实验全覆盖<br>4. 内容质量好：类型丰富、制作精细</td>
+            <td>1. 模拟实验，比纯视频更有参与感<br>2. 动画形式，孩子喜欢<br>3. 学完对理科兴趣整体越来越高</td>
+            <td class="negative">1. 和实际实验有差别，只能模拟动画场景<br>2. <strong>缺少讲解和引导</strong>，更多是孩子自己探索</td>
+          </tr>
+          <tr>
+            <td>线上直播课<br><span style="color:var(--mu);font-weight:400;font-size:11px">学而思/赛先生等</span></td>
+            <td>1. <span class="highlight">有真人老师，能及时和孩子反馈互动</span><br>2. 动手实验比模拟实验和纯视频更有吸引力<br>3. 后续能参加比赛</td>
+            <td>1. 专业老师会带着做实验讲解<br>2. 动手实验比纯视频更有吸引力</td>
+            <td class="negative">1. 理论讲解不好，<strong>没用孩子的语言讲解</strong><br>2. 以「参赛」为目的，性价比不高（进阶需再付费）</td>
+          </tr>
+          <tr>
+            <td>万物指南</td>
+            <td>1. <span class="highlight">吴姥姥靠谱权威，荣誉加身爱惜羽毛</span><br>2. 物化捆绑售卖，为单科化学而买课包</td>
+            <td>内容质量高：短而精、废话少；不像漫画书没有花里胡哨</td>
+            <td class="negative">视频看完了不知道孩子吸收了多少</td>
+          </tr>
+          <tr>
+            <td>妙懂系列</td>
+            <td>1. <span class="highlight">AR看起来好玩</span><br>2. 有题库</td>
+            <td>/</td>
+            <td class="negative">太正式，<strong>不是小孩能接受的语气</strong>，孩子看着感觉像学习</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══════ S7 · 定位草稿 ═══════ -->
+<section id="s7" style="background:var(--bg3)">
+  <div class="wrap">
+    <div class="rv">
+      <div class="ch-n">07 · 【施工中】课程定位和卖点（草稿，以终版为准）</div>
+      <h2 class="ch-h">定位、Slogan、<span class="o">三大价值主张</span></h2>
+      <p class="ch-s">背景：需要产出一套用于课程定位的信息屋，以此指导销售讲清课程价值&直播间售卖话术</p>
+    </div>
+
+    <!-- 目标人群 -->
+    <div class="glass pos-card rv d1">
+      <div class="pos-label">目标人群：主要卖给谁？</div>
+      <div class="pos-value"><span class="yhl">小学1-4年级家长</span><span style="color:var(--mu)">（尤其2-4年级）</span></div>
+      <p style="font-size:13px;color:var(--sub);line-height:1.8;margin-top:14px;text-align:left">
+        他们不是学前（3-6岁）家长的纯兴趣启蒙，也不是小高（5-6年级）家长面对应试压力下的提前学诉求。<br>
+        他们的需求，属于【兴趣启蒙】和【衔接先修】的中间地带——暂未被市场定义的<strong class="b">【学科启蒙】</strong>
+      </p>
+    </div>
+
+    <!-- Slogan -->
+    <p class="rv d2" style="font-size:14px;font-weight:700;margin:28px 0 8px">一句话表达（Slogan）：说清为什么值得买</p>
+    <div class="glass-sm rv d2" style="margin-bottom:12px">
+      <p style="font-size:13px;color:var(--sub);line-height:1.8"><strong>品类定义：</strong>《从小学系列》是一门介于兴趣科普和提前学之间的学科启蒙课，用动画把生活现象讲成孩子听得懂、说得出的理科原理</p>
+    </div>
+
+    <div class="slogan-box a rv d2">
+      <div class="slogan-label">方案1</div>
+      <div class="slogan-text">趣味学科启蒙：孩子听得懂、说得出，初中再学不陌生</div>
+      <div class="slogan-note">家长特征：有学科启蒙意识，又不想过早刷题<br>方向：因果逻辑——上半句是RTB<span style="color:var(--r)">（趣味、听得懂）</span>，下半句是利益点<span style="color:var(--r)">（学得会、初中不陌生）</span></div>
+    </div>
+    <div class="slogan-box b rv d3">
+      <div class="slogan-label">方案2</div>
+      <div class="slogan-text">市面唯一「学科启蒙体系」课程，为孩子建立终身受用的理科思维</div>
+      <div class="slogan-note">二级标题：通过物理、化学、生物、地理的体系化启蒙，配合从小学到高考的全链路陪伴<br>方向：核心卖点直给——直接把最核心的卖点讲出来<span style="color:var(--r)">（唯一性、理科思维）</span></div>
+    </div>
+
+    <!-- 三大价值主张 -->
+    <p class="rv d3" style="font-size:14px;font-weight:700;margin:32px 0 8px">三大价值主张（含RTB论据支撑）</p>
+
+    <div class="rtb-grid rv d4">
+      <div class="glass rtb-card">
+        <div class="rtb-icon">❤️</div>
+        <div class="rtb-h" style="color:var(--o)">爱学</div>
+        <p style="font-size:12px;color:var(--mu)">孩子越感兴趣，启蒙越有效</p>
+        <div class="rtb-items">
+          <div class="rtb-item">
+            <div class="rtb-item-h">RTB 1：数千家庭的选择</div>
+            <div class="rtb-item-b">1353个家庭，人均观看86次；首周人均21.69次，月均看17节</div>
+          </div>
+          <div class="rtb-item">
+            <div class="rtb-item-h">RTB 2：趣味动画课</div>
+            <div class="rtb-item-b">650+节动画视频课，用孩子愿意看的形式传递知识</div>
+          </div>
+          <div class="rtb-item">
+            <div class="rtb-item-h">RTB 3：跟着做的实验</div>
+            <div class="rtb-item-b">300+个真动手实验，孩子能跟着亲手尝试</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass rtb-card">
+        <div class="rtb-icon">💡</div>
+        <div class="rtb-h" style="color:var(--b)">听懂</div>
+        <p style="font-size:12px;color:var(--mu)">用孩子的语言讲懂抽象概念</p>
+        <div class="rtb-items">
+          <div class="rtb-item">
+            <div class="rtb-item-h">RTB 1：海量学生数据</div>
+            <div class="rtb-item-b">5000亿次使用数据，知道初中生学物理卡在哪</div>
+          </div>
+          <div class="rtb-item">
+            <div class="rtb-item-h">RTB 2：从生活现象切入</div>
+            <div class="rtb-item-b">500+个生活常识出发，让孩子觉得物理"好玩"</div>
+          </div>
+          <div class="rtb-item">
+            <div class="rtb-item-h">RTB 3：独创思维模型</div>
+            <div class="rtb-item-b">3大思维模型：抽象、推理、应用，从现象到规律</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass rtb-card">
+        <div class="rtb-icon">✅</div>
+        <div class="rtb-h" style="color:var(--g)">有用</div>
+        <p style="font-size:12px;color:var(--mu)">让启蒙效果听得见、看得着</p>
+        <div class="rtb-items">
+          <div class="rtb-item">
+            <div class="rtb-item-h">RTB 1：体系化理科启蒙</div>
+            <div class="rtb-item-b">中考命题专家带队设计，涵盖小初900+知识点</div>
+          </div>
+          <div class="rtb-item">
+            <div class="rtb-item-h">RTB 2：多维学情报告</div>
+            <div class="rtb-item-b">学情报告每周通过APP、公众号推送给家长</div>
+          </div>
+          <div class="rtb-item">
+            <div class="rtb-item-h">RTB 3：学+做+练闭环</div>
+            <div class="rtb-item-b">先听懂原理→再做实验→最后练习巩固</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p style="font-size:16px;font-weight:900;color:var(--o);margin-bottom:6px">从小学系列 · 用户调研报告</p>
+  <p style="font-size:12px;color:var(--mu)">来源：飞书文档【重要信息同步&讨论】从小学系列调研 · 洋葱学园</p>
+</footer>
+
+<script>
+const secs=document.querySelectorAll('section');
+const dots=document.querySelectorAll('.dot');
+const prog=document.getElementById('prog');
+
+function go(i){secs[i].scrollIntoView({behavior:'smooth'})}
+
+const io=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){
+    const i=[...secs].indexOf(e.target);
+    dots.forEach((d,j)=>d.classList.toggle('on',j===i));
+  }});
+},{threshold:.3});
+secs.forEach(s=>io.observe(s));
+
+const rio=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});
+},{threshold:.15});
+document.querySelectorAll('.rv').forEach(el=>rio.observe(el));
+
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement;
+  const pct=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;
+  prog.style.width=pct+'%';
+});
+</script>
+</body>
+</html>
