@@ -95,9 +95,8 @@ function renderHighlightedText(text: string) {
 
 // ── Single evidence quote ─────────────────────────────────────────────────────
 
-function QuoteItem({ text, color, tag }: { text: string; color: string; tag?: string }) {
+function QuoteItem({ text, color }: { text: string; color: string }) {
   const src = lookupSource(text);
-  const tagStyle = tag ? TAG_STYLES[tag] : undefined;
   return (
     <div className="flex gap-3 pt-3 border-t border-gray-100 first:border-0 first:pt-0">
       <span
@@ -108,14 +107,6 @@ function QuoteItem({ text, color, tag }: { text: string; color: string; tag?: st
       <div className="min-w-0">
         <div className="flex items-start gap-2 flex-wrap">
           <p className="text-[13px] text-gray-700 leading-relaxed flex-1">{renderHighlightedText(text)}</p>
-          {tag && tagStyle && (
-            <span
-              className="shrink-0 px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap mt-0.5"
-              style={{ backgroundColor: tagStyle.bg, color: tagStyle.text }}
-            >
-              {tag}
-            </span>
-          )}
         </div>
         {src && (
           <p className="text-[11px] text-gray-400 mt-1.5">
@@ -181,7 +172,7 @@ function BrandCard({ entry }: { entry: QualBrandEntry }) {
         {/* Evidence quotes */}
         <div className="space-y-0">
           {shown.map((e, i) => (
-            <QuoteItem key={i} text={e.text} color={bColor} tag={e.tag} />
+            <QuoteItem key={i} text={e.text} color={bColor} />
           ))}
         </div>
 
@@ -213,6 +204,12 @@ function SubDimSection({
   color: string;
 }) {
   const [collapsed, setCollapsed] = React.useState(false);
+  const [activeTag, setActiveTag] = React.useState<string | null>(null);
+
+  // Collect all unique tags in this sub-dimension
+  const allTags = Array.from(
+    new Set(subDim.brands.flatMap((b) => b.bullets.map((bl) => bl.tag).filter(Boolean))) as Set<string>
+  );
 
   // Brand-chip filter
   const brandFiltered =
@@ -220,34 +217,75 @@ function SubDimSection({
       ? subDim.brands
       : subDim.brands.filter((b) => selectedBrands.has(b.brand));
 
-  // Active-files evidence filter
+  // Active-files evidence filter + tag filter
   const visible: QualBrandEntry[] = brandFiltered
     .map((entry) => ({
       ...entry,
-      bullets: entry.bullets.map((bullet) => ({
-        ...bullet,
-        evidence: filterEvidenceByActiveFiles(bullet.evidence),
-      })),
+      bullets: entry.bullets
+        .filter((bullet) => !activeTag || bullet.tag === activeTag)
+        .map((bullet) => ({
+          ...bullet,
+          evidence: filterEvidenceByActiveFiles(bullet.evidence),
+        })),
     }))
     .filter((entry) => entry.bullets.some((b) => b.evidence.length > 0))
     .sort((a, b) => sortBrands(a.brand, b.brand));
 
-  if (visible.length === 0) return null;
+  if (visible.length === 0 && !activeTag) return null;
 
   return (
     <div>
       {/* Section header with left color border */}
-      <button
-        onClick={() => setCollapsed((v) => !v)}
-        className="flex items-center gap-3 w-full text-left mb-4 pl-3 border-l-[3px]"
-        style={{ borderColor: color }}
-      >
-        <span className="text-[15px] font-bold text-gray-900 flex-1">{subDim.name}</span>
-        <span className="text-[11px] text-gray-400 flex items-center gap-0.5 shrink-0">
-          {visible.length} 个品牌
-          {collapsed ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
-        </span>
-      </button>
+      <div className="mb-4 pl-3 border-l-[3px]" style={{ borderColor: color }}>
+        <button
+          onClick={() => setCollapsed((v) => !v)}
+          className="flex items-center gap-3 w-full text-left"
+        >
+          <span className="text-[15px] font-bold text-gray-900 flex-1">{subDim.name}</span>
+          <span className="text-[11px] text-gray-400 flex items-center gap-0.5 shrink-0">
+            {visible.length} 个品牌
+            {collapsed ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
+          </span>
+        </button>
+
+        {/* Tag filter chips */}
+        {allTags.length > 0 && !collapsed && (
+          <div className="flex flex-wrap gap-1.5 mt-2">
+            {allTags.map((tag) => {
+              const isActive = activeTag === tag;
+              const style = TAG_STYLES[tag];
+              return (
+                <button
+                  key={tag}
+                  onClick={() => setActiveTag(isActive ? null : tag)}
+                  className={cn(
+                    'px-2 py-0.5 rounded-full text-[10px] font-medium transition-all border',
+                    isActive
+                      ? 'ring-1 ring-offset-1 shadow-sm'
+                      : 'opacity-70 hover:opacity-100',
+                  )}
+                  style={{
+                    backgroundColor: style?.bg ?? '#f0f0f0',
+                    color: style?.text ?? '#666',
+                    borderColor: isActive ? (style?.text ?? '#666') : 'transparent',
+                    ringColor: style?.text,
+                  }}
+                >
+                  {tag}
+                </button>
+              );
+            })}
+            {activeTag && (
+              <button
+                onClick={() => setActiveTag(null)}
+                className="px-1.5 py-0.5 rounded-full text-[10px] text-gray-400 hover:text-gray-600 flex items-center gap-0.5"
+              >
+                <X size={10} />清除
+              </button>
+            )}
+          </div>
+        )}
+      </div>
 
       {!collapsed && (
         <>
