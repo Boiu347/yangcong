@@ -141,7 +141,8 @@ function renderHighlightedText(text: string) {
 
 function CrossBrandOverview() {
   const [open, setOpen] = React.useState(true);
-  const [showSecondary, setShowSecondary] = React.useState(false);
+  const [showSecondarySummary, setShowSecondarySummary] = React.useState(false);
+  const [showSecondaryMatrix, setShowSecondaryMatrix] = React.useState(false);
   const brands = sortBrands(Object.keys(DEFAULT_COMPETITIVE_DATA));
 
   return (
@@ -213,14 +214,14 @@ function CrossBrandOverview() {
 
               {/* Secondary brands toggle */}
               <button
-                onClick={() => setShowSecondary((v) => !v)}
+                onClick={() => setShowSecondarySummary((v) => !v)}
                 className="flex items-center gap-1 mt-3 text-[11px] text-gray-400 hover:text-gray-600 transition-colors"
               >
-                {showSecondary ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
-                {showSecondary ? '收起其他品牌' : `展开其他 ${BRAND_SUMMARY_ORDER.filter(b => BRAND_SUMMARIES[b] && !PRIMARY_BRANDS.has(b)).length} 个品牌`}
+                {showSecondarySummary ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
+                {showSecondarySummary ? '收起其他品牌' : `展开其他 ${BRAND_SUMMARY_ORDER.filter(b => BRAND_SUMMARIES[b] && !PRIMARY_BRANDS.has(b)).length} 个品牌`}
               </button>
 
-              {showSecondary && BRAND_SUMMARY_ORDER.filter((b) => BRAND_SUMMARIES[b] && !PRIMARY_BRANDS.has(b)).map((brand, idx) => (
+              {showSecondarySummary && BRAND_SUMMARY_ORDER.filter((b) => BRAND_SUMMARIES[b] && !PRIMARY_BRANDS.has(b)).map((brand, idx) => (
                 <div
                   key={brand}
                   className={cn(
@@ -302,7 +303,7 @@ function CrossBrandOverview() {
                   ))}
 
                   {/* Secondary brands collapsible */}
-                  {showSecondary && brands.filter(b => !PRIMARY_BRANDS.has(b)).map((brand, idx) => (
+                  {showSecondaryMatrix && brands.filter(b => !PRIMARY_BRANDS.has(b)).map((brand, idx) => (
                     <tr
                       key={brand}
                       className={cn('border-t border-gray-50', idx % 2 === 0 ? 'bg-gray-50/40' : '')}
@@ -343,6 +344,13 @@ function CrossBrandOverview() {
                 </tbody>
               </table>
             </div>
+            <button
+              onClick={() => setShowSecondaryMatrix((v) => !v)}
+              className="flex items-center gap-1 mt-3 text-[11px] text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              {showSecondaryMatrix ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
+              {showSecondaryMatrix ? '收起其他品牌' : `展开其他 ${brands.filter(b => !PRIMARY_BRANDS.has(b)).length} 个品牌`}
+            </button>
           </div>
         </>
       )}
