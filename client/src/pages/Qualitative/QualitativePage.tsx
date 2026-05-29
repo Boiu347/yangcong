@@ -235,40 +235,37 @@ function SubDimSection({
 
   return (
     <div>
-      {/* Section header with left color border */}
-      <div className="mb-4 pl-3 border-l-[3px]" style={{ borderColor: color }}>
+      {/* Section header with left color border + tag filters inline */}
+      <div className="mb-4 pl-3 border-l-[3px] flex items-center gap-3 flex-wrap" style={{ borderColor: color }}>
         <button
           onClick={() => setCollapsed((v) => !v)}
-          className="flex items-center gap-3 w-full text-left"
+          className="flex items-center gap-2 text-left shrink-0"
         >
-          <span className="text-[15px] font-bold text-gray-900 flex-1">{subDim.name}</span>
-          <span className="text-[11px] text-gray-400 flex items-center gap-0.5 shrink-0">
+          <span className="text-[15px] font-bold text-gray-900">{subDim.name}</span>
+          <span className="text-[11px] text-gray-400 flex items-center gap-0.5">
             {visible.length} 个品牌
             {collapsed ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
           </span>
         </button>
 
-        {/* Tag filter chips */}
+        {/* Tag filter chips — inline right of title */}
         {allTags.length > 0 && !collapsed && (
-          <div className="flex flex-wrap gap-1.5 mt-2">
+          <div className="flex items-center gap-1.5 flex-wrap">
             {allTags.map((tag) => {
               const isActive = activeTag === tag;
               const style = TAG_STYLES[tag];
               return (
                 <button
                   key={tag}
-                  onClick={() => setActiveTag(isActive ? null : tag)}
-                  className={cn(
-                    'px-2 py-0.5 rounded-full text-[10px] font-medium transition-all border',
-                    isActive
-                      ? 'ring-1 ring-offset-1 shadow-sm'
-                      : 'opacity-70 hover:opacity-100',
-                  )}
-                  style={{
-                    backgroundColor: style?.bg ?? '#f0f0f0',
-                    color: style?.text ?? '#666',
-                    borderColor: isActive ? (style?.text ?? '#666') : 'transparent',
-                    ringColor: style?.text,
+                  onClick={(e) => { e.stopPropagation(); setActiveTag(isActive ? null : tag); }}
+                  className="px-2 py-0.5 rounded-full text-[10px] font-medium transition-all"
+                  style={isActive ? {
+                    backgroundColor: style?.text ?? '#666',
+                    color: '#fff',
+                  } : {
+                    backgroundColor: 'transparent',
+                    color: style?.text ?? '#999',
+                    border: `1px dashed ${style?.text ?? '#ccc'}`,
                   }}
                 >
                   {tag}
