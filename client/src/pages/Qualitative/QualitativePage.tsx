@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { MessageSquare, ChevronDown, ChevronRight, X } from 'lucide-react';
+import { MessageSquare, ChevronDown, ChevronRight, X, Sparkles } from 'lucide-react';
 import {
   DEFAULT_QUALITATIVE_DATA,
   QualSubDimension,
@@ -12,11 +12,11 @@ import { cn } from '@/lib/utils';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-const DIMENSIONS = ['启蒙认知', '购买决策', '产品体验'] as const;
+const DIMENSIONS = ['需求认知', '购买决策', '产品体验'] as const;
 type Dimension = (typeof DIMENSIONS)[number];
 
 const DIM_CONFIG: Record<Dimension, { color: string; tab: string }> = {
-  启蒙认知: { color: '#5B7BBF', tab: 'border-[#5B7BBF] text-[#5B7BBF]' },
+  需求认知: { color: '#5B7BBF', tab: 'border-[#5B7BBF] text-[#5B7BBF]' },
   购买决策: { color: '#BF9455', tab: 'border-[#BF9455] text-[#BF9455]' },
   产品体验: { color: '#4BA69E', tab: 'border-[#4BA69E] text-[#4BA69E]' },
 };
@@ -167,10 +167,11 @@ function BrandCard({ entry }: { entry: QualBrandEntry }) {
         </div>
 
         {/* AI summary */}
-        <div className="mb-4 bg-gray-50 rounded-xl p-3.5">
+        <div className="mb-4 rounded-xl p-3.5 border-l-[3px]"
+             style={{ borderColor: bColor, backgroundColor: `${bColor}0A` }}>
           <div className="flex items-center gap-1.5 mb-1.5">
-            <span className="text-[10px] text-gray-400">◆</span>
-            <span className="text-[11px] font-semibold text-gray-400">AI 总结</span>
+            <Sparkles size={12} style={{ color: bColor }} />
+            <span className="text-[11px] font-semibold" style={{ color: bColor }}>AI 总结</span>
           </div>
           <p className="text-[13px] font-semibold leading-relaxed text-gray-700">
             {entry.subtitle}
@@ -251,9 +252,11 @@ function SubDimSection({
       {!collapsed && (
         <>
         {subDim.globalSummary && (
-          <div className="mb-4 bg-gray-50 rounded-xl px-4 py-3 border border-gray-100">
-            <p className="text-[13px] text-gray-600 leading-relaxed">
-              <span className="font-semibold text-gray-500 mr-1">概况</span>
+          <div className="mb-4 rounded-xl px-4 py-3 border-l-[3px]"
+               style={{ borderColor: color, backgroundColor: `${color}08` }}>
+            <p className="text-sm text-gray-700 leading-relaxed">
+              <Sparkles size={14} className="inline mr-1 -mt-0.5" style={{ color }} />
+              <span className="font-bold mr-1.5" style={{ color }}>AI 概况</span>
               {subDim.globalSummary}
             </p>
           </div>
@@ -275,7 +278,7 @@ export default function QualitativePage() {
   useParams<{ projectId: string }>();
   useActiveFileIds(); // subscribe for re-render on file toggle
 
-  const [activeDim, setActiveDim] = React.useState<Dimension>('启蒙认知');
+  const [activeDim, setActiveDim] = React.useState<Dimension>('需求认知');
   const [selectedBrands, setSelectedBrands] = React.useState<Set<string>>(new Set());
 
   const toggleBrand = (brand: string) => {
