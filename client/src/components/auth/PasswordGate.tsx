@@ -94,7 +94,7 @@ export default function PasswordGate({ children }: { children: React.ReactNode }
 
         {/* Title */}
         <div className="text-center">
-          <h1 className="text-[18px] font-bold text-gray-900">用研项目归档平台</h1>
+          <h1 className="text-[18px] font-bold text-gray-900">用研项目集锦</h1>
           <p className="text-[13px] text-gray-400 mt-1">请输入访问密码</p>
         </div>
 
