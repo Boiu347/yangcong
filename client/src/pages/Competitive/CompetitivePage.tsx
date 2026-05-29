@@ -710,7 +710,12 @@ export default function CompetitivePage() {
         )}
 
         {!isMulti && selectedBrands.length === 1 && DEFAULT_COMPETITIVE_DATA[selectedBrands[0]] && (
-          <SingleBrandView insight={DEFAULT_COMPETITIVE_DATA[selectedBrands[0]]} />
+          <>
+            <div className="mb-3">
+              <span className="text-[11px] text-white bg-[#5B7BBF] px-2.5 py-1 rounded-md font-medium shadow-sm">💬 点击洞察条目可展开用户原声</span>
+            </div>
+            <SingleBrandView insight={DEFAULT_COMPETITIVE_DATA[selectedBrands[0]]} />
+          </>
         )}
 
         {isMulti && (
