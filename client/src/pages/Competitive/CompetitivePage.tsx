@@ -686,7 +686,6 @@ export default function CompetitivePage() {
 
       {/* Legend */}
       <div className="bg-white border-b border-gray-50 px-6 py-2 flex items-center gap-4">
-        <span className="text-[11px] text-white bg-[#5B7BBF] px-2.5 py-1 rounded-md font-medium shadow-sm">💬 点击洞察条目可展开用户原声</span>
         <div className="flex items-center gap-3 ml-auto">
           {Object.entries(SENTIMENT_CONFIG).map(([k, v]) => (
             <div key={k} className="flex items-center gap-1">
@@ -716,6 +715,9 @@ export default function CompetitivePage() {
 
         {isMulti && (
           <div className="overflow-x-auto pb-6">
+            <div className="mb-3">
+              <span className="text-[11px] text-white bg-[#5B7BBF] px-2.5 py-1 rounded-md font-medium shadow-sm">💬 点击洞察条目可展开用户原声</span>
+            </div>
             <ComparisonMatrix
               brands={selectedBrands}
               insights={DEFAULT_COMPETITIVE_DATA}
