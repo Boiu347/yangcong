@@ -44,7 +44,7 @@ export default function TopNavLayout() {
             <Microscope size={14} color="white" />
           </div>
           <span style={{ fontSize: 14, fontWeight: 800, color: '#2A2A2A', letterSpacing: '-0.3px' }}>
-            用研平台
+            用研项目集锦
           </span>
         </div>
 
