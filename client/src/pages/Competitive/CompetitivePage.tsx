@@ -212,15 +212,6 @@ function CrossBrandOverview() {
                 </div>
               ))}
 
-              {/* Secondary brands toggle */}
-              <button
-                onClick={() => setShowSecondarySummary((v) => !v)}
-                className="flex items-center gap-1 mt-3 text-[11px] text-gray-400 hover:text-gray-600 transition-colors"
-              >
-                {showSecondarySummary ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
-                {showSecondarySummary ? '收起其他品牌' : `展开其他 ${BRAND_SUMMARY_ORDER.filter(b => BRAND_SUMMARIES[b] && !PRIMARY_BRANDS.has(b)).length} 个品牌`}
-              </button>
-
               {showSecondarySummary && BRAND_SUMMARY_ORDER.filter((b) => BRAND_SUMMARIES[b] && !PRIMARY_BRANDS.has(b)).map((brand, idx) => (
                 <div
                   key={brand}
@@ -240,6 +231,15 @@ function CrossBrandOverview() {
                   <p className="text-[13px] text-gray-500 leading-relaxed">{renderHighlightedText(BRAND_SUMMARIES[brand])}</p>
                 </div>
               ))}
+
+              {/* Secondary brands toggle — below content */}
+              <button
+                onClick={() => setShowSecondarySummary((v) => !v)}
+                className="flex items-center gap-1 mt-3 text-[11px] text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                {showSecondarySummary ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
+                {showSecondarySummary ? '收起其他品牌' : `展开其他 ${BRAND_SUMMARY_ORDER.filter(b => BRAND_SUMMARIES[b] && !PRIMARY_BRANDS.has(b)).length} 个品牌`}
+              </button>
             </div>
           </div>
 
