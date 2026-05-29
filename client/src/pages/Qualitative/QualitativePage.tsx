@@ -204,7 +204,7 @@ function SubDimSection({
   color: string;
 }) {
   const [collapsed, setCollapsed] = React.useState(false);
-  const [activeTag, setActiveTag] = React.useState<string | null>(null);
+  const [activeTags, setActiveTags] = React.useState<Set<string>>(new Set());
 
   // Collect all unique tags in this sub-dimension
   const allTags = Array.from(
@@ -222,7 +222,7 @@ function SubDimSection({
     .map((entry) => ({
       ...entry,
       bullets: entry.bullets
-        .filter((bullet) => !activeTag || bullet.tag === activeTag)
+        .filter((bullet) => activeTags.size === 0 || (bullet.tag && activeTags.has(bullet.tag)))
         .map((bullet) => ({
           ...bullet,
           evidence: filterEvidenceByActiveFiles(bullet.evidence),
@@ -231,7 +231,7 @@ function SubDimSection({
     .filter((entry) => entry.bullets.some((b) => b.evidence.length > 0))
     .sort((a, b) => sortBrands(a.brand, b.brand));
 
-  if (visible.length === 0 && !activeTag) return null;
+  if (visible.length === 0 && activeTags.size === 0) return null;
 
   return (
     <div>
@@ -252,12 +252,19 @@ function SubDimSection({
         {allTags.length > 0 && !collapsed && (
           <div className="flex items-center gap-1.5 flex-wrap">
             {allTags.map((tag) => {
-              const isActive = activeTag === tag;
+              const isActive = activeTags.has(tag);
               const style = TAG_STYLES[tag];
               return (
                 <button
                   key={tag}
-                  onClick={(e) => { e.stopPropagation(); setActiveTag(isActive ? null : tag); }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveTags((prev) => {
+                      const next = new Set(prev);
+                      if (next.has(tag)) next.delete(tag); else next.add(tag);
+                      return next;
+                    });
+                  }}
                   className="px-2 py-0.5 rounded-full text-[10px] font-medium transition-all"
                   style={isActive ? {
                     backgroundColor: style?.text ?? '#666',
@@ -272,9 +279,9 @@ function SubDimSection({
                 </button>
               );
             })}
-            {activeTag && (
+            {activeTags.size > 0 && (
               <button
-                onClick={() => setActiveTag(null)}
+                onClick={() => setActiveTags(new Set())}
                 className="px-1.5 py-0.5 rounded-full text-[10px] text-gray-400 hover:text-gray-600 flex items-center gap-0.5"
               >
                 <X size={10} />清除
