@@ -75,6 +75,8 @@ const BRAND_SUMMARY_ORDER = [
   '洋葱', 'NB虚拟实验室', '万物指南', '妙懂', '学而思', '叫叫', '南开大学AI物理课',
 ];
 
+const PRIMARY_BRANDS = new Set(['洋葱', 'NB虚拟实验室', '万物指南', '妙懂']);
+
 const BRAND_SUMMARIES: Record<string, string> = {
   '洋葱':            '**动画直观**、**校内同步**是核心竞争力，"从小学物理"**实验吸引力强**、**孩子自主完课率高**；大会员权益边界模糊引发"上当感"，**课程入口不易找**和**权益透明化**是关键改进点。',
   'NB虚拟实验室':    '**虚拟实验探索感强**、**终身制低价**受认可；主科挤压下**实际使用率极低**，模拟与真实实验的落差是产品天然限制。',
@@ -139,6 +141,7 @@ function renderHighlightedText(text: string) {
 
 function CrossBrandOverview() {
   const [open, setOpen] = React.useState(true);
+  const [showSecondary, setShowSecondary] = React.useState(false);
   const brands = sortBrands(Object.keys(DEFAULT_COMPETITIVE_DATA));
 
   return (
@@ -187,12 +190,41 @@ function CrossBrandOverview() {
           <div className="border-t border-gray-50 px-6 pt-4 pb-5">
             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">品牌差异总结</p>
             <div>
-              {BRAND_SUMMARY_ORDER.filter((b) => BRAND_SUMMARIES[b]).map((brand, idx) => (
+              {BRAND_SUMMARY_ORDER.filter((b) => BRAND_SUMMARIES[b] && PRIMARY_BRANDS.has(b)).map((brand, idx) => (
                 <div
                   key={brand}
                   className={cn(
                     'flex items-baseline gap-4 py-3',
                     idx !== 0 && 'border-t border-gray-100',
+                  )}
+                >
+                  <div className="flex items-center gap-1.5 shrink-0 w-[116px]">
+                    <div
+                      className="w-4 h-4 rounded-[4px] flex items-center justify-center text-white text-[9px] font-bold shrink-0"
+                      style={{ backgroundColor: brandColor(brand) }}
+                    >
+                      {brand.charAt(0)}
+                    </div>
+                    <span className="text-[13px] font-semibold text-gray-800 whitespace-nowrap">{brand}</span>
+                  </div>
+                  <p className="text-[13px] text-gray-500 leading-relaxed">{renderHighlightedText(BRAND_SUMMARIES[brand])}</p>
+                </div>
+              ))}
+
+              {/* Secondary brands toggle */}
+              <button
+                onClick={() => setShowSecondary((v) => !v)}
+                className="flex items-center gap-1 mt-3 text-[11px] text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                {showSecondary ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
+                {showSecondary ? '收起其他品牌' : `展开其他 ${BRAND_SUMMARY_ORDER.filter(b => BRAND_SUMMARIES[b] && !PRIMARY_BRANDS.has(b)).length} 个品牌`}
+              </button>
+
+              {showSecondary && BRAND_SUMMARY_ORDER.filter((b) => BRAND_SUMMARIES[b] && !PRIMARY_BRANDS.has(b)).map((brand, idx) => (
+                <div
+                  key={brand}
+                  className={cn(
+                    'flex items-baseline gap-4 py-3 border-t border-gray-100',
                   )}
                 >
                   <div className="flex items-center gap-1.5 shrink-0 w-[116px]">
@@ -230,10 +262,50 @@ function CrossBrandOverview() {
                   </tr>
                 </thead>
                 <tbody>
-                  {brands.map((brand, idx) => (
+                  {brands.filter(b => PRIMARY_BRANDS.has(b)).map((brand, idx) => (
                     <tr
                       key={brand}
                       className={cn('border-t border-gray-50', idx % 2 === 0 ? '' : 'bg-gray-50/40')}
+                    >
+                      <td className="py-2.5 pr-4">
+                        <div className="flex items-center gap-2">
+                          <div
+                            className="w-5 h-5 rounded-md flex items-center justify-center text-white text-[9px] font-bold shrink-0"
+                            style={{ backgroundColor: brandColor(brand) }}
+                          >
+                            {brand.charAt(0)}
+                          </div>
+                          <span className="text-[12px] font-medium text-gray-700 whitespace-nowrap">{brand}</span>
+                        </div>
+                      </td>
+                      {L1_ORDER.map((l1) => {
+                        const s = SENTIMENT_MATRIX[brand]?.[l1];
+                        if (!s) return (
+                          <td key={l1} className="py-2.5 px-4 text-center">
+                            <span className="text-gray-200 text-[12px]">—</span>
+                          </td>
+                        );
+                        const sc = SENTIMENT_CONFIG[s];
+                        return (
+                          <td key={l1} className="py-2.5 px-4 text-center">
+                            <span className={cn(
+                              'inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full border font-medium',
+                              sc.tag,
+                            )}>
+                              <span className={cn('w-1.5 h-1.5 rounded-full shrink-0', sc.dot)} />
+                              {sc.label}
+                            </span>
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  ))}
+
+                  {/* Secondary brands collapsible */}
+                  {showSecondary && brands.filter(b => !PRIMARY_BRANDS.has(b)).map((brand, idx) => (
+                    <tr
+                      key={brand}
+                      className={cn('border-t border-gray-50', idx % 2 === 0 ? 'bg-gray-50/40' : '')}
                     >
                       <td className="py-2.5 pr-4">
                         <div className="flex items-center gap-2">
