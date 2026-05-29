@@ -12,13 +12,14 @@ import { cn } from '@/lib/utils';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-const DIMENSIONS = ['需求认知', '购买决策', '产品体验'] as const;
+const DIMENSIONS = ['需求认知', '购买决策', '产品体验', '用户调研报告'] as const;
 type Dimension = (typeof DIMENSIONS)[number];
 
 const DIM_CONFIG: Record<Dimension, { color: string; tab: string }> = {
-  需求认知: { color: '#5B7BBF', tab: 'border-[#5B7BBF] text-[#5B7BBF]' },
-  购买决策: { color: '#BF9455', tab: 'border-[#BF9455] text-[#BF9455]' },
-  产品体验: { color: '#4BA69E', tab: 'border-[#4BA69E] text-[#4BA69E]' },
+  需求认知:     { color: '#5B7BBF', tab: 'border-[#5B7BBF] text-[#5B7BBF]' },
+  购买决策:     { color: '#BF9455', tab: 'border-[#BF9455] text-[#BF9455]' },
+  产品体验:     { color: '#4BA69E', tab: 'border-[#4BA69E] text-[#4BA69E]' },
+  用户调研报告: { color: '#8B5CF6', tab: 'border-[#8B5CF6] text-[#8B5CF6]' },
 };
 
 // ── Brand colors ─────────────────────────────────────────────────────────────
@@ -353,7 +354,7 @@ export default function QualitativePage() {
 
           <div className="flex-1" />
 
-          {allBrands.length > 0 && (
+          {allBrands.length > 0 && activeDim !== '用户调研报告' && (
             <div className="flex items-center gap-1.5 flex-wrap justify-end">
               <span className="text-[11px] text-gray-400">筛选：</span>
               {allBrands.map((brand) => {
@@ -412,22 +413,30 @@ export default function QualitativePage() {
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-8">
-        {subDimensions.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-24 text-center">
-            <p className="text-[14px] text-gray-400">「{activeDim}」暂无数据</p>
-          </div>
-        ) : (
-          subDimensions.map((sub) => (
-            <SubDimSection
-              key={sub.name}
-              subDim={sub}
-              selectedBrands={selectedBrands}
-              color={color}
-            />
-          ))
-        )}
-      </div>
+      {activeDim === '用户调研报告' ? (
+        <iframe
+          src="/research-report.html"
+          title="用户调研报告 · 从小学系列"
+          className="flex-1 w-full border-none block"
+        />
+      ) : (
+        <div className="flex-1 overflow-y-auto p-6 space-y-8">
+          {subDimensions.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-24 text-center">
+              <p className="text-[14px] text-gray-400">「{activeDim}」暂无数据</p>
+            </div>
+          ) : (
+            subDimensions.map((sub) => (
+              <SubDimSection
+                key={sub.name}
+                subDim={sub}
+                selectedBrands={selectedBrands}
+                color={color}
+              />
+            ))
+          )}
+        </div>
+      )}
     </div>
   );
 }

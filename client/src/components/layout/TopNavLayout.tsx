@@ -4,12 +4,11 @@ import { Microscope } from 'lucide-react';
 import FileBar from './FileBar';
 
 const NAV_ITEMS = [
-  { label: '项目总结',    path: 'summary' },
-  { label: '定性洞察',    path: 'qualitative' },
-  { label: '竞品分析',    path: 'competitive' },
-  { label: '用户调研报告', path: 'research' },
-  { label: '定量报告',    path: 'quantitative' },
-  { label: '营销落地',    path: 'marketing' },
+  { label: '项目总结',  path: 'summary' },
+  { label: '定性洞察',  path: 'qualitative' },
+  { label: '竞品分析',  path: 'competitive' },
+  { label: '定量报告',  path: 'quantitative' },
+  { label: '营销落地',  path: 'marketing' },
 ] as const;
 
 export default function TopNavLayout() {
@@ -18,7 +17,7 @@ export default function TopNavLayout() {
   const location = useLocation();
 
   const active = location.pathname.split('/').pop() ?? 'summary';
-  const hideFileBar = active === 'summary' || active === 'marketing' || active === 'research';
+  const hideFileBar = active === 'summary' || active === 'marketing';
 
   return (
     <div className="fixed inset-0 flex flex-col" style={{ background: '#FEFDF9' }}>

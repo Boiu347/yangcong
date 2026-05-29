@@ -7,43 +7,61 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#FEFDF9; --bg2:#F7F5EF; --bg3:#FFF8F0;
-  --tx:#2A2A2A; --sub:#555; --mu:#999;
-  --bd:#DDD8CE; --card:rgba(255,255,255,.72);
-  --glass:rgba(255,255,255,.55);
-  --glass-border:rgba(255,255,255,.35);
-  --o:#FF5722; --t:#3DBFBF; --y:#F5C518;
-  --r:#FF4D8B; --g:#52C278; --b:#5B8FED; --v:#A78BFA;
-  --shadow:0 8px 32px rgba(0,0,0,.06);
-  --glass-shadow:0 8px 32px rgba(0,0,0,.08);
+  --bg:#F0F0F8; --bg2:#E8E8F4; --bg3:#F4F0FA;
+  --tx:#1A1A2E; --sub:#444466; --mu:#8888AA;
+  --bd:rgba(255,255,255,.45);
+  --accent:#7C3AED; --accent2:#2DD4BF; --accent3:#F472B6;
+  --blue:#6366F1; --teal:#14B8A6; --rose:#F43F5E; --amber:#F59E0B;
+  --glass-bg:rgba(255,255,255,.22);
+  --glass-bg2:rgba(255,255,255,.35);
+  --glass-border:rgba(255,255,255,.5);
+  --glass-shadow:0 8px 32px rgba(100,80,160,.12), 0 2px 8px rgba(100,80,160,.06);
+  --glass-blur:20px;
 }
 html{scroll-behavior:smooth}
 body{
   background:var(--bg); color:var(--tx);
   font-family:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
   overflow-x:hidden; line-height:1.6;
+  min-height:100vh;
 }
+
+/* ─── Animated gradient mesh background ─── */
 body::before{
   content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 600px 600px at 15% 20%, rgba(124,58,237,.12) 0%, transparent 60%),
+    radial-gradient(ellipse 500px 500px at 85% 30%, rgba(99,102,241,.1) 0%, transparent 60%),
+    radial-gradient(ellipse 400px 400px at 50% 70%, rgba(45,212,191,.08) 0%, transparent 60%),
+    radial-gradient(ellipse 350px 350px at 80% 80%, rgba(244,114,182,.08) 0%, transparent 60%);
+}
+body::after{
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
   background-image:
-    linear-gradient(rgba(0,0,0,.02) 1px, transparent 1px),
-    linear-gradient(90deg,rgba(0,0,0,.02) 1px, transparent 1px);
-  background-size:28px 28px;
+    linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.06) 1px, transparent 1px);
+  background-size:32px 32px;
 }
 section{position:relative;z-index:1}
 
 /* Progress bar */
-#prog{position:fixed;top:0;left:0;height:3px;background:var(--o);z-index:999;box-shadow:0 0 6px rgba(255,87,34,.4);transition:width .15s}
+#prog{position:fixed;top:0;left:0;height:3px;z-index:999;
+  background:linear-gradient(90deg,var(--accent),var(--blue),var(--accent2));
+  box-shadow:0 0 12px rgba(124,58,237,.5);transition:width .15s}
 
 /* Side nav dots */
 #nav{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;gap:14px}
-.dot{width:8px;height:8px;border-radius:50%;background:rgba(0,0,0,.12);cursor:pointer;transition:all .3s;position:relative}
-.dot.on{background:var(--o);box-shadow:0 0 0 3px rgba(255,87,34,.18);transform:scale(1.2)}
-.dot::after{content:attr(data-tip);position:absolute;right:18px;top:50%;transform:translateY(-50%);background:var(--tx);color:#fff;font-size:11px;white-space:nowrap;padding:4px 10px;border-radius:6px;opacity:0;pointer-events:none;transition:opacity .2s}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(124,58,237,.2);cursor:pointer;transition:all .3s;position:relative}
+.dot.on{background:var(--accent);box-shadow:0 0 0 4px rgba(124,58,237,.15), 0 0 12px rgba(124,58,237,.3);transform:scale(1.3)}
+.dot::after{content:attr(data-tip);position:absolute;right:18px;top:50%;transform:translateY(-50%);
+  background:rgba(26,26,46,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  color:#fff;font-size:11px;white-space:nowrap;padding:5px 12px;border-radius:8px;
+  border:1px solid rgba(255,255,255,.1);
+  opacity:0;pointer-events:none;transition:opacity .2s}
 .dot:hover::after{opacity:1}
 
 /* Reveal anim */
-.rv{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
 .rv.in{opacity:1;transform:none}
 .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
 
@@ -51,21 +69,23 @@ section{position:relative;z-index:1}
 .wrap{max-width:920px;margin:0 auto;padding:72px 32px}
 
 /* Section labels */
-.ch-n{font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:800;color:var(--o);margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.ch-n::before{content:'';display:inline-block;width:18px;height:2.5px;background:var(--o);border-radius:2px}
-.ch-h{font-size:clamp(24px,3.5vw,40px);font-weight:900;line-height:1.25;letter-spacing:-.5px;margin-bottom:12px}
+.ch-n{font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:800;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.ch-n::before{content:'';display:inline-block;width:18px;height:2.5px;background:linear-gradient(90deg,var(--accent),var(--blue));border-radius:2px}
+.ch-h{font-size:clamp(24px,3.5vw,40px);font-weight:900;line-height:1.25;letter-spacing:-.5px;margin-bottom:12px;
+  background:linear-gradient(135deg,var(--tx),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .ch-s{font-size:15px;color:var(--sub);line-height:1.85;margin-bottom:40px;max-width:600px}
 
-.o{color:var(--o)}.t{color:var(--t)}.b{color:var(--b)}.r{color:var(--r)}.g{color:var(--g)}
-.hl{background:rgba(255,87,34,.1);padding:1px 6px;border-radius:4px}
-.yhl{background:rgba(245,197,24,.15);padding:1px 6px;border-radius:4px}
+.ac{color:var(--accent)}.bl{color:var(--blue)}.tl{color:var(--teal)}.rs{color:var(--rose)}.am{color:var(--amber)}
+.hl{background:rgba(124,58,237,.1);padding:1px 6px;border-radius:4px}
+.yhl{background:rgba(45,212,191,.12);padding:1px 6px;border-radius:4px}
 
-/* ─── Glass card ─── */
+/* ═══════ LIQUID GLASS CARD ═══════ */
 .glass{
-  background:var(--glass);
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  background:var(--glass-bg2);
+  backdrop-filter:blur(var(--glass-blur)) saturate(1.6);
+  -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(1.6);
   border:1.5px solid var(--glass-border);
-  border-radius:20px;
+  border-radius:24px;
   box-shadow:var(--glass-shadow);
   padding:28px;
   position:relative;
@@ -73,47 +93,62 @@ section{position:relative;z-index:1}
 }
 .glass::before{
   content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);
+  background:linear-gradient(90deg,transparent 10%,rgba(255,255,255,.8) 50%,transparent 90%);
+}
+.glass::after{
+  content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+  background:radial-gradient(ellipse at 30% 20%, rgba(255,255,255,.15) 0%, transparent 50%);
+  pointer-events:none;
 }
 .glass-sm{
-  background:rgba(255,255,255,.5);
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  border:1px solid rgba(255,255,255,.3);
-  border-radius:14px;
-  box-shadow:0 4px 16px rgba(0,0,0,.04);
+  background:var(--glass-bg2);
+  backdrop-filter:blur(16px) saturate(1.5);-webkit-backdrop-filter:blur(16px) saturate(1.5);
+  border:1px solid var(--glass-border);
+  border-radius:16px;
+  box-shadow:0 4px 20px rgba(100,80,160,.08);
   padding:20px;
+  position:relative;overflow:hidden;
+}
+.glass-sm::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.7),transparent);
 }
 
 /* ─── Stat cards ─── */
-.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:24px 0}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin:24px 0}
 .stat-card{text-align:center;padding:24px 16px}
-.stat-v{font-size:clamp(28px,4vw,42px);font-weight:900;line-height:1;letter-spacing:-1px}
+.stat-v{font-size:clamp(28px,4vw,42px);font-weight:900;line-height:1;letter-spacing:-1px;
+  background:linear-gradient(135deg,var(--accent),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .stat-l{font-size:12px;color:var(--mu);margin-top:6px}
 
 /* ─── Bar chart ─── */
 .bar-row{display:flex;align-items:center;gap:12px;margin:8px 0}
 .bar-label{font-size:12px;color:var(--sub);width:70px;text-align:right;flex-shrink:0;font-weight:600}
-.bar-track{flex:1;height:26px;background:rgba(0,0,0,.04);border-radius:13px;overflow:hidden;position:relative}
-.bar-fill{height:100%;border-radius:13px;transition:width .8s ease}
+.bar-track{flex:1;height:28px;background:rgba(124,58,237,.06);border-radius:14px;overflow:hidden;position:relative;
+  border:1px solid rgba(255,255,255,.3)}
+.bar-fill{height:100%;border-radius:14px;transition:width .8s ease;
+  background:linear-gradient(90deg,rgba(124,58,237,.3),rgba(99,102,241,.5));
+  backdrop-filter:blur(4px)}
 .bar-pct{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:var(--sub)}
 
 /* ─── Insight callout ─── */
 .callout{
-  border-radius:16px;padding:22px 24px;margin:20px 0;
+  border-radius:20px;padding:22px 24px;margin:20px 0;
   border-left:4px solid;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
 }
-.callout.blue{background:rgba(91,143,237,.08);border-color:var(--b)}
-.callout.orange{background:rgba(255,87,34,.06);border-color:var(--o)}
-.callout.rose{background:rgba(255,77,139,.06);border-color:var(--r)}
-.callout.teal{background:rgba(61,191,191,.08);border-color:var(--t)}
-.callout.yellow{background:rgba(245,197,24,.08);border-color:var(--y)}
+.callout.purple{background:rgba(124,58,237,.06);border-color:var(--accent)}
+.callout.blue{background:rgba(99,102,241,.06);border-color:var(--blue)}
+.callout.rose{background:rgba(244,63,94,.06);border-color:var(--rose)}
+.callout.teal{background:rgba(20,184,166,.06);border-color:var(--teal)}
+.callout.amber{background:rgba(245,158,11,.06);border-color:var(--amber)}
 .callout-h{font-size:13px;font-weight:800;margin-bottom:8px}
 .callout-b{font-size:14px;line-height:1.85;color:var(--sub)}
 
 /* ─── Quote blocks ─── */
 .quote{
-  background:rgba(0,0,0,.025);border-left:3px solid var(--bd);
-  border-radius:0 10px 10px 0;
+  background:rgba(124,58,237,.04);border-left:3px solid rgba(124,58,237,.3);
+  border-radius:0 12px 12px 0;
   padding:14px 18px;margin:12px 0;
   font-size:13px;color:var(--sub);line-height:1.8;font-style:italic;
 }
@@ -121,37 +156,45 @@ section{position:relative;z-index:1}
 /* ─── User cards ─── */
 .user-card{margin:20px 0}
 .user-hdr{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.user-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:14px;flex-shrink:0}
+.user-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:14px;flex-shrink:0;
+  box-shadow:0 4px 12px rgba(0,0,0,.15)}
 .user-name{font-size:15px;font-weight:800}
 .user-meta{font-size:11px;color:var(--mu)}
 .user-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:700px){.user-grid{grid-template-columns:1fr}}
-.user-block{padding:16px;border-radius:12px;background:rgba(0,0,0,.02);border:1px solid rgba(0,0,0,.05)}
-.user-block-h{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--mu);margin-bottom:8px}
+.user-block{padding:16px;border-radius:14px;
+  background:rgba(255,255,255,.3);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.4)}
+.user-block-h{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
 .user-block-b{font-size:13px;line-height:1.8;color:var(--sub)}
 .user-block-b ul{margin:4px 0 4px 18px}
 .user-block-b li{margin:3px 0}
 
 /* ─── Comparison table ─── */
-.cmp-table{width:100%;border-collapse:separate;border-spacing:0;margin:20px 0;font-size:13px}
-.cmp-table th{background:rgba(255,87,34,.06);font-weight:800;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--o);padding:12px 14px;text-align:left;border-bottom:2px solid rgba(255,87,34,.15)}
-.cmp-table td{padding:14px;border-bottom:1px solid rgba(0,0,0,.06);vertical-align:top;line-height:1.75;color:var(--sub)}
+.cmp-wrap{overflow-x:auto;border-radius:20px;border:1.5px solid var(--glass-border);
+  background:var(--glass-bg2);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));
+  box-shadow:var(--glass-shadow)}
+.cmp-table{width:100%;border-collapse:separate;border-spacing:0;font-size:13px}
+.cmp-table th{background:rgba(124,58,237,.06);font-weight:800;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--accent);padding:14px 14px;text-align:left;border-bottom:2px solid rgba(124,58,237,.12)}
+.cmp-table td{padding:14px;border-bottom:1px solid rgba(124,58,237,.06);vertical-align:top;line-height:1.75;color:var(--sub)}
 .cmp-table tr:last-child td{border-bottom:none}
 .cmp-table td:first-child{font-weight:700;color:var(--tx);white-space:nowrap;width:100px}
 .cmp-table .negative{color:#C4004A}
-.cmp-table .highlight{background:rgba(245,197,24,.12);padding:1px 5px;border-radius:3px}
+.cmp-table .highlight{background:rgba(124,58,237,.1);padding:1px 5px;border-radius:3px}
 
 /* ─── Positioning section ─── */
 .pos-card{padding:28px;margin:20px 0;text-align:center}
-.pos-card .pos-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--o);font-weight:800;margin-bottom:10px}
+.pos-card .pos-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);font-weight:800;margin-bottom:10px}
 .pos-card .pos-value{font-size:clamp(16px,2vw,20px);font-weight:900;line-height:1.6}
 
-.slogan-box{margin:16px 0;padding:22px;border-radius:14px;border:1.5px dashed}
-.slogan-box.a{border-color:rgba(91,143,237,.4);background:rgba(91,143,237,.04)}
-.slogan-box.b{border-color:rgba(61,191,191,.4);background:rgba(61,191,191,.04)}
+.slogan-box{margin:16px 0;padding:22px;border-radius:18px;border:1.5px dashed;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.slogan-box.a{border-color:rgba(99,102,241,.4);background:rgba(99,102,241,.05)}
+.slogan-box.b{border-color:rgba(20,184,166,.4);background:rgba(20,184,166,.05)}
 .slogan-label{font-size:11px;font-weight:800;letter-spacing:1px;margin-bottom:8px}
-.slogan-box.a .slogan-label{color:var(--b)}
-.slogan-box.b .slogan-label{color:var(--t)}
+.slogan-box.a .slogan-label{color:var(--blue)}
+.slogan-box.b .slogan-label{color:var(--teal)}
 .slogan-text{font-size:15px;font-weight:700;line-height:1.7;color:var(--tx)}
 .slogan-note{font-size:12px;color:var(--mu);line-height:1.7;margin-top:8px}
 
@@ -162,66 +205,87 @@ section{position:relative;z-index:1}
 .rtb-icon{font-size:36px;margin-bottom:10px}
 .rtb-h{font-size:16px;font-weight:900;margin-bottom:8px}
 .rtb-items{text-align:left;margin-top:14px}
-.rtb-item{margin:10px 0;padding:12px;border-radius:10px;background:rgba(0,0,0,.025)}
-.rtb-item-h{font-size:12px;font-weight:800;color:var(--o);margin-bottom:4px}
+.rtb-item{margin:10px 0;padding:12px;border-radius:12px;
+  background:rgba(255,255,255,.25);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,.3)}
+.rtb-item-h{font-size:12px;font-weight:800;color:var(--accent);margin-bottom:4px}
 .rtb-item-b{font-size:13px;color:var(--sub);line-height:1.7}
-
-/* Separator */
-.sep{height:1px;background:linear-gradient(90deg,transparent,var(--bd),transparent);margin:0}
-
-/* Hero */
-#hero{
-  min-height:60vh;display:flex;align-items:center;justify-content:center;text-align:center;
-  padding:60px 32px;
-  background:linear-gradient(180deg,#FFF4EE 0%,var(--bg) 100%);
-  position:relative;overflow:hidden;
-}
-#hero::after{
-  content:'';position:absolute;top:10%;right:-5%;width:300px;height:300px;
-  border-radius:50%;background:rgba(255,87,34,.06);filter:blur(60px);pointer-events:none;
-}
-#hero::before{
-  content:'';position:absolute;bottom:5%;left:-5%;width:250px;height:250px;
-  border-radius:50%;background:rgba(61,191,191,.06);filter:blur(60px);pointer-events:none;
-}
-.hero-tag{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  border:1.5px solid var(--glass-border);
-  color:var(--o);font-size:11px;font-weight:800;
-  letter-spacing:2px;padding:7px 20px;border-radius:100px;
-  margin-bottom:28px;
-}
-.hero-h{font-size:clamp(32px,5vw,56px);font-weight:900;line-height:1.2;letter-spacing:-1.5px;margin-bottom:16px}
-.hero-sub{font-size:clamp(16px,2.5vw,22px);font-weight:700;color:var(--sub);margin-bottom:12px}
-.hero-desc{font-size:15px;color:var(--mu);max-width:500px;margin:0 auto 36px;line-height:1.8}
 
 /* Demand type pills */
 .demand-pills{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:20px 0}
-.demand-pill{
-  padding:8px 18px;border-radius:100px;font-size:13px;font-weight:700;
-  border:1.5px solid;
-}
+.demand-pill{padding:8px 18px;border-radius:100px;font-size:13px;font-weight:700;border:1.5px solid;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .demand-pill.active{color:#fff;border-color:transparent}
 
-/* Channel insight */
+/* Channel cards */
 .channel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
 @media(max-width:600px){.channel-grid{grid-template-columns:1fr}}
-.channel-card{text-align:center;padding:20px 14px}
 .channel-name{font-size:14px;font-weight:800;margin-bottom:4px}
 .channel-desc{font-size:12px;color:var(--mu);line-height:1.6}
 
 /* Effectiveness ladder */
 .ladder{display:flex;flex-direction:column;gap:0;margin:20px 0}
 .ladder-group-h{font-size:12px;font-weight:800;letter-spacing:1px;color:var(--mu);margin:16px 0 8px;text-transform:uppercase}
-.ladder-step{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;border-radius:12px;margin:4px 0;background:rgba(0,0,0,.02);border:1px solid rgba(0,0,0,.04)}
-.ladder-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex-shrink:0}
+.ladder-step{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;border-radius:14px;margin:4px 0;
+  background:rgba(255,255,255,.25);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.35)}
+.ladder-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex-shrink:0;
+  box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .ladder-content{flex:1}
 .ladder-h{font-size:13px;font-weight:800;margin-bottom:4px}
 .ladder-q{font-size:12px;color:var(--mu);line-height:1.7;font-style:italic;margin-top:4px}
 
-/* Footer */
-footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);background:var(--bg)}
+/* Separator */
+.sep{height:1px;background:linear-gradient(90deg,transparent,rgba(124,58,237,.15),transparent);margin:0}
+
+/* ═══════ HERO ═══════ */
+#hero{
+  min-height:60vh;display:flex;align-items:center;justify-content:center;text-align:center;
+  padding:60px 32px;
+  background:linear-gradient(160deg,#E8E0F8 0%,#E0E8FF 40%,#D8F4F0 100%);
+  position:relative;overflow:hidden;
+}
+#hero::after{
+  content:'';position:absolute;top:5%;right:10%;width:350px;height:350px;
+  border-radius:50%;background:rgba(124,58,237,.1);filter:blur(80px);pointer-events:none;
+  animation:float 8s ease-in-out infinite alternate;
+}
+#hero::before{
+  content:'';position:absolute;bottom:10%;left:5%;width:300px;height:300px;
+  border-radius:50%;background:rgba(45,212,191,.1);filter:blur(80px);pointer-events:none;
+  animation:float 10s ease-in-out infinite alternate-reverse;
+}
+@keyframes float{0%{transform:translate(0,0)}100%{transform:translate(30px,-20px)}}
+
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.4);
+  backdrop-filter:blur(16px) saturate(1.6);-webkit-backdrop-filter:blur(16px) saturate(1.6);
+  border:1.5px solid rgba(255,255,255,.6);
+  color:var(--accent);font-size:11px;font-weight:800;
+  letter-spacing:2px;padding:7px 20px;border-radius:100px;
+  margin-bottom:28px;
+  box-shadow:0 4px 16px rgba(124,58,237,.08);
+}
+.hero-h{font-size:clamp(32px,5vw,56px);font-weight:900;line-height:1.2;letter-spacing:-1.5px;margin-bottom:16px;
+  background:linear-gradient(135deg,var(--tx) 30%,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:clamp(16px,2.5vw,22px);font-weight:700;color:var(--sub);margin-bottom:12px}
+.hero-desc{font-size:15px;color:var(--mu);max-width:500px;margin:0 auto 36px;line-height:1.8}
+
+/* Floating orbs */
+.orb{position:absolute;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(255,255,255,.3),transparent 70%);
+  backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);
+  border:1px solid rgba(255,255,255,.3)}
+.orb-1{width:200px;height:200px;top:10%;left:5%;animation:orb1 12s ease-in-out infinite}
+.orb-2{width:150px;height:150px;bottom:15%;right:8%;animation:orb2 10s ease-in-out infinite}
+.orb-3{width:100px;height:100px;top:60%;left:60%;animation:orb1 8s ease-in-out infinite reverse}
+@keyframes orb1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(20px,-15px) scale(1.05)}}
+@keyframes orb2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-15px,20px) scale(1.08)}}
+
+footer{text-align:center;padding:48px 32px;border-top:1px solid rgba(124,58,237,.1);
+  background:rgba(255,255,255,.15);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 </style>
 </head>
 <body>
@@ -241,22 +305,25 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
 <!-- ═══════ HERO ═══════ -->
 <section id="s0">
   <div id="hero">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
     <div style="position:relative;z-index:1;max-width:680px">
-      <div class="hero-tag">从小学系列 · 用户调研报告 · 2026</div>
-      <h1 class="hero-h">【重要信息同步&讨论】<br><span class="o">从小学系列调研</span></h1>
-      <p class="hero-sub">访谈共6人，以1-4年级为主</p>
-      <p class="hero-desc">购买对象包括从小学物理、妙懂系列、NB实验室、万物指南、三五小星、学而思、赛先生等</p>
-      <div class="stat-grid" style="max-width:500px;margin:0 auto">
-        <div class="glass-sm stat-card rv d1">
-          <div class="stat-v o">6</div>
+      <div class="hero-tag rv">从小学系列 · 用户调研报告 · 2026</div>
+      <h1 class="hero-h rv d1">【重要信息同步&讨论】<br><span style="-webkit-text-fill-color:var(--accent)">从小学系列调研</span></h1>
+      <p class="hero-sub rv d2">访谈共6人，以1-4年级为主</p>
+      <p class="hero-desc rv d2">购买对象包括从小学物理、妙懂系列、NB实验室、万物指南、三五小星、学而思、赛先生等</p>
+      <div class="stat-grid rv d3" style="max-width:500px;margin:0 auto">
+        <div class="glass-sm stat-card">
+          <div class="stat-v">6</div>
           <div class="stat-l">深度访谈用户</div>
         </div>
-        <div class="glass-sm stat-card rv d2">
-          <div class="stat-v t">7+</div>
+        <div class="glass-sm stat-card">
+          <div class="stat-v">7+</div>
           <div class="stat-l">覆盖竞品品牌</div>
         </div>
-        <div class="glass-sm stat-card rv d3">
-          <div class="stat-v b">1-4</div>
+        <div class="glass-sm stat-card">
+          <div class="stat-v">1-4</div>
           <div class="stat-l">年级覆盖范围</div>
         </div>
       </div>
@@ -267,42 +334,42 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
 <div class="sep"></div>
 
 <!-- ═══════ S1 · 售卖数据 ═══════ -->
-<section id="s1" style="background:var(--bg)">
+<section id="s1" style="padding:20px 0">
   <div class="wrap">
     <div class="rv">
       <div class="ch-n">01 · 课程售卖情况</div>
-      <h2 class="ch-h">已购用户<span class="o">年级 &amp; 渠道</span>分布</h2>
-      <p class="ch-s">截至5月12日，已购用户整体（含从小学物理、地理、生物）——1-3年级占比<strong class="o">60%</strong>（新媒体近7成），从5年级开始就断崖式下降。</p>
+      <h2 class="ch-h">已购用户年级 &amp; 渠道分布</h2>
+      <p class="ch-s">截至5月12日，已购用户整体（含从小学物理、地理、生物）——1-3年级占比<strong class="ac">60%</strong>（新媒体近7成），从5年级开始就断崖式下降。</p>
     </div>
 
     <div class="glass rv d1" style="margin-bottom:24px">
-      <p style="font-size:13px;color:var(--sub);line-height:1.8;margin-bottom:16px">和我们之前讲的优势卖点——小初衔接，不匹配。<strong style="color:var(--r)">小低和小中</strong>更愿意、<strong style="color:var(--r)">更认可从小学系列</strong>。所以，我们调研的重要人群是<strong class="b">1-4年级</strong>，为何买洋葱！以及为何买竞品。</p>
-      <p style="font-size:12px;color:var(--b);line-height:1.7">因为扩展天然用金钱投票喜欢洋葱的人，相比不喜欢洋葱的人相比来说，更简单！</p>
+      <p style="font-size:13px;color:var(--sub);line-height:1.8;margin-bottom:16px">和我们之前讲的优势卖点——小初衔接，不匹配。<strong class="rs">小低和小中</strong>更愿意、<strong class="rs">更认可从小学系列</strong>。所以，我们调研的重要人群是<strong class="bl">1-4年级</strong>，为何买洋葱！以及为何买竞品。</p>
+      <p style="font-size:12px;color:var(--blue);line-height:1.7">因为扩展天然用金钱投票喜欢洋葱的人，相比不喜欢洋葱的人相比来说，更简单！</p>
     </div>
 
     <h3 class="rv d2" style="font-size:15px;font-weight:800;margin-bottom:16px">年级分布</h3>
     <div class="glass rv d2" style="margin-bottom:24px">
-      <div class="bar-row"><span class="bar-label">1年级</span><div class="bar-track"><div class="bar-fill" style="width:15%;background:var(--t)"></div><span class="bar-pct">约15%</span></div></div>
-      <div class="bar-row"><span class="bar-label">2年级</span><div class="bar-track"><div class="bar-fill" style="width:20%;background:var(--t)"></div><span class="bar-pct">约20%</span></div></div>
-      <div class="bar-row"><span class="bar-label">3年级</span><div class="bar-track"><div class="bar-fill" style="width:25%;background:var(--o)"></div><span class="bar-pct">约25%</span></div></div>
-      <div class="bar-row"><span class="bar-label">4年级</span><div class="bar-track"><div class="bar-fill" style="width:18%;background:var(--b)"></div><span class="bar-pct">约18%</span></div></div>
-      <div class="bar-row"><span class="bar-label">5年级</span><div class="bar-track"><div class="bar-fill" style="width:8%;background:var(--r)"></div><span class="bar-pct">↓断崖</span></div></div>
-      <div class="bar-row"><span class="bar-label">6年级+</span><div class="bar-track"><div class="bar-fill" style="width:5%;background:var(--mu)"></div><span class="bar-pct">极低</span></div></div>
+      <div class="bar-row"><span class="bar-label">1年级</span><div class="bar-track"><div class="bar-fill" style="width:15%"></div><span class="bar-pct">约15%</span></div></div>
+      <div class="bar-row"><span class="bar-label">2年级</span><div class="bar-track"><div class="bar-fill" style="width:20%"></div><span class="bar-pct">约20%</span></div></div>
+      <div class="bar-row"><span class="bar-label">3年级</span><div class="bar-track"><div class="bar-fill" style="width:25%"></div><span class="bar-pct">约25%</span></div></div>
+      <div class="bar-row"><span class="bar-label">4年级</span><div class="bar-track"><div class="bar-fill" style="width:18%"></div><span class="bar-pct">约18%</span></div></div>
+      <div class="bar-row"><span class="bar-label">5年级</span><div class="bar-track"><div class="bar-fill" style="width:8%"></div><span class="bar-pct">↓断崖</span></div></div>
+      <div class="bar-row"><span class="bar-label">6年级+</span><div class="bar-track"><div class="bar-fill" style="width:5%"></div><span class="bar-pct">极低</span></div></div>
       <p style="font-size:11px;color:var(--mu);margin-top:12px">注：1-3年级合计约60%，新媒体渠道近7成</p>
     </div>
 
     <h3 class="rv d3" style="font-size:15px;font-weight:800;margin-bottom:16px">渠道交叉分析</h3>
     <div class="channel-grid rv d3">
-      <div class="glass-sm">
-        <div class="channel-name" style="color:var(--o)">新媒体</div>
+      <div class="glass-sm" style="text-align:center">
+        <div class="channel-name" style="color:var(--accent)">新媒体</div>
         <div class="channel-desc">新用户居多</div>
       </div>
-      <div class="glass-sm">
-        <div class="channel-name" style="color:var(--b)">APP</div>
+      <div class="glass-sm" style="text-align:center">
+        <div class="channel-name" style="color:var(--blue)">APP</div>
         <div class="channel-desc">付费用户居多</div>
       </div>
-      <div class="glass-sm">
-        <div class="channel-name" style="color:var(--t)">电销/网销</div>
+      <div class="glass-sm" style="text-align:center">
+        <div class="channel-name" style="color:var(--teal)">电销/网销</div>
         <div class="channel-desc">高净值付费用户居多</div>
       </div>
     </div>
@@ -315,29 +382,29 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
 <div class="sep"></div>
 
 <!-- ═══════ S2 · 整体发现 ═══════ -->
-<section id="s2" style="background:var(--bg2)">
+<section id="s2" style="padding:20px 0">
   <div class="wrap">
     <div class="rv">
       <div class="ch-n">02 · 调研结论同步 — 整体发现</div>
-      <h2 class="ch-h">四类购买诉求，<br>真正要占的是<span class="o">「学科启蒙」</span></h2>
+      <h2 class="ch-h">四类购买诉求，真正要占的是「学科启蒙」</h2>
       <p class="ch-s">从购买诉求来看，访谈用户可分为4类。而《从小学物理》如果希望卖爆，真正要占领的是【在家长心里还没被明确定义，但确有实际需求】的中间地带。</p>
     </div>
 
     <div class="demand-pills rv d1">
-      <span class="demand-pill" style="border-color:var(--t);color:var(--t)">兴趣启蒙</span>
-      <span class="demand-pill active" style="background:var(--o)">学科启蒙</span>
-      <span class="demand-pill" style="border-color:var(--b);color:var(--b)">衔接先修（小初衔接）</span>
-      <span class="demand-pill" style="border-color:var(--v);color:var(--v)">校内同步学小学科学</span>
+      <span class="demand-pill" style="border-color:var(--teal);color:var(--teal)">兴趣启蒙</span>
+      <span class="demand-pill active" style="background:linear-gradient(135deg,var(--accent),var(--blue))">学科启蒙</span>
+      <span class="demand-pill" style="border-color:var(--blue);color:var(--blue)">衔接先修（小初衔接）</span>
+      <span class="demand-pill" style="border-color:var(--amber);color:var(--amber)">校内同步学小学科学</span>
     </div>
 
     <div class="glass rv d2" style="margin:28px 0">
       <p style="font-size:14px;font-weight:700;margin-bottom:14px">为什么不选择其他赛道？</p>
       <div style="font-size:13px;color:var(--sub);line-height:1.85">
-        <p><strong class="b">兴趣启蒙：竞争激烈，红海市场</strong><br>一边有方便&实惠&护眼的绘本/科普类书籍，一边有线上化更有趣、更主流的竞品（如：斑马、叫叫等），洋葱做「课」起家，在这类的竞争不一定有优势</p>
+        <p><strong class="bl">兴趣启蒙：竞争激烈，红海市场</strong><br>一边有方便&实惠&护眼的绘本/科普类书籍，一边有线上化更有趣、更主流的竞品（如：斑马、叫叫等），洋葱做「课」起家，在这类的竞争不一定有优势</p>
         <br>
-        <p><strong class="b">衔接先修/小初衔接：需求和课程解决方案不匹配</strong><br>有「提前学理科」需求的用户，更多希望能偏向直接对标课本教材，可以购买洋葱小初6年卡，直接学习【初中物理同步课】</p>
+        <p><strong class="bl">衔接先修/小初衔接：需求和课程解决方案不匹配</strong><br>有「提前学理科」需求的用户，更多希望能偏向直接对标课本教材，可以购买洋葱小初6年卡，直接学习【初中物理同步课】</p>
         <br>
-        <p><strong class="b">校内同步学小学科学：需求太小众，盘子太小，且目前的内容做不到同步</strong><br>目前6位用户中，只有1位用户表示【科学是主课，希望孩子同步校内学】，但在购买后发现不同步，体验折损</p>
+        <p><strong class="bl">校内同步学小学科学：需求太小众，盘子太小，且目前的内容做不到同步</strong><br>目前6位用户中，只有1位用户表示【科学是主课，希望孩子同步校内学】，但在购买后发现不同步，体验折损</p>
         <div class="quote">"对课程的预期，虽然顺序不一样但是可能知识点都有，但是后面发现不一样，四上的内容找不到。"</div>
       </div>
     </div>
@@ -347,15 +414,15 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
 <div class="sep"></div>
 
 <!-- ═══════ S3 · 需求端 ═══════ -->
-<section id="s3" style="background:var(--bg)">
+<section id="s3" style="padding:20px 0">
   <div class="wrap">
     <div class="rv">
       <div class="ch-n">03 · 需求端洞察</div>
-      <h2 class="ch-h">家长说不出<span class="o">「学科启蒙」</span><br>但需求真实存在</h2>
+      <h2 class="ch-h">家长说不出「学科启蒙」但需求真实存在</h2>
     </div>
 
-    <div class="callout blue rv d1">
-      <div class="callout-h" style="color:var(--b)">关于需求</div>
+    <div class="callout purple rv d1">
+      <div class="callout-h" style="color:var(--accent)">关于需求</div>
       <div class="callout-b"><strong>家长无法直接说出口【学科启蒙】四个字，但需求真实存在</strong></div>
     </div>
 
@@ -370,8 +437,8 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
       <p style="font-size:14px;line-height:1.85;color:var(--sub);margin-top:12px">所以<strong>"兴趣"更像入口，未来的"学科价值"才是最终合理化购买的理由</strong></p>
     </div>
 
-    <div class="callout blue rv d2" style="margin-top:28px">
-      <div class="callout-h" style="color:var(--b)">关于预期</div>
+    <div class="callout purple rv d2" style="margin-top:28px">
+      <div class="callout-h" style="color:var(--accent)">关于预期</div>
       <div class="callout-b"><strong>家长对"启蒙有效"的终极判断是【未来有用】，但短期内仍以「孩子爱看」作为主要依据</strong></div>
     </div>
 
@@ -381,33 +448,33 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
       <p class="ladder-group-h">短期：小学阶段</p>
       <div class="ladder">
         <div class="ladder-step">
-          <div class="ladder-num" style="background:var(--t)">1</div>
+          <div class="ladder-num" style="background:linear-gradient(135deg,var(--teal),#10B981)">1</div>
           <div class="ladder-content">
-            <div class="ladder-h" style="color:var(--t)">有兴趣（多数家长集中在这部分）</div>
+            <div class="ladder-h" style="color:var(--teal)">有兴趣（多数家长集中在这部分）</div>
             <div style="font-size:13px;color:var(--sub)">孩子喜欢看，不用父母催会主动学</div>
             <div class="ladder-q">"有兴趣会主动去做（实验），是孩子自己要求报的，不需要家长强迫。"</div>
           </div>
         </div>
         <div class="ladder-step">
-          <div class="ladder-num" style="background:var(--b)">2</div>
+          <div class="ladder-num" style="background:linear-gradient(135deg,var(--blue),#818CF8)">2</div>
           <div class="ladder-content">
-            <div class="ladder-h" style="color:var(--b)">有思考意识</div>
+            <div class="ladder-h" style="color:var(--blue)">有思考意识</div>
             <div style="font-size:13px;color:var(--sub)">孩子看到生活现象，能知道/想到问"为什么"</div>
             <div class="ladder-q">"生活中的现象，孩子看到了能知道是怎么回事，能想一下为啥会有这个现象。"</div>
           </div>
         </div>
         <div class="ladder-step">
-          <div class="ladder-num" style="background:var(--o)">3</div>
+          <div class="ladder-num" style="background:linear-gradient(135deg,var(--accent),#9333EA)">3</div>
           <div class="ladder-content">
-            <div class="ladder-h" style="color:var(--o)">能理解本质</div>
+            <div class="ladder-h" style="color:var(--accent)">能理解本质</div>
             <div style="font-size:13px;color:var(--sub)">孩子能大概说出现象背后的原理</div>
             <div class="ladder-q">"孩子大概了解这个内容，能说出一些基本原理，有概念性认知即可。"</div>
           </div>
         </div>
         <div class="ladder-step">
-          <div class="ladder-num" style="background:var(--r)">4</div>
+          <div class="ladder-num" style="background:linear-gradient(135deg,var(--rose),#E11D48)">4</div>
           <div class="ladder-content">
-            <div class="ladder-h" style="color:var(--r)">能承接提前学</div>
+            <div class="ladder-h" style="color:var(--rose)">能承接提前学</div>
             <div style="font-size:13px;color:var(--sub)">学完后，基本就能跟着教材同步提前学了</div>
             <div class="ladder-q">"现在主要是先提前了解下，五六年级还是得提前学（初中物理）。"</div>
           </div>
@@ -417,17 +484,17 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
       <p class="ladder-group-h">长期：初中阶段</p>
       <div class="ladder">
         <div class="ladder-step">
-          <div class="ladder-num" style="background:var(--v)">5</div>
+          <div class="ladder-num" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA)">5</div>
           <div class="ladder-content">
-            <div class="ladder-h" style="color:var(--v)">接受度</div>
+            <div class="ladder-h" style="color:#8B5CF6">接受度</div>
             <div style="font-size:13px;color:var(--sub)">正式学理科时不陌生/不排斥</div>
             <div class="ladder-q">"印象中有这个东西，不排斥这个学科就好。"</div>
           </div>
         </div>
         <div class="ladder-step">
-          <div class="ladder-num" style="background:var(--g)">6</div>
+          <div class="ladder-num" style="background:linear-gradient(135deg,#10B981,#34D399)">6</div>
           <div class="ladder-content">
-            <div class="ladder-h" style="color:var(--g)">学习效果</div>
+            <div class="ladder-h" style="color:#10B981">学习效果</div>
             <div style="font-size:13px;color:var(--sub)">学的比别人更快更好</div>
             <div class="ladder-q">"到真正学物理的时候，讲到的时候孩子都知道，比其他同学更好吸收老师讲的内容。"</div>
           </div>
@@ -438,13 +505,13 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
     <p class="rv d4" style="font-size:13px;color:var(--sub);line-height:1.8;margin-top:20px">这说明洋葱可以主动定义这个品类，切分启蒙的细分赛道，而不是只跟着竞品说"启蒙"。</p>
 
     <div class="callout rose rv d4" style="margin-top:28px">
-      <div class="callout-h" style="color:var(--r)">问题</div>
+      <div class="callout-h" style="color:var(--rose)">问题</div>
       <div class="callout-b"><strong>【未来有用】是最终结果，但达成路径是缺失的，导致家长会因「不确定性」而打消下单</strong></div>
       <div class="quote" style="margin-top:12px">"到初中正式学物理才能看出来，现在没法判断。"</div>
     </div>
 
     <div class="callout teal rv d4" style="margin-top:16px">
-      <div class="callout-h" style="color:var(--t)">机会</div>
+      <div class="callout-h" style="color:var(--teal)">机会</div>
       <div class="callout-b"><strong>阶段性地"效果外化"，「让家长看到」是明显的机会点</strong></div>
       <div class="quote" style="margin-top:12px">"不知道怎么看出孩子的变化、吸收了多少，还是希望看到孩子学到什么，记住什么"</div>
     </div>
@@ -465,19 +532,19 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
 <div class="sep"></div>
 
 <!-- ═══════ S4 · 供给端 ═══════ -->
-<section id="s4" style="background:var(--bg2)">
+<section id="s4" style="padding:20px 0">
   <div class="wrap">
     <div class="rv">
       <div class="ch-n">04 · 供给端洞察</div>
-      <h2 class="ch-h">竞品优势清晰，<br>洋葱差异化靠<span class="o">「孩子视角」</span></h2>
+      <h2 class="ch-h">竞品优势清晰，洋葱差异化靠「孩子视角」</h2>
     </div>
 
     <div class="callout blue rv d1">
-      <div class="callout-h" style="color:var(--b)">问题</div>
+      <div class="callout-h" style="color:var(--blue)">问题</div>
       <div class="callout-b"><strong>相比竞品，洋葱在家长心中的「优势定位」不够突出</strong></div>
     </div>
     <div class="callout teal rv d1" style="margin-top:8px">
-      <div class="callout-h" style="color:var(--t)">洋葱差异化机会点</div>
+      <div class="callout-h" style="color:var(--teal)">洋葱差异化机会点</div>
       <div class="callout-b">【学科启蒙】相比【教材同步】，更需要<strong class="yhl">以孩子视角和口吻</strong>讲解；而这正是竞品被家长诟病的共性问题，同时也是洋葱的核心品牌优势</div>
     </div>
 
@@ -485,10 +552,10 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
 
     <div class="glass rv d2" style="margin-bottom:16px">
       <div style="font-size:13px;color:var(--sub);line-height:1.85">
-        <p><strong>NB实验室：</strong>强在<span class="yhl">虚拟实验</span>、终身制、教材覆盖，但孩子理解门槛和讲解陪伴弱。</p>
-        <p style="margin-top:8px"><strong>学而思/赛先生科学：</strong>强在<span class="yhl">真人老师、动手实验、课堂反馈</span>，但贵、占时间、讲解不孩子视角。</p>
-        <p style="margin-top:8px"><strong>妙懂：</strong>强在<span class="yhl">AR和题库</span>，但部分家长觉得偏正式、偏应试，孩子未必持续爱看。</p>
-        <p style="margin-top:8px"><strong>万物指南：</strong>强在<span class="yhl">IP权威</span>，但家长看不到"到底学会了什么"</p>
+        <p><strong>NB实验室：</strong>强在<span class="hl">虚拟实验</span>、终身制、教材覆盖，但孩子理解门槛和讲解陪伴弱。</p>
+        <p style="margin-top:8px"><strong>学而思/赛先生科学：</strong>强在<span class="hl">真人老师、动手实验、课堂反馈</span>，但贵、占时间、讲解不孩子视角。</p>
+        <p style="margin-top:8px"><strong>妙懂：</strong>强在<span class="hl">AR和题库</span>，但部分家长觉得偏正式、偏应试，孩子未必持续爱看。</p>
+        <p style="margin-top:8px"><strong>万物指南：</strong>强在<span class="hl">IP权威</span>，但家长看不到"到底学会了什么"</p>
       </div>
     </div>
 
@@ -497,13 +564,13 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
     <div class="glass rv d3" style="margin-bottom:16px">
       <div style="font-size:13px;color:var(--sub);line-height:1.85">
         <p>洋葱目前被认可的优势是：<strong>动画孩子爱看、品牌信任、买大会员冲动消费顺手带一件、校内同步</strong></p>
-        <p style="margin-top:8px">短板集中在：<strong style="color:var(--r)">不够"孩子视角"</strong>、缺少持续学习机制、实验感不足、不够同步</p>
+        <p style="margin-top:8px">短板集中在：<strong class="rs">不够"孩子视角"</strong>、缺少持续学习机制、实验感不足、不够同步</p>
       </div>
       <p style="font-size:11px;color:var(--mu);line-height:1.7;margin-top:14px;font-style:italic;text-decoration:underline">Todo：目前不确定是「课程卖点」击中率整体不高，还是没访到真正被「课程卖点」击中的用户，后续会继续针对【从小学已购用户】的访谈</p>
     </div>
 
     <div class="callout blue rv d4">
-      <div class="callout-h" style="color:var(--b)">售卖话术</div>
+      <div class="callout-h" style="color:var(--blue)">售卖话术</div>
       <div class="callout-b"><strong>"终身/永久"是很强的购买理由，但也是孩子"用不起来"的原因</strong><br><br>多位家长反复提到永久有效、终身制、以后也能看。这类课不是高频刚需，所以"现在不学以后还能用"会显著降低购买阻力。但孩子用不起来，可能对使用体验有潜在影响<span style="color:var(--mu)">（次优先级，主要是为了售卖）</span></div>
     </div>
   </div>
@@ -512,15 +579,14 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
 <div class="sep"></div>
 
 <!-- ═══════ S5 · 单个用户分析 ═══════ -->
-<section id="s5" style="background:var(--bg)">
+<section id="s5" style="padding:20px 0">
   <div class="wrap">
     <div class="rv">
       <div class="ch-n">05 · 单个用户归纳分析</div>
-      <h2 class="ch-h">6位家长的<span class="o">真实故事</span></h2>
+      <h2 class="ch-h">6位家长的真实故事</h2>
       <p class="ch-s">5人中，4人学科启蒙，1人兴趣启蒙，1人学科启蒙+兴趣启蒙</p>
     </div>
 
-    <!-- 整体总结 -->
     <div class="glass rv d1" style="margin-bottom:20px">
       <p style="font-size:14px;font-weight:800;margin-bottom:12px">整体总结</p>
       <div style="font-size:13px;color:var(--sub);line-height:1.85">
@@ -532,9 +598,9 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
     <!-- 用户1 -->
     <div class="user-card glass rv d1">
       <div class="user-hdr">
-        <div class="user-av" style="background:var(--t)">1</div>
+        <div class="user-av" style="background:linear-gradient(135deg,var(--teal),#10B981)">1</div>
         <div><div class="user-name">王女士</div><div class="user-meta">二年级 · 山东临沂</div></div>
-        <span class="demand-pill active" style="background:var(--o);font-size:11px;margin-left:auto;padding:4px 12px">学科启蒙</span>
+        <span class="demand-pill active" style="background:linear-gradient(135deg,var(--accent),var(--blue));font-size:11px;margin-left:auto;padding:4px 12px">学科启蒙</span>
       </div>
       <div class="user-grid">
         <div class="user-block">
@@ -547,24 +613,20 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
         </div>
         <div class="user-block">
           <div class="user-block-h">购买动因</div>
-          <div class="user-block-b">
-            <ul>
-              <li><strong>共性：</strong>永久有效（妙懂、NB）；覆盖初高中题库/实验（万物、NB）</li>
-              <li><strong>NB：</strong>触屏模拟安全便捷，覆盖初高中</li>
-              <li><strong>学而思：</strong>模拟实验无法代替真实动手实验</li>
-              <li><strong>万物指南：</strong>吴姥姥靠谱权威，简洁明了无废话</li>
-            </ul>
-          </div>
+          <div class="user-block-b"><ul>
+            <li><strong>共性：</strong>永久有效（妙懂、NB）；覆盖初高中题库/实验（万物、NB）</li>
+            <li><strong>NB：</strong>触屏模拟安全便捷，覆盖初高中</li>
+            <li><strong>学而思：</strong>模拟实验无法代替真实动手实验</li>
+            <li><strong>万物指南：</strong>吴姥姥靠谱权威，简洁明了无废话</li>
+          </ul></div>
         </div>
         <div class="user-block">
           <div class="user-block-h">对洋葱的启发</div>
-          <div class="user-block-b">
-            <ul>
-              <li><strong>定位：</strong>洋葱更合适的表达应紧扣学科启蒙：<span class="yhl">为孩子建立理科世界观、不刷题/不抢跑，但提前形成理科框架</span></li>
-              <li><strong>专业背书：</strong>中低线城市吃背书，可从<span class="yhl">权威</span>和<span class="yhl">荣誉</span>考虑</li>
-              <li><strong>内容：</strong>不要太低智，要做到<span class="yhl">"精"</span></li>
-            </ul>
-          </div>
+          <div class="user-block-b"><ul>
+            <li><strong>定位：</strong>洋葱更合适的表达应紧扣学科启蒙：<span class="yhl">为孩子建立理科世界观、不刷题/不抢跑，但提前形成理科框架</span></li>
+            <li><strong>专业背书：</strong>中低线城市吃背书，可从<span class="yhl">权威</span>和<span class="yhl">荣誉</span>考虑</li>
+            <li><strong>内容：</strong>不要太低智，要做到<span class="yhl">"精"</span></li>
+          </ul></div>
         </div>
       </div>
     </div>
@@ -572,9 +634,9 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
     <!-- 用户2 -->
     <div class="user-card glass rv d2">
       <div class="user-hdr">
-        <div class="user-av" style="background:var(--b)">2</div>
+        <div class="user-av" style="background:linear-gradient(135deg,var(--blue),#818CF8)">2</div>
         <div><div class="user-name">王先生</div><div class="user-meta">三年级 · 北京昌平</div></div>
-        <span class="demand-pill active" style="background:var(--o);font-size:11px;margin-left:auto;padding:4px 12px">学科启蒙（偏实验）</span>
+        <span class="demand-pill active" style="background:linear-gradient(135deg,var(--accent),var(--blue));font-size:11px;margin-left:auto;padding:4px 12px">学科启蒙（偏实验）</span>
       </div>
       <div class="user-grid">
         <div class="user-block">
@@ -583,31 +645,24 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
         </div>
         <div class="user-block">
           <div class="user-block-h">对「启蒙」的态度</div>
-          <div class="user-block-b">
-            <ul>
-              <li>自己是文科生，理科比较差，不想让孩子跟自己一样</li>
-              <li>学的东西未来要有用，要和中高考挂钩，不能只是玩一玩</li>
-            </ul>
-            <strong>标准：</strong>孩子有兴趣，愿意主动学；对科学书籍接纳度提升
-          </div>
+          <div class="user-block-b"><ul>
+            <li>自己是文科生，理科比较差，不想让孩子跟自己一样</li>
+            <li>学的东西未来要有用，要和中高考挂钩，不能只是玩一玩</li>
+          </ul><strong>标准：</strong>孩子有兴趣，愿意主动学；对科学书籍接纳度提升</div>
         </div>
         <div class="user-block">
           <div class="user-block-h">购买动因</div>
-          <div class="user-block-b">
-            <ul>
-              <li><strong>学而思：</strong>初高中理科铺垫；宣传"打比赛"吸引家长</li>
-              <li><strong>NB：</strong>终身制性价比高；覆盖学段广泛；校内同步；内容类型丰富、制作精细</li>
-            </ul>
-          </div>
+          <div class="user-block-b"><ul>
+            <li><strong>学而思：</strong>初高中理科铺垫；宣传"打比赛"吸引家长</li>
+            <li><strong>NB：</strong>终身制性价比高；覆盖学段广泛；校内同步；内容类型丰富、制作精细</li>
+          </ul></div>
         </div>
         <div class="user-block">
           <div class="user-block-h">对洋葱的启发</div>
-          <div class="user-block-b">
-            <ul>
-              <li><strong>定位：</strong>"学科启蒙"是一个<span class="yhl">可被洋葱定义的市场空位</span>，竞品没讲清楚，家长也没有可感知的外化效果</li>
-              <li><strong>启发：</strong>产品不能仅停留在"孩子喜欢看"，应设计成【学科启蒙的"得到/有用"验证闭环】</li>
-            </ul>
-          </div>
+          <div class="user-block-b"><ul>
+            <li><strong>定位：</strong>"学科启蒙"是一个<span class="yhl">可被洋葱定义的市场空位</span>，竞品没讲清楚，家长也没有可感知的外化效果</li>
+            <li><strong>启发：</strong>产品不能仅停留在"孩子喜欢看"，应设计成【学科启蒙的"得到/有用"验证闭环】</li>
+          </ul></div>
         </div>
       </div>
     </div>
@@ -615,9 +670,9 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
     <!-- 用户3 -->
     <div class="user-card glass rv d3">
       <div class="user-hdr">
-        <div class="user-av" style="background:var(--g)">3</div>
+        <div class="user-av" style="background:linear-gradient(135deg,#10B981,#34D399)">3</div>
         <div><div class="user-name">周女士</div><div class="user-meta">二年级 · 广东中山</div></div>
-        <span class="demand-pill" style="border-color:var(--t);color:var(--t);font-size:11px;margin-left:auto;padding:4px 12px">兴趣启蒙</span>
+        <span class="demand-pill" style="border-color:var(--teal);color:var(--teal);font-size:11px;margin-left:auto;padding:4px 12px">兴趣启蒙</span>
       </div>
       <div class="user-grid">
         <div class="user-block">
@@ -634,13 +689,11 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
         </div>
         <div class="user-block">
           <div class="user-block-h">对洋葱的启发</div>
-          <div class="user-block-b">
-            <ul>
-              <li>代表一部分冲动消费的囤课型家长</li>
-              <li>课外兴趣班和主课的时间严重挤压理科启蒙时间</li>
-              <li><span class="yhl">对洋葱来说，需要考虑联售的商业模式对这类家长的付费影响</span></li>
-            </ul>
-          </div>
+          <div class="user-block-b"><ul>
+            <li>代表一部分冲动消费的囤课型家长</li>
+            <li>课外兴趣班和主课的时间严重挤压理科启蒙时间</li>
+            <li><span class="yhl">对洋葱来说，需要考虑联售的商业模式对这类家长的付费影响</span></li>
+          </ul></div>
         </div>
       </div>
     </div>
@@ -648,9 +701,9 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
     <!-- 用户4 -->
     <div class="user-card glass rv d3">
       <div class="user-hdr">
-        <div class="user-av" style="background:var(--o)">4</div>
+        <div class="user-av" style="background:linear-gradient(135deg,var(--accent),#9333EA)">4</div>
         <div><div class="user-name">关女士</div><div class="user-meta">二年级 · 北京顺义</div></div>
-        <span class="demand-pill active" style="background:var(--o);font-size:11px;margin-left:auto;padding:4px 12px">学科启蒙</span>
+        <span class="demand-pill active" style="background:linear-gradient(135deg,var(--accent),var(--blue));font-size:11px;margin-left:auto;padding:4px 12px">学科启蒙</span>
       </div>
       <div class="user-grid">
         <div class="user-block">
@@ -667,13 +720,11 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
         </div>
         <div class="user-block">
           <div class="user-block-h">对洋葱的启发</div>
-          <div class="user-block-b">
-            <ul>
-              <li><strong>"概念理解"是竞品共同痛点：</strong>最需要打磨的是<span class="b">【专业概念儿童化】</span></li>
-              <li><strong>品牌信任显著降低购买决策成本</strong></li>
-              <li>应把<span class="b">"孩子讲给家长听"</span>做成产品机制</li>
-            </ul>
-          </div>
+          <div class="user-block-b"><ul>
+            <li><strong>"概念理解"是竞品共同痛点：</strong>最需要打磨的是<span class="bl">【专业概念儿童化】</span></li>
+            <li><strong>品牌信任显著降低购买决策成本</strong></li>
+            <li>应把<span class="bl">"孩子讲给家长听"</span>做成产品机制</li>
+          </ul></div>
         </div>
       </div>
     </div>
@@ -681,9 +732,9 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
     <!-- 用户5 -->
     <div class="user-card glass rv d4">
       <div class="user-hdr">
-        <div class="user-av" style="background:var(--v)">5</div>
+        <div class="user-av" style="background:linear-gradient(135deg,#8B5CF6,#A78BFA)">5</div>
         <div><div class="user-name">王女士</div><div class="user-meta">三年级 · 重庆渝中</div></div>
-        <span class="demand-pill active" style="background:var(--o);font-size:11px;margin-left:auto;padding:4px 12px">学科+兴趣启蒙</span>
+        <span class="demand-pill active" style="background:linear-gradient(135deg,var(--accent),var(--teal));font-size:11px;margin-left:auto;padding:4px 12px">学科+兴趣启蒙</span>
       </div>
       <div class="user-grid">
         <div class="user-block">
@@ -696,23 +747,19 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
         </div>
         <div class="user-block">
           <div class="user-block-h">购买动因</div>
-          <div class="user-block-b">
-            <ul>
-              <li><strong>三五小星：</strong>最早退货，后来界面更新了复购</li>
-              <li><strong>妙懂：</strong>AR好玩，先玩后续再系统学</li>
-              <li><strong>万物指南：</strong>市面没化学品类（物化捆绑），吴姥姥很厉害</li>
-            </ul>
-          </div>
+          <div class="user-block-b"><ul>
+            <li><strong>三五小星：</strong>最早退货，后来界面更新了复购</li>
+            <li><strong>妙懂：</strong>AR好玩，先玩后续再系统学</li>
+            <li><strong>万物指南：</strong>市面没化学品类（物化捆绑），吴姥姥很厉害</li>
+          </ul></div>
         </div>
         <div class="user-block">
           <div class="user-block-h">对洋葱的启发</div>
-          <div class="user-block-b">
-            <ul>
-              <li>中差生更需保护好奇心，<span class="b">"不排斥"</span>是重点</li>
-              <li>家长<span class="b">区分「启蒙产品」和「应试产品」</span></li>
-              <li>家长需要"学情反馈"，但竞品没解决：<span class="b">不知道孩子吸收多少</span></li>
-            </ul>
-          </div>
+          <div class="user-block-b"><ul>
+            <li>中差生更需保护好奇心，<span class="bl">"不排斥"</span>是重点</li>
+            <li>家长<span class="bl">区分「启蒙产品」和「应试产品」</span></li>
+            <li>家长需要"学情反馈"，但竞品没解决：<span class="bl">不知道孩子吸收多少</span></li>
+          </ul></div>
         </div>
       </div>
     </div>
@@ -720,7 +767,7 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
     <!-- 用户6 -->
     <div class="user-card glass rv d4">
       <div class="user-hdr">
-        <div class="user-av" style="background:var(--mu)">6</div>
+        <div class="user-av" style="background:linear-gradient(135deg,#64748B,#94A3B8)">6</div>
         <div><div class="user-name">王女士</div><div class="user-meta">四年级 · 河南郑州</div></div>
       </div>
       <p style="font-size:13px;color:var(--mu);font-style:italic">（文档中该用户详细数据暂未填入）</p>
@@ -731,15 +778,15 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
 <div class="sep"></div>
 
 <!-- ═══════ S6 · 购买原因&体验横向汇总 ═══════ -->
-<section id="s6" style="background:var(--bg2)">
+<section id="s6" style="padding:20px 0">
   <div class="wrap">
     <div class="rv">
       <div class="ch-n">06 · 购买原因 &amp; 体验横向汇总</div>
-      <h2 class="ch-h">竞品<span class="o">购前 vs 购后</span>对比</h2>
+      <h2 class="ch-h">竞品购前 vs 购后对比</h2>
       <p class="ch-s">共性吸引购买卖点：孩子喜欢/感兴趣 ｜ 终身制/永久有效</p>
     </div>
 
-    <div class="glass rv d1" style="overflow-x:auto;padding:0">
+    <div class="cmp-wrap rv d1">
       <table class="cmp-table">
         <thead>
           <tr><th>产品</th><th>购前：吸引购买卖点</th><th>购后：体验亮点</th><th>购后：体验折损点</th></tr>
@@ -784,25 +831,23 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
 <div class="sep"></div>
 
 <!-- ═══════ S7 · 定位草稿 ═══════ -->
-<section id="s7" style="background:var(--bg3)">
+<section id="s7" style="padding:20px 0">
   <div class="wrap">
     <div class="rv">
       <div class="ch-n">07 · 【施工中】课程定位和卖点（草稿，以终版为准）</div>
-      <h2 class="ch-h">定位、Slogan、<span class="o">三大价值主张</span></h2>
+      <h2 class="ch-h">定位、Slogan、三大价值主张</h2>
       <p class="ch-s">背景：需要产出一套用于课程定位的信息屋，以此指导销售讲清课程价值&直播间售卖话术</p>
     </div>
 
-    <!-- 目标人群 -->
     <div class="glass pos-card rv d1">
       <div class="pos-label">目标人群：主要卖给谁？</div>
       <div class="pos-value"><span class="yhl">小学1-4年级家长</span><span style="color:var(--mu)">（尤其2-4年级）</span></div>
       <p style="font-size:13px;color:var(--sub);line-height:1.8;margin-top:14px;text-align:left">
         他们不是学前（3-6岁）家长的纯兴趣启蒙，也不是小高（5-6年级）家长面对应试压力下的提前学诉求。<br>
-        他们的需求，属于【兴趣启蒙】和【衔接先修】的中间地带——暂未被市场定义的<strong class="b">【学科启蒙】</strong>
+        他们的需求，属于【兴趣启蒙】和【衔接先修】的中间地带——暂未被市场定义的<strong class="bl">【学科启蒙】</strong>
       </p>
     </div>
 
-    <!-- Slogan -->
     <p class="rv d2" style="font-size:14px;font-weight:700;margin:28px 0 8px">一句话表达（Slogan）：说清为什么值得买</p>
     <div class="glass-sm rv d2" style="margin-bottom:12px">
       <p style="font-size:13px;color:var(--sub);line-height:1.8"><strong>品类定义：</strong>《从小学系列》是一门介于兴趣科普和提前学之间的学科启蒙课，用动画把生活现象讲成孩子听得懂、说得出的理科原理</p>
@@ -811,75 +856,47 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
     <div class="slogan-box a rv d2">
       <div class="slogan-label">方案1</div>
       <div class="slogan-text">趣味学科启蒙：孩子听得懂、说得出，初中再学不陌生</div>
-      <div class="slogan-note">家长特征：有学科启蒙意识，又不想过早刷题<br>方向：因果逻辑——上半句是RTB<span style="color:var(--r)">（趣味、听得懂）</span>，下半句是利益点<span style="color:var(--r)">（学得会、初中不陌生）</span></div>
+      <div class="slogan-note">家长特征：有学科启蒙意识，又不想过早刷题<br>方向：因果逻辑——上半句是RTB<span class="rs">（趣味、听得懂）</span>，下半句是利益点<span class="rs">（学得会、初中不陌生）</span></div>
     </div>
     <div class="slogan-box b rv d3">
       <div class="slogan-label">方案2</div>
       <div class="slogan-text">市面唯一「学科启蒙体系」课程，为孩子建立终身受用的理科思维</div>
-      <div class="slogan-note">二级标题：通过物理、化学、生物、地理的体系化启蒙，配合从小学到高考的全链路陪伴<br>方向：核心卖点直给——直接把最核心的卖点讲出来<span style="color:var(--r)">（唯一性、理科思维）</span></div>
+      <div class="slogan-note">二级标题：通过物理、化学、生物、地理的体系化启蒙，配合从小学到高考的全链路陪伴<br>方向：核心卖点直给——直接把最核心的卖点讲出来<span class="rs">（唯一性、理科思维）</span></div>
     </div>
 
-    <!-- 三大价值主张 -->
     <p class="rv d3" style="font-size:14px;font-weight:700;margin:32px 0 8px">三大价值主张（含RTB论据支撑）</p>
 
     <div class="rtb-grid rv d4">
       <div class="glass rtb-card">
         <div class="rtb-icon">❤️</div>
-        <div class="rtb-h" style="color:var(--o)">爱学</div>
+        <div class="rtb-h" style="color:var(--rose)">爱学</div>
         <p style="font-size:12px;color:var(--mu)">孩子越感兴趣，启蒙越有效</p>
         <div class="rtb-items">
-          <div class="rtb-item">
-            <div class="rtb-item-h">RTB 1：数千家庭的选择</div>
-            <div class="rtb-item-b">1353个家庭，人均观看86次；首周人均21.69次，月均看17节</div>
-          </div>
-          <div class="rtb-item">
-            <div class="rtb-item-h">RTB 2：趣味动画课</div>
-            <div class="rtb-item-b">650+节动画视频课，用孩子愿意看的形式传递知识</div>
-          </div>
-          <div class="rtb-item">
-            <div class="rtb-item-h">RTB 3：跟着做的实验</div>
-            <div class="rtb-item-b">300+个真动手实验，孩子能跟着亲手尝试</div>
-          </div>
+          <div class="rtb-item"><div class="rtb-item-h">RTB 1：数千家庭的选择</div><div class="rtb-item-b">1353个家庭，人均观看86次；首周人均21.69次，月均看17节</div></div>
+          <div class="rtb-item"><div class="rtb-item-h">RTB 2：趣味动画课</div><div class="rtb-item-b">650+节动画视频课，用孩子愿意看的形式传递知识</div></div>
+          <div class="rtb-item"><div class="rtb-item-h">RTB 3：跟着做的实验</div><div class="rtb-item-b">300+个真动手实验，孩子能跟着亲手尝试</div></div>
         </div>
       </div>
 
       <div class="glass rtb-card">
         <div class="rtb-icon">💡</div>
-        <div class="rtb-h" style="color:var(--b)">听懂</div>
+        <div class="rtb-h" style="color:var(--blue)">听懂</div>
         <p style="font-size:12px;color:var(--mu)">用孩子的语言讲懂抽象概念</p>
         <div class="rtb-items">
-          <div class="rtb-item">
-            <div class="rtb-item-h">RTB 1：海量学生数据</div>
-            <div class="rtb-item-b">5000亿次使用数据，知道初中生学物理卡在哪</div>
-          </div>
-          <div class="rtb-item">
-            <div class="rtb-item-h">RTB 2：从生活现象切入</div>
-            <div class="rtb-item-b">500+个生活常识出发，让孩子觉得物理"好玩"</div>
-          </div>
-          <div class="rtb-item">
-            <div class="rtb-item-h">RTB 3：独创思维模型</div>
-            <div class="rtb-item-b">3大思维模型：抽象、推理、应用，从现象到规律</div>
-          </div>
+          <div class="rtb-item"><div class="rtb-item-h">RTB 1：海量学生数据</div><div class="rtb-item-b">5000亿次使用数据，知道初中生学物理卡在哪</div></div>
+          <div class="rtb-item"><div class="rtb-item-h">RTB 2：从生活现象切入</div><div class="rtb-item-b">500+个生活常识出发，让孩子觉得物理"好玩"</div></div>
+          <div class="rtb-item"><div class="rtb-item-h">RTB 3：独创思维模型</div><div class="rtb-item-b">3大思维模型：抽象、推理、应用，从现象到规律</div></div>
         </div>
       </div>
 
       <div class="glass rtb-card">
         <div class="rtb-icon">✅</div>
-        <div class="rtb-h" style="color:var(--g)">有用</div>
+        <div class="rtb-h" style="color:var(--teal)">有用</div>
         <p style="font-size:12px;color:var(--mu)">让启蒙效果听得见、看得着</p>
         <div class="rtb-items">
-          <div class="rtb-item">
-            <div class="rtb-item-h">RTB 1：体系化理科启蒙</div>
-            <div class="rtb-item-b">中考命题专家带队设计，涵盖小初900+知识点</div>
-          </div>
-          <div class="rtb-item">
-            <div class="rtb-item-h">RTB 2：多维学情报告</div>
-            <div class="rtb-item-b">学情报告每周通过APP、公众号推送给家长</div>
-          </div>
-          <div class="rtb-item">
-            <div class="rtb-item-h">RTB 3：学+做+练闭环</div>
-            <div class="rtb-item-b">先听懂原理→再做实验→最后练习巩固</div>
-          </div>
+          <div class="rtb-item"><div class="rtb-item-h">RTB 1：体系化理科启蒙</div><div class="rtb-item-b">中考命题专家带队设计，涵盖小初900+知识点</div></div>
+          <div class="rtb-item"><div class="rtb-item-h">RTB 2：多维学情报告</div><div class="rtb-item-b">学情报告每周通过APP、公众号推送给家长</div></div>
+          <div class="rtb-item"><div class="rtb-item-h">RTB 3：学+做+练闭环</div><div class="rtb-item-b">先听懂原理→再做实验→最后练习巩固</div></div>
         </div>
       </div>
     </div>
@@ -887,7 +904,7 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
 </section>
 
 <footer>
-  <p style="font-size:16px;font-weight:900;color:var(--o);margin-bottom:6px">从小学系列 · 用户调研报告</p>
+  <p style="font-size:16px;font-weight:900;color:var(--accent);margin-bottom:6px">从小学系列 · 用户调研报告</p>
   <p style="font-size:12px;color:var(--mu)">来源：飞书文档【重要信息同步&讨论】从小学系列调研 · 洋葱学园</p>
 </footer>
 
@@ -895,9 +912,7 @@ footer{text-align:center;padding:48px 32px;border-top:1px solid var(--bd);backgr
 const secs=document.querySelectorAll('section');
 const dots=document.querySelectorAll('.dot');
 const prog=document.getElementById('prog');
-
 function go(i){secs[i].scrollIntoView({behavior:'smooth'})}
-
 const io=new IntersectionObserver(es=>{
   es.forEach(e=>{if(e.isIntersecting){
     const i=[...secs].indexOf(e.target);
@@ -905,12 +920,10 @@ const io=new IntersectionObserver(es=>{
   }});
 },{threshold:.3});
 secs.forEach(s=>io.observe(s));
-
 const rio=new IntersectionObserver(es=>{
   es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});
 },{threshold:.15});
 document.querySelectorAll('.rv').forEach(el=>rio.observe(el));
-
 window.addEventListener('scroll',()=>{
   const h=document.documentElement;
   const pct=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;
