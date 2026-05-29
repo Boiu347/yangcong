@@ -32,11 +32,21 @@ const BRAND_COLORS: Record<string, string> = {
   '叫叫':            '#5BBF96',
   '赛先生科学课':    '#5DAD8A',
   '南开大学AI物理课':'#CC9450',
-  '从小学物理':      '#C48A62',
 };
 
 function brandColor(brand: string) {
   return BRAND_COLORS[brand] ?? '#9090A8';
+}
+
+const BRAND_ORDER = ['洋葱', '妙懂', '万物指南', 'NB虚拟实验室'];
+
+function sortBrands(a: string, b: string) {
+  const ai = BRAND_ORDER.indexOf(a);
+  const bi = BRAND_ORDER.indexOf(b);
+  if (ai !== -1 && bi !== -1) return ai - bi;
+  if (ai !== -1) return -1;
+  if (bi !== -1) return 1;
+  return a.localeCompare(b, 'zh');
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -218,7 +228,8 @@ function SubDimSection({
         evidence: filterEvidenceByActiveFiles(bullet.evidence),
       })),
     }))
-    .filter((entry) => entry.bullets.some((b) => b.evidence.length > 0));
+    .filter((entry) => entry.bullets.some((b) => b.evidence.length > 0))
+    .sort((a, b) => sortBrands(a.brand, b.brand));
 
   if (visible.length === 0) return null;
 
@@ -283,7 +294,7 @@ export default function QualitativePage() {
 
   const allBrands = Array.from(
     new Set(subDimensions.flatMap((s) => s.brands.map((b) => b.brand))),
-  ).sort();
+  ).sort(sortBrands);
 
   return (
     <div className="flex flex-col h-full">

@@ -646,7 +646,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_065",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "因为他说素材可以从生活中随手，可以随时可以找到。然后就可以提前对那个物理启蒙。因为以后到初中也会学到物理，然后可以提前让他认识知道一些就是跟物理相关的知识。",
     "sentiment": "positive",
     "dimension": "购买决策",
@@ -656,7 +656,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_066",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "因为它是终身的。买了之后我就可以慢慢学，现在可以，以后也有，也可以回放看这种。",
     "sentiment": "positive",
     "dimension": "购买决策",
@@ -666,7 +666,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_067",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "他很少主动去看。有时间就带他看看，但是我们没有一个规划是固定一个时间去学这样子的，就是有时候偶尔这段时间有空我打开去看，他就跟着我看。",
     "sentiment": "negative",
     "dimension": "产品体验",
@@ -676,7 +676,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_068",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "从小学物理，它是全部内容已经开放给你看了嘛，所以就没有那种动力去一个个去完成这样子喽。不像那些课每天更新，他就比较有那种动力，每天完成它就完成，老师每天有一个目标。",
     "sentiment": "negative",
     "dimension": "产品体验",
@@ -686,7 +686,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_069",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "让他多坚持，好像有基本上一个星期学两三次这样子，可以慢慢地接触一下就是生活中的物理，提前为那个初中打一下基础。",
     "sentiment": "neutral",
     "dimension": "启蒙认知",
@@ -696,7 +696,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_070",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "因为它比较贴近生活，所以对我们来说可能就是做实验的材料什么的那些比较简单。可以动手，自己动手去发现、去体验了。",
     "sentiment": "positive",
     "dimension": "产品体验",
@@ -706,7 +706,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_071",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "在微信那个鸭妈那个直播，她比较推荐，我们可以让孩子去从生活中慢慢接触一下物理，这样子让他们学一下喽。然后没有再去其他地方了解，就是直接在视频号里面下单了。",
     "sentiment": "neutral",
     "dimension": "购买决策",
@@ -716,7 +716,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_072",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "我们上的课不多，所以暂时感觉影响不大。没有达到一周学两三次的目标，没有一个规划是固定一个时间去学，其他网课还没上完，所以洋葱这个一直没有正式开始。",
     "sentiment": "negative",
     "dimension": "产品体验",
@@ -726,7 +726,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_073",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "可以动手，自己动手去发现、去体验了。让他动手去自己利用那个做小实验，可以更具体地去知道这个物理是怎么回事嘛，因为生活中也处处都有物理现象。",
     "sentiment": "positive",
     "dimension": "启蒙认知",
@@ -736,7 +736,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_074",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "可能还要学的东西太多了。他校是每个星期每天都要学的，晚托8点钟放学回来，学了校阅读跟思维，学校里面还有一点点作业，基本上就没时间上其他课了。周末要跳舞、练字，可能也要做学校的作业，剩余的时间就很少，所以就很少有空坐下来去学这个小学物理。",
     "sentiment": "negative",
     "dimension": "产品体验",
@@ -746,7 +746,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_075",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "也没有说它不好，只是我们可能没有坚持去上它，没有用它而已。目前整体只看了两三节，我们最初预期是一周能看个两三节，中间是有一些落差的。",
     "sentiment": "neutral",
     "dimension": "产品体验",
@@ -756,7 +756,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_076",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "就是到等到他真正学物理的时候，他可以大概知道了，不至于一点都不懂，比其他同学的话就可以提前知道一些东西，他就可以到时候更加好吸收老师讲的。",
     "sentiment": "positive",
     "dimension": "启蒙认知",
@@ -766,7 +766,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_077",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "因为他喜欢的话他会自己去看、去了解的，但是有时间他也不会打开那个去看，他宁愿打开其他的。他不太感兴趣。其实我最终的目的是培养学科思维，但首先是从兴趣开始，然后到动手，然后到学科思维，慢慢一步一步来。",
     "sentiment": "negative",
     "dimension": "产品体验",
@@ -776,7 +776,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_078",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "说很需要那些地理、生物课程的话就没有，但是我觉得应该在大会员那里开放给大会员可以看那些内容就更好了，因为几千块钱买的会员，有时候想看也可以。",
     "sentiment": "negative",
     "dimension": "购买决策",
@@ -786,7 +786,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_079",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "到了三年级以上，学业比较重，你很难顾及全科的。如果我们三年级之后能把从小学物理坚持每天学已经很不错了，如果再开发地理生物有历史那些，时间没时间了，不是不想学。",
     "sentiment": "neutral",
     "dimension": "购买决策",
@@ -866,7 +866,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_087",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "他自己会学习洋葱学园里边的从小学物理，这个就是他自己，就是自己会翻，然后学的特别多。如果我因为我都是强制定时的，因为他视力不是特别好。就是我经常性的就是自己定了15到20分钟之后，他还会往下串表，就会自己就会学。对，特别喜欢。",
     "sentiment": "positive",
     "dimension": "产品体验",
@@ -876,7 +876,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_088",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "洋葱学园的，从小学物理，如果说我不是不管的话，他每天他都会刷。但是我会管他。他相较于学这个，从小学物理会，有时候，更多时候会胜于学这个数学。他好像特别喜欢看那实验男做实验。他当成趣味里边学知识了。确实是很喜欢。",
     "sentiment": "positive",
     "dimension": "产品体验",
@@ -886,7 +886,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_089",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "他之前是涵盖在这个，就比方说小学阶段，他不分阶段，小学阶段里边，物理是包括的。然后我买的时候，这个从小学物理后来改名更名了，它就不包括了，不包括需要单独付费的，我是基于我们家孩子喜欢，我才付费去买这个课程的。",
     "sentiment": "neutral",
     "dimension": "购买决策",
@@ -896,7 +896,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_090",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "我主要是看中他这个理科的同步校内，然后，诶他这个小学从小学物理，看他那实验做得也比较好，然后孩子看了也很感兴趣，我才又添加了这笔钱买的从小学物理这个课程。",
     "sentiment": "positive",
     "dimension": "购买决策",
@@ -966,7 +966,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_097",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "我不是主动要买这个物理这个课程，我就是看他有，我就确实是拍了，因为也像说我确实也注重孩子的这物理启蒙这一块，所以可以说我觉得不错，性价比也很高。这就是我购买从小学物理的最初这个动机。",
     "sentiment": "positive",
     "dimension": "购买决策",
@@ -976,7 +976,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_098",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "因为它的展现的形式的话，孩子喜欢这种动画形式的。孩子感兴趣就是第一要素，他如果说有兴趣，其实现在包括看到的效果，他自主能学习。课程设置内容也比较丰富，然后产品形式包括也很多样，也是不断在更新的，买这个课程性价比又高，然后孩子又喜欢，一些内容上又能查缺补漏。",
     "sentiment": "positive",
     "dimension": "产品体验",
@@ -986,7 +986,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_099",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "不用对比，就是说性价比的话，就直接下单开通，孩子学了一次，他就喜欢。因为也是了解自己孩子这个方面，这也是从小学物理应该我买到他不也是说的终身的权限。",
     "sentiment": "positive",
     "dimension": "购买决策",
@@ -996,7 +996,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_100",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "从小学物理的知识好像更多更系统，更多NB实验室来讲。孩子静下心来去做，在那去看，从小学物理讲这个概念，趣味性的概念，他投入的就是专注力更多，注意力会更吸引孩子吧。",
     "sentiment": "positive",
     "dimension": "产品体验",
@@ -1006,7 +1006,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_101",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "他那模块的内容方方面面，知识的话讲解也会比较多，系统性更强，因为它都已经罗列得非常分层次，看得也比较清晰，孩子也能自行选取他喜欢什么，他也可以能随机点取，可能自己的选择性更强了。一个视频几分钟的时间也不会占用太长的时间，学完了很吸引孩子，再往下去再看另一个小视频。",
     "sentiment": "positive",
     "dimension": "产品体验",
@@ -1016,7 +1016,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_102",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "您要单从这方面，如果说洋葱后期能增加更多的实验的元素的话，那肯定是锦上添花了。如果说现在没有的话，那可着现在有的从小学物理课程看，我们也不亏，因为他已经涉及的很有趣了，孩子也喜欢，我们可以从其他方面补足，这个不是我现阶段主要担心的。",
     "sentiment": "neutral",
     "dimension": "产品体验",
@@ -1026,7 +1026,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_103",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "还是从小激发这个物理的学习兴趣，也能不排斥以后，因为以后有更高的，毕竟升学需求，考试科目的选取，还是不想让他之后对理科失去兴趣，所以抓住从小应该掌握这个理科的黄金期，让他去早早的有所渗透，然后也能多长长见识，在生活当中也能实际得到运用，把知识运用到实际生活当中。",
     "sentiment": "positive",
     "dimension": "启蒙认知",
@@ -1106,7 +1106,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_111",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "要是10分满分的话能有9分，因为他确实是，如果说占比全也是刚才我们反复提到的实验那个点，他这点是比较就是还是有待提升的。一分的话就是说余额给到他以后的晋升空间。其他方面做的还很好的。",
     "sentiment": "positive",
     "dimension": "产品体验",
@@ -1116,7 +1116,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_112",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "就是他在视频里面介绍，很多时候有一些对孩子来讲，因为我们家小低阶段一些晦涩难懂的一些概念词，孩子还是不能很好的理解，如果说这个概念同步出来的话，再根据这个概念进行口语化，或者是孩子能接受的方式进行一些举例去介绍这个专业性的概念的话，孩子能理解更好一些。",
     "sentiment": "negative",
     "dimension": "产品体验",
@@ -1126,7 +1126,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_113",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "动画做的一直是你们的优势，做的是很好的。孩子喜欢，有人带着他学，就是给他讲，他也喜欢像听故事一样去听，然后他调动他五官，他就感兴趣。",
     "sentiment": "positive",
     "dimension": "产品体验",
@@ -1136,7 +1136,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_114",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "唯独这个课我就很放心，比方说我忙，我做饭的时候可以把这个时间完全的交给他去弄。他学了很多，都是100%的进度条，他去自己学，他那后面答题有的时候正确率也挺高的。也是基于我对你们产品的信任。",
     "sentiment": "positive",
     "dimension": "产品体验",
@@ -1146,7 +1146,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_115",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "他看了之后他会考我，哎，妈妈，你知不知道怎么样？这个功率怎么用？多少电？他就会把课上看的从小学物理那个视频，他会转化他自己的语言，他学到了他就会跟你去分享。",
     "sentiment": "positive",
     "dimension": "产品体验",
@@ -1156,7 +1156,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_116",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "就是说孩子他喜欢，列的也是比较细致，这个点、面都介绍得比较全。知识的话就是系统性更强，因为它都已经罗列得非常分层次，看得也比较清晰，孩子也能自行选取，他喜欢什么，他也可以能随机点取，自己的选择性更强。",
     "sentiment": "positive",
     "dimension": "产品体验",
@@ -1166,7 +1166,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_117",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "这个答题环节能增加读题的功能也更好。有时候这个字不认识，如果说这个答题环节能增加读题的功能也更好。",
     "sentiment": "negative",
     "dimension": "产品体验",
@@ -1286,7 +1286,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_129",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "他课程研发各方面我没去深入地去看，我就知道这个，因为杨同学，这个杨就他也做客直播间，也比较喜欢他这个杨临风。他不也是对他个人，就他展现个人魅力还是挺好的，然后各方面的，当时强大的后备团我觉得还是挺信得过的。就基于这一点，然后其他的就是单就从小学物理，我还没考察那么多。",
     "sentiment": "positive",
     "dimension": "购买决策",
@@ -1296,7 +1296,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_130",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "他讲解比较思路比较清晰。而且说他的这一个个人背景的相关就是有一种崇拜。因为都有学霸这个崇拜的心理嘛。在国外，他好像是国外哈佛大学，应该是。名校的光环，就是觉得这个人还是挺信得过的。",
     "sentiment": "positive",
     "dimension": "购买决策",
@@ -1306,7 +1306,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_131",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "内容因为我没说，我一说容易，因为我容易代入进去，就说这个数学。对，就是物理还是我觉得还是讲得挺丰富的。就是说他课程研发各方面，他讲的就是说还是比较全面，这让一个外行看，确实，对，理科这个就是物理这方面，我确实说的不是像其他的说的那么多。",
     "sentiment": "positive",
     "dimension": "产品体验",
@@ -1316,7 +1316,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_132",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "看不对，判断不出来，因为现在他涉及的就是说看你们从小学物理多，他有没学，从小学化学、从小学生物，根本就没法对比。他不像说这三个，假如说你同步出来了，都更新出来了，都有这个课程，然后同步，正好我手里也都有这三个，他去学，我也能从这个时间分配上来判断出他对哪一个更有兴趣。现在的话只是单一的物理。",
     "sentiment": "negative",
     "dimension": "产品体验",
@@ -1326,7 +1326,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_133",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "我报的时候1月份，1月10号肯定是没有的。就是说现到现在5月份就是过去的将近4个月的时间就已经有了从小学化学和从小学生物，是吗？后期的话我也会关注这个事的，跟住这个事。因为我确实第一我是对教育也是投入比较多的，第二是对理科的话，因为我本身就是不是学理的，我希望孩子不要像我一样。",
     "sentiment": "neutral",
     "dimension": "产品体验",
@@ -1666,7 +1666,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_167",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "原来在原来的那个位置就没有了，在首页里面从小学物理进去，然后它直接就显示的是一个什么早鸟价，又让我立即购买。我问孩子，他最近他就没有学，就是因为没找到位置。",
     "sentiment": "negative",
     "dimension": "产品体验",
@@ -1676,7 +1676,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_168",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "这个端口是不是到时候你再放的可以明显一点？让孩子或者我们家长去看的时候，诶一下就能找到，就在哪个板块里。",
     "sentiment": "negative",
     "dimension": "产品体验",
@@ -1686,7 +1686,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_169",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "当时买洋葱学园的数学课的时候，推荐了这个物理课，我才买的。当时是郑州妈妈帮有一个线上的直播，当时主要请到了洋葱学园的老师，当时在卖数学课，科学课又间接推了一下，我就直接买了。",
     "sentiment": "neutral",
     "dimension": "购买决策",
@@ -1696,7 +1696,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_170",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "先看到公众号，里面内容非常契合我现在阶段的需求，然后预约了直播，直播的时候他又说了这个物理课，我就买下来，可以先让他试一下。",
     "sentiment": "positive",
     "dimension": "购买决策",
@@ -1806,7 +1806,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_181",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "郑州把科学课纳入了主科，期中期末都在考。到初中之后它就变成了物理化学生物，我不希望他只是去死记硬背。所以想说，诶，正好有这个课可以让他去更好地理解一下，因为很多实验他其实不是日常生活里那么常见，你光给他说他不理解。刚好当时好像这个也不贵，我就顺手给他买了。",
     "sentiment": "positive",
     "dimension": "购买决策",
@@ -1816,7 +1816,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_182",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "当时我记得好像说是他们也是第一次上架卖这个课，后续比如说我买了这个课以后，有一些小的升级，或者有什么意见反馈给他们，他们后续也可以针对大家提出的建议再陆续地给他进行升级和优化。我觉得这一点也吸引了我。",
     "sentiment": "positive",
     "dimension": "购买决策",
@@ -1826,7 +1826,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_183",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "我理解的是涵盖的知识点应该都有，只是不同步而已。结果我去找的话，一定是课内讲的是什么，我就按这个去找，划拉了一遍，发现没有，所以就也没有再看。预期有一点点落差，他好像没有像课内每个单元都能讲到。",
     "sentiment": "negative",
     "dimension": "产品体验",
@@ -1836,7 +1836,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_184",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "5分满分，目前3分。因为我觉得这个内容确实是再多一点就更好了。基础篇里面的东西确实不算多。就是还是知识点再多一些吧，对标校内的话，其实他们校内已经讲了很多，关于土壤、人体、昆虫、天气，其实会有很多个点。",
     "sentiment": "negative",
     "dimension": "产品体验",
@@ -1846,7 +1846,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_185",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "如果说是同步的话，我觉得会更好，就是使用率上会更高一些。如果说没那么同步的话，可能就是，想起来了去划了两下看一下，或者是哪个知识点真的不理解，去找一下，给他讲解一下，可能只有这两种情况才会想到去学。就没有像数学可能利用率那么高。",
     "sentiment": "negative",
     "dimension": "产品体验",
@@ -1856,7 +1856,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_186",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "课程好的点就是你们做成这种动画的形式，而不是说就真的很枯燥，人手里面拿着什么玻璃瓶罐就开始给你做实验。我觉得这个还是挺好的。小学阶段，尤其是刚刚把科学纳入主科，我觉得还是让孩子更好去接触、更好去理解是最好的。",
     "sentiment": "positive",
     "dimension": "产品体验",
@@ -1866,7 +1866,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_187",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "希望他比如对这个能增加点兴趣，对课内的知识点理解得更透一些，掌握得更快一些。而不是填空题给几个空，他就从第一个空背到最后一个空，过段时间那几个空就忘得差不多了。更希望他是从实验也好，或者课程的讲解动画也好，能更好地理解和掌握，外加提升点兴趣。",
     "sentiment": "neutral",
     "dimension": "启蒙认知",
@@ -1876,7 +1876,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_188",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "希望他看到这种现实中的生活现象之后，能去想一下为什么会有这个现象。比如出去遛弯，看到一些现象，他不是说看过就看过了，而会联想这是怎么导致的。就是这种，希望培养他这个学科思维。",
     "sentiment": "positive",
     "dimension": "启蒙认知",
@@ -1886,7 +1886,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_189",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "希望你们能看一下我们各地区的这个课本，然后根据课本去引入一些知识点，比如说贴近小学四年级的相关物理内容，我作为家长，一去找就知道，诶，我从这个里边能找到我想要找的东西，就像数学一样，我也知道我从哪找。",
     "sentiment": "negative",
     "dimension": "产品体验",
@@ -1896,7 +1896,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_190",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "现阶段它是什么基础、进阶和挑战？我不知道它现在这个知识点是已经是基础还是进阶还是挑战？我只能挨个点开，然后再对应你们的那个目录往下滑，有的时候上学期就已经有电路了，我一直在基础里找，发现没有，要在进阶里找。",
     "sentiment": "negative",
     "dimension": "产品体验",
@@ -1906,7 +1906,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_191",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "好像是跟数学的那个洋葱做对比，因为洋葱数学是一个非常同步的状态嘛，然后大概说了一下这个数学是这样的状态，你这个物理就是以知识点的这个去呈现的，涵盖了大多数的知识点，但就是跟校内不太同步。",
     "sentiment": "neutral",
     "dimension": "购买决策",
@@ -1916,7 +1916,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_192",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "后续如果说有更新知识点或者课程的话，我这边也都是同步能看到的，是吗？会更新吗？因为我看了一眼生物，关于他们现在同步的东西，知识点确实也不是特别多。",
     "sentiment": "neutral",
     "dimension": "产品体验",
@@ -1926,7 +1926,7 @@ export const DEFAULT_VOCS: VOCItem[] = [
   },
   {
     "id": "default_193",
-    "brand": "从小学物理",
+    "brand": "洋葱",
     "text": "后续如果说我再需要的话，是不是还得分开再买生物和地理呀？正常的话它是四科一块，那如果我已经买了物理，后面再买是怎么样的形式？能不能补差价？",
     "sentiment": "neutral",
     "dimension": "购买决策",
