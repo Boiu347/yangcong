@@ -8,6 +8,7 @@ const NAV_ITEMS = [
   { label: '定性洞察',  path: 'qualitative' },
   { label: '竞品分析',  path: 'competitive' },
   { label: '定量报告',  path: 'quantitative' },
+  { label: '营销落地',  path: 'marketing' },
 ] as const;
 
 export default function TopNavLayout() {
@@ -16,7 +17,7 @@ export default function TopNavLayout() {
   const location = useLocation();
 
   const active = location.pathname.split('/').pop() ?? 'summary';
-  const isSummary = active === 'summary';
+  const hideFileBar = active === 'summary' || active === 'marketing';
 
   return (
     <div className="fixed inset-0 flex flex-col" style={{ background: '#FEFDF9' }}>
@@ -82,7 +83,7 @@ export default function TopNavLayout() {
       </nav>
 
       {/* FileBar only for data-analysis pages */}
-      {!isSummary && <FileBar />}
+      {!hideFileBar && <FileBar />}
 
       {/* Page content */}
       <div style={{ flex: 1, minHeight: 0, overflowY: 'auto' }}>
