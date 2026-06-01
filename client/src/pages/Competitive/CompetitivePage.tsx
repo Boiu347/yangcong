@@ -480,7 +480,7 @@ function SingleBrandView({ insight, onEditGroup }: { insight: BrandInsight; onEd
             {isOpen && (
               <div className="px-5 pb-4 space-y-4">
                 {groups.map((group) => {
-                  const groupIdx = insight.groups.indexOf(group);
+                  const groupIdx = insight.groups.findIndex(g => g.l2 === group.l2);
                   return (
                   <div key={group.l2}>
                     <div className="flex items-center gap-2 mb-2">
