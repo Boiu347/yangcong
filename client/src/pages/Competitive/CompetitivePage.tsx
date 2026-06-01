@@ -13,6 +13,7 @@ import { useActiveFileIds, filterEvidenceByActiveFiles } from '../../store/activ
 import { useContentStore } from '../../hooks/useContentStore';
 import { useIsEditor } from '../../components/auth/PasswordGate';
 import CompetitiveEditor from '../../components/edit/CompetitiveEditor';
+import CrossBrandEditor, { type CrossBrandOverviewData } from '../../components/edit/CrossBrandEditor';
 import { cn } from '@/lib/utils';
 
 // ── Constants ────────────────────────────────────────────────────────────────
@@ -80,34 +81,35 @@ const BRAND_SUMMARY_ORDER = [
 
 const PRIMARY_BRANDS = new Set(['洋葱', 'NB虚拟实验室', '万物指南', '妙懂']);
 
-const BRAND_SUMMARIES: Record<string, string> = {
-  '洋葱':            '**动画直观**、**校内同步**是核心竞争力，"从小学物理"**实验吸引力强**、**孩子自主完课率高**；大会员权益边界模糊引发"上当感"，**课程入口不易找**和**权益透明化**是关键改进点。',
-  'NB虚拟实验室':    '**虚拟实验探索感强**、**终身制低价**受认可；主科挤压下**实际使用率极低**，模拟与真实实验的落差是产品天然限制。',
-  '万物指南':        '**化学内容的市场稀缺性**是差异化壁垒，博物馆权威内容建立信任；**学习产出难以量化**是续费最大阻力。',
-  '妙懂':            '**AR** 是强记忆点，但"只玩 AR、不看内容"或**购后搁置**的风险真实存在；**应试感知偏差**抑制启蒙场景的新用户转化。',
-  '学而思':          '**高校师资背书**建立内容权威感，科学课打基础效果获认可；**隐性附加收费**与**课程停运**带来的体验断裂是严重信任损伤。',
-  '叫叫':            '**打卡机制**有效养成自主学习习惯，激励体系完善；**隐性附加收费**与定价不透明是核心信任损伤点。',
-  '南开大学AI物理课': '**高校师资背书**建立内容权威感，为初中物理**提前打基础**的定位清晰；不含在洋葱大会员权益内引发**期望落差**。',
+const DEFAULT_CROSS_BRAND_DATA: CrossBrandOverviewData = {
+  conclusions: [
+    {
+      text: '**兴趣启蒙**是首要需求，但"**能坚持用**"才是真壁垒——家长购买的核心动机是让孩子建立对理科的兴趣而非应试，然而主科压力下**使用频率普遍偏低**，跨品牌都面临"买了不用"的**留存难题**。',
+      color: '#5B7BBF',
+    },
+    {
+      text: '产品发现高度依赖**直播/社群口碑**——NB、万物指南、叫叫等品牌用户均通过抖音直播间或学习社群发现产品，**KOL 推荐**是小众品牌触达家长的核心渠道，品牌**主动曝光能力普遍不足**。',
+      color: '#BF9455',
+    },
+    {
+      text: '**权益透明度**是购买信任的关键门槛——洋葱大会员边界不清、叫叫隐性附加收费、学而思教具拉高门槛，均使家长产生"**上当感**"；反之，NB **终身制低价**和万物指南"**永久题库**"则被高度认可。',
+      color: '#E07A6E',
+    },
+    {
+      text: '**孩子主动参与**是续费最强信号——无论哪个品牌，家长续费的核心依据是"孩子愿意自己打开"；产品能否将初始兴趣转化为孩子的**自主学习习惯**，是留存决策的**决定性因素**。',
+      color: '#4BA69E',
+    },
+  ],
+  brandSummaries: {
+    '洋葱':            '**动画直观**、**校内同步**是核心竞争力，"从小学物理"**实验吸引力强**、**孩子自主完课率高**；大会员权益边界模糊引发"上当感"，**课程入口不易找**和**权益透明化**是关键改进点。',
+    'NB虚拟实验室':    '**虚拟实验探索感强**、**终身制低价**受认可；主科挤压下**实际使用率极低**，模拟与真实实验的落差是产品天然限制。',
+    '万物指南':        '**化学内容的市场稀缺性**是差异化壁垒，博物馆权威内容建立信任；**学习产出难以量化**是续费最大阻力。',
+    '妙懂':            '**AR** 是强记忆点，但"只玩 AR、不看内容"或**购后搁置**的风险真实存在；**应试感知偏差**抑制启蒙场景的新用户转化。',
+    '学而思':          '**高校师资背书**建立内容权威感，科学课打基础效果获认可；**隐性附加收费**与**课程停运**带来的体验断裂是严重信任损伤。',
+    '叫叫':            '**打卡机制**有效养成自主学习习惯，激励体系完善；**隐性附加收费**与定价不透明是核心信任损伤点。',
+    '南开大学AI物理课': '**高校师资背书**建立内容权威感，为初中物理**提前打基础**的定位清晰；不含在洋葱大会员权益内引发**期望落差**。',
+  },
 };
-
-const CROSS_BRAND_CONCLUSIONS: { text: string; color: string }[] = [
-  {
-    text: '**兴趣启蒙**是首要需求，但"**能坚持用**"才是真壁垒——家长购买的核心动机是让孩子建立对理科的兴趣而非应试，然而主科压力下**使用频率普遍偏低**，跨品牌都面临"买了不用"的**留存难题**。',
-    color: '#5B7BBF',
-  },
-  {
-    text: '产品发现高度依赖**直播/社群口碑**——NB、万物指南、叫叫等品牌用户均通过抖音直播间或学习社群发现产品，**KOL 推荐**是小众品牌触达家长的核心渠道，品牌**主动曝光能力普遍不足**。',
-    color: '#BF9455',
-  },
-  {
-    text: '**权益透明度**是购买信任的关键门槛——洋葱大会员边界不清、叫叫隐性附加收费、学而思教具拉高门槛，均使家长产生"**上当感**"；反之，NB **终身制低价**和万物指南"**永久题库**"则被高度认可。',
-    color: '#E07A6E',
-  },
-  {
-    text: '**孩子主动参与**是续费最强信号——无论哪个品牌，家长续费的核心依据是"孩子愿意自己打开"；产品能否将初始兴趣转化为孩子的**自主学习习惯**，是留存决策的**决定性因素**。',
-    color: '#4BA69E',
-  },
-];
 
 function computeSentimentMatrix(compData: Record<string, BrandInsight>) {
   const score = { positive: 2, neutral: 1, negative: 0 } as const;
@@ -139,33 +141,47 @@ function renderHighlightedText(text: string) {
 
 // ── Cross-brand overview panel ────────────────────────────────────────────────
 
-function CrossBrandOverview({ compData, sentimentMatrix }: {
+function CrossBrandOverview({ compData, sentimentMatrix, overviewData, onEdit }: {
   compData: Record<string, BrandInsight>;
   sentimentMatrix: Record<string, Record<string, 'positive' | 'neutral' | 'negative'>>;
+  overviewData: CrossBrandOverviewData;
+  onEdit?: () => void;
 }) {
   const [open, setOpen] = React.useState(true);
   const [showSecondarySummary, setShowSecondarySummary] = React.useState(false);
   const [showSecondaryMatrix, setShowSecondaryMatrix] = React.useState(false);
   const brands = sortBrands(Object.keys(compData));
 
+  const brandSummaries = overviewData.brandSummaries;
+
   return (
     <div className="rounded-2xl border border-[#E8E2D9] shadow-[3px_4px_0_rgba(0,0,0,0.06)] overflow-hidden mb-6 bg-white">
       {/* Header */}
-      <button
-        onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center gap-2.5 px-6 py-4 text-left hover:bg-gray-50/60 transition-colors"
-      >
-        <div className="w-6 h-6 rounded-lg bg-[#FF5722]/10 flex items-center justify-center shrink-0">
-          <Layers size={12} className="text-[#FF5722]" />
-        </div>
-        <span className="text-[14px] font-bold text-gray-900 flex-1">跨品牌洞察</span>
-        <span className="text-[11px] text-gray-400 bg-gray-50 border border-gray-100 px-2 py-0.5 rounded-full mr-2">
-          {brands.length} 个品牌 · {L1_ORDER.length} 个维度
-        </span>
-        {open
-          ? <ChevronDown size={14} className="text-gray-300" />
-          : <ChevronRight size={14} className="text-gray-300" />}
-      </button>
+      <div className="flex items-center">
+        <button
+          onClick={() => setOpen((v) => !v)}
+          className="flex-1 flex items-center gap-2.5 px-6 py-4 text-left hover:bg-gray-50/60 transition-colors"
+        >
+          <div className="w-6 h-6 rounded-lg bg-[#FF5722]/10 flex items-center justify-center shrink-0">
+            <Layers size={12} className="text-[#FF5722]" />
+          </div>
+          <span className="text-[14px] font-bold text-gray-900 flex-1">跨品牌洞察</span>
+          <span className="text-[11px] text-gray-400 bg-gray-50 border border-gray-100 px-2 py-0.5 rounded-full mr-2">
+            {brands.length} 个品牌 · {L1_ORDER.length} 个维度
+          </span>
+          {open
+            ? <ChevronDown size={14} className="text-gray-300" />
+            : <ChevronRight size={14} className="text-gray-300" />}
+        </button>
+        {onEdit && (
+          <button
+            onClick={onEdit}
+            className="flex items-center gap-1 px-3 py-1.5 mr-4 rounded-lg text-[11px] text-amber-600 hover:bg-amber-50 border border-amber-200 transition-colors shrink-0"
+          >
+            <Pencil size={10} /> 编辑
+          </button>
+        )}
+      </div>
 
       {open && (
         <>
@@ -173,7 +189,7 @@ function CrossBrandOverview({ compData, sentimentMatrix }: {
           <div className="border-t border-gray-50 px-6 pt-5 pb-4">
             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">核心结论</p>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-              {CROSS_BRAND_CONCLUSIONS.map((c, i) => (
+              {overviewData.conclusions.map((c, i) => (
                 <div
                   key={i}
                   className="flex gap-3 p-3.5 rounded-xl border border-gray-100 bg-gray-50/60"
@@ -194,7 +210,7 @@ function CrossBrandOverview({ compData, sentimentMatrix }: {
           <div className="border-t border-gray-50 px-6 pt-4 pb-5">
             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">品牌差异总结</p>
             <div>
-              {BRAND_SUMMARY_ORDER.filter((b) => BRAND_SUMMARIES[b] && PRIMARY_BRANDS.has(b)).map((brand, idx) => (
+              {BRAND_SUMMARY_ORDER.filter((b) => brandSummaries[b] && PRIMARY_BRANDS.has(b)).map((brand, idx) => (
                 <div
                   key={brand}
                   className={cn(
@@ -211,11 +227,11 @@ function CrossBrandOverview({ compData, sentimentMatrix }: {
                     </div>
                     <span className="text-[13px] font-semibold text-gray-800 whitespace-nowrap">{brand}</span>
                   </div>
-                  <p className="text-[13px] text-gray-500 leading-relaxed">{renderHighlightedText(BRAND_SUMMARIES[brand])}</p>
+                  <p className="text-[13px] text-gray-500 leading-relaxed">{renderHighlightedText(brandSummaries[brand])}</p>
                 </div>
               ))}
 
-              {showSecondarySummary && BRAND_SUMMARY_ORDER.filter((b) => BRAND_SUMMARIES[b] && !PRIMARY_BRANDS.has(b)).map((brand, idx) => (
+              {showSecondarySummary && BRAND_SUMMARY_ORDER.filter((b) => brandSummaries[b] && !PRIMARY_BRANDS.has(b)).map((brand, idx) => (
                 <div
                   key={brand}
                   className={cn(
@@ -231,7 +247,7 @@ function CrossBrandOverview({ compData, sentimentMatrix }: {
                     </div>
                     <span className="text-[13px] font-semibold text-gray-800 whitespace-nowrap">{brand}</span>
                   </div>
-                  <p className="text-[13px] text-gray-500 leading-relaxed">{renderHighlightedText(BRAND_SUMMARIES[brand])}</p>
+                  <p className="text-[13px] text-gray-500 leading-relaxed">{renderHighlightedText(brandSummaries[brand])}</p>
                 </div>
               ))}
 
@@ -241,7 +257,7 @@ function CrossBrandOverview({ compData, sentimentMatrix }: {
                 className="flex items-center gap-1 mt-3 text-[11px] text-gray-400 hover:text-gray-600 transition-colors"
               >
                 {showSecondarySummary ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
-                {showSecondarySummary ? '收起其他品牌' : `展开其他 ${BRAND_SUMMARY_ORDER.filter(b => BRAND_SUMMARIES[b] && !PRIMARY_BRANDS.has(b)).length} 个品牌`}
+                {showSecondarySummary ? '收起其他品牌' : `展开其他 ${BRAND_SUMMARY_ORDER.filter(b => brandSummaries[b] && !PRIMARY_BRANDS.has(b)).length} 个品牌`}
               </button>
             </div>
           </div>
@@ -702,10 +718,14 @@ export default function CompetitivePage() {
   const { data: compData, saving, save } =
     useContentStore<Record<string, BrandInsight>>('competitive', DEFAULT_COMPETITIVE_DATA);
 
+  const { data: overviewData, saving: overviewSaving, save: saveOverview } =
+    useContentStore<CrossBrandOverviewData>('competitive-overview', DEFAULT_CROSS_BRAND_DATA);
+
   const sentimentMatrix = React.useMemo(() => computeSentimentMatrix(compData), [compData]);
 
   const [selectedBrands, setSelectedBrands] = React.useState<string[]>([]);
   const [editingGroup, setEditingGroup] = React.useState<{ brand: string; groupIdx: number } | null>(null);
+  const [editingOverview, setEditingOverview] = React.useState(false);
 
   const allBrands = sortBrands(Object.keys(compData));
 
@@ -798,7 +818,12 @@ export default function CompetitivePage() {
       {/* Content */}
       <div className="flex-1 overflow-auto p-6">
         {/* Cross-brand overview — always visible */}
-        <CrossBrandOverview compData={compData} sentimentMatrix={sentimentMatrix} />
+        <CrossBrandOverview
+          compData={compData}
+          sentimentMatrix={sentimentMatrix}
+          overviewData={overviewData}
+          onEdit={editor ? () => setEditingOverview(true) : undefined}
+        />
 
         {selectedBrands.length === 0 && (
           <div className="flex flex-col items-center justify-center py-24 text-center">
@@ -853,6 +878,18 @@ export default function CompetitivePage() {
           }
           await save(next);
           setEditingGroup(null);
+        }}
+      />
+
+      {/* Cross-brand overview editor */}
+      <CrossBrandEditor
+        open={editingOverview}
+        onClose={() => setEditingOverview(false)}
+        data={editingOverview ? overviewData : null}
+        saving={overviewSaving}
+        onSave={async (updated) => {
+          await saveOverview(updated);
+          setEditingOverview(false);
         }}
       />
     </div>
