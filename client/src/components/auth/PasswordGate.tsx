@@ -3,6 +3,9 @@ import { Lock, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 const STORAGE_KEY = 'yy_access_pw';
+const ROLE_KEY = 'yy_auth_role';
+
+export type AuthRole = 'viewer' | 'editor';
 
 // ── Auth state (module-level, shared) ──────────────────────────────────────
 
@@ -14,17 +17,35 @@ let _authed = (() => {
   }
 })();
 
+let _role: AuthRole = (() => {
+  try {
+    return (sessionStorage.getItem(ROLE_KEY) as AuthRole) || 'viewer';
+  } catch {
+    return 'viewer';
+  }
+})();
+
 const _listeners = new Set<() => void>();
 
 export function isAuthed() {
   return _authed;
 }
 
-export function setAuthed(pw: string) {
+export function getAuthRole(): AuthRole {
+  return _authed ? _role : 'viewer';
+}
+
+export function isEditor(): boolean {
+  return _authed && _role === 'editor';
+}
+
+export function setAuthed(pw: string, role: AuthRole = 'viewer') {
   try {
     sessionStorage.setItem(STORAGE_KEY, pw);
+    sessionStorage.setItem(ROLE_KEY, role);
   } catch { /* ignore */ }
   _authed = true;
+  _role = role;
   _listeners.forEach((fn) => fn());
 }
 
@@ -36,7 +57,7 @@ export function getStoredPassword(): string {
   }
 }
 
-// ── Hook ────────────────────────────────────────────────────────────────────
+// ── Hooks ───────────────────────────────────────────────────────────────────
 
 export function useIsAuthed() {
   const [, rerender] = React.useReducer((x: number) => x + 1, 0);
@@ -45,6 +66,20 @@ export function useIsAuthed() {
     return () => { _listeners.delete(rerender); };
   }, []);
   return _authed;
+}
+
+export function useAuthRole(): AuthRole {
+  const [, rerender] = React.useReducer((x: number) => x + 1, 0);
+  React.useEffect(() => {
+    _listeners.add(rerender);
+    return () => { _listeners.delete(rerender); };
+  }, []);
+  return _authed ? _role : 'viewer';
+}
+
+export function useIsEditor(): boolean {
+  const role = useAuthRole();
+  return role === 'editor';
 }
 
 // ── PasswordGate component ──────────────────────────────────────────────────
@@ -74,7 +109,8 @@ export default function PasswordGate({ children }: { children: React.ReactNode }
         inputRef.current?.focus();
         return;
       }
-      setAuthed(pw);
+      const data = await res.json() as { ok: boolean; role?: AuthRole };
+      setAuthed(pw, data.role ?? 'viewer');
     } catch {
       toast.error('验证失败，请检查网络');
     } finally {

@@ -6,6 +6,7 @@ import { GlobalExceptionFilter } from './common/filters/exception.filter';
 import { AiModule } from './modules/ai/ai.module';
 import { ViewModule } from './modules/view/view.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { ContentModule } from './modules/content/content.module';
 import { PasswordMiddleware } from './middleware/password.middleware';
 
 @Module({
@@ -13,6 +14,7 @@ import { PasswordMiddleware } from './middleware/password.middleware';
     ConfigModule.forRoot({ isGlobal: true }),
     AiModule,
     AuthModule,
+    ContentModule,
     ViewModule,
   ],
   providers: [
@@ -24,10 +26,8 @@ import { PasswordMiddleware } from './middleware/password.middleware';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    // Protect all AI endpoints with password middleware.
-    // /api/auth/verify is intentionally excluded (that's the login endpoint itself).
     consumer
       .apply(PasswordMiddleware)
-      .forRoutes('/api/ai');
+      .forRoutes('/api/ai', '/api/content');
   }
 }

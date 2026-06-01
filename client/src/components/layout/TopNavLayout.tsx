@@ -1,7 +1,8 @@
 import React from 'react';
 import { Outlet, useParams, useNavigate, useLocation } from 'react-router-dom';
-import { Microscope } from 'lucide-react';
+import { Microscope, PenLine } from 'lucide-react';
 import FileBar from './FileBar';
+import { useIsEditor } from '../auth/PasswordGate';
 
 const NAV_ITEMS = [
   { label: '项目总结',  path: 'summary' },
@@ -15,6 +16,7 @@ export default function TopNavLayout() {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
   const location = useLocation();
+  const editor = useIsEditor();
 
   const active = location.pathname.split('/').pop() ?? 'summary';
   const hideFileBar = active === 'summary' || active === 'marketing';
@@ -80,6 +82,13 @@ export default function TopNavLayout() {
             );
           })}
         </div>
+
+        {editor && (
+          <div className="ml-auto flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 border border-amber-200 shrink-0">
+            <PenLine size={11} className="text-amber-600" />
+            <span className="text-[11px] font-medium text-amber-700">编辑模式</span>
+          </div>
+        )}
       </nav>
 
       {/* FileBar only for data-analysis pages */}

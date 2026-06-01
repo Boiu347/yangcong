@@ -1,13 +1,17 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { MessageSquare, ChevronDown, ChevronRight, X, Sparkles } from 'lucide-react';
+import { MessageSquare, ChevronDown, ChevronRight, X, Sparkles, Pencil, Save, RotateCcw, Loader2 } from 'lucide-react';
 import {
   DEFAULT_QUALITATIVE_DATA,
+  QualDimension,
   QualSubDimension,
   QualBrandEntry,
 } from '../../store/defaultQualitativeData';
 import { lookupSource, shortSource } from '../../utils/sourceUtils';
 import { useActiveFileIds, filterEvidenceByActiveFiles } from '../../store/activeFilesStore';
+import { useContentStore } from '../../hooks/useContentStore';
+import { useIsEditor } from '../../components/auth/PasswordGate';
+import QualitativeEditor from '../../components/edit/QualitativeEditor';
 import { cn } from '@/lib/utils';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -126,7 +130,7 @@ interface TaggedEvidence {
   tag?: string;
 }
 
-function BrandCard({ entry }: { entry: QualBrandEntry }) {
+function BrandCard({ entry, onEdit }: { entry: QualBrandEntry; onEdit?: () => void }) {
   const [expanded, setExpanded] = React.useState(false);
   const bColor = brandColor(entry.brand);
 
@@ -143,19 +147,27 @@ function BrandCard({ entry }: { entry: QualBrandEntry }) {
 
   return (
     <div className="bg-white rounded-2xl border border-[#E8E2D9] shadow-[3px_4px_0_rgba(0,0,0,0.06)] overflow-hidden">
-      {/* Top subtle divider */}
       <div className="h-[2px] w-full bg-gray-100" />
 
       <div className="p-5">
-        {/* Card header */}
         <div className="flex items-center justify-between mb-4">
           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[12px] font-semibold bg-gray-100 text-gray-700">
             <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: bColor }} />
             {entry.brand}用户
           </span>
-          {sourceSummary && (
-            <span className="text-[11px] text-gray-400">{sourceSummary}</span>
-          )}
+          <div className="flex items-center gap-2">
+            {sourceSummary && (
+              <span className="text-[11px] text-gray-400">{sourceSummary}</span>
+            )}
+            {onEdit && (
+              <button
+                onClick={onEdit}
+                className="flex items-center gap-1 px-2 py-1 rounded-lg text-[11px] text-amber-600 hover:bg-amber-50 border border-amber-200 transition-colors"
+              >
+                <Pencil size={10} /> 编辑
+              </button>
+            )}
+          </div>
         </div>
 
         {/* AI summary */}
@@ -197,12 +209,16 @@ function BrandCard({ entry }: { entry: QualBrandEntry }) {
 
 function SubDimSection({
   subDim,
+  subIdx,
   selectedBrands,
   color,
+  onEdit,
 }: {
   subDim: QualSubDimension;
+  subIdx: number;
   selectedBrands: Set<string>;
   color: string;
+  onEdit?: (brandIdx: number) => void;
 }) {
   const [collapsed, setCollapsed] = React.useState(false);
   const [activeTags, setActiveTags] = React.useState<Set<string>>(new Set());
@@ -305,9 +321,16 @@ function SubDimSection({
           </div>
         )}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {visible.map((entry) => (
-            <BrandCard key={entry.brand} entry={entry} />
-          ))}
+          {visible.map((entry) => {
+            const brandIdx = subDim.brands.findIndex((b) => b.brand === entry.brand);
+            return (
+              <BrandCard
+                key={entry.brand}
+                entry={entry}
+                onEdit={onEdit && brandIdx >= 0 ? () => onEdit(brandIdx) : undefined}
+              />
+            );
+          })}
         </div>
         </>
       )}
@@ -319,10 +342,15 @@ function SubDimSection({
 
 export default function QualitativePage() {
   useParams<{ projectId: string }>();
-  useActiveFileIds(); // subscribe for re-render on file toggle
+  useActiveFileIds();
+  const editor = useIsEditor();
+
+  const { data: qualData, saving, save } =
+    useContentStore<Record<string, QualDimension>>('qualitative', DEFAULT_QUALITATIVE_DATA);
 
   const [activeDim, setActiveDim] = React.useState<Dimension>('需求认知');
   const [selectedBrands, setSelectedBrands] = React.useState<Set<string>>(new Set());
+  const [editingEntry, setEditingEntry] = React.useState<{ dimKey: string; subIdx: number; brandIdx: number } | null>(null);
 
   const toggleBrand = (brand: string) => {
     setSelectedBrands((prev) => {
@@ -334,7 +362,7 @@ export default function QualitativePage() {
 
   React.useEffect(() => { setSelectedBrands(new Set()); }, [activeDim]);
 
-  const dimData = DEFAULT_QUALITATIVE_DATA[activeDim];
+  const dimData = qualData[activeDim];
   const subDimensions = dimData?.subDimensions ?? [];
   const { color, tab } = DIM_CONFIG[activeDim];
 
@@ -426,17 +454,41 @@ export default function QualitativePage() {
               <p className="text-[14px] text-gray-400">「{activeDim}」暂无数据</p>
             </div>
           ) : (
-            subDimensions.map((sub) => (
+            subDimensions.map((sub, subIdx) => (
               <SubDimSection
                 key={sub.name}
                 subDim={sub}
+                subIdx={subIdx}
                 selectedBrands={selectedBrands}
                 color={color}
+                onEdit={editor ? (brandIdx) => setEditingEntry({ dimKey: activeDim, subIdx, brandIdx }) : undefined}
               />
             ))
           )}
         </div>
       )}
+
+      {/* Edit drawer */}
+      <QualitativeEditor
+        open={!!editingEntry}
+        onClose={() => setEditingEntry(null)}
+        entry={
+          editingEntry
+            ? qualData[editingEntry.dimKey]?.subDimensions[editingEntry.subIdx]?.brands[editingEntry.brandIdx] ?? null
+            : null
+        }
+        saving={saving}
+        onSave={async (updated) => {
+          if (!editingEntry) return;
+          const next = structuredClone(qualData);
+          const dim = next[editingEntry.dimKey];
+          if (dim) {
+            dim.subDimensions[editingEntry.subIdx].brands[editingEntry.brandIdx] = updated;
+          }
+          await save(next);
+          setEditingEntry(null);
+        }}
+      />
     </div>
   );
 }

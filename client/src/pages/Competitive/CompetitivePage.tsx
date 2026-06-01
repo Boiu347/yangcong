@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { BarChart2, ChevronDown, ChevronRight, MapPin, X, Layers } from 'lucide-react';
+import { BarChart2, ChevronDown, ChevronRight, MapPin, X, Layers, Pencil, Save, Loader2 } from 'lucide-react';
 import { useProjectVOCs } from '../../store/useProjectStore';
 import {
   DEFAULT_COMPETITIVE_DATA,
@@ -10,6 +10,9 @@ import {
 } from '../../store/defaultCompetitiveData';
 import { lookupSource, shortSource } from '../../utils/sourceUtils';
 import { useActiveFileIds, filterEvidenceByActiveFiles } from '../../store/activeFilesStore';
+import { useContentStore } from '../../hooks/useContentStore';
+import { useIsEditor } from '../../components/auth/PasswordGate';
+import CompetitiveEditor from '../../components/edit/CompetitiveEditor';
 import { cn } from '@/lib/utils';
 
 // ── Constants ────────────────────────────────────────────────────────────────
@@ -106,11 +109,10 @@ const CROSS_BRAND_CONCLUSIONS: { text: string; color: string }[] = [
   },
 ];
 
-/** Compute dominant sentiment per brand × L1 from hardcoded insight data */
-function computeSentimentMatrix() {
+function computeSentimentMatrix(compData: Record<string, BrandInsight>) {
   const score = { positive: 2, neutral: 1, negative: 0 } as const;
   const result: Record<string, Record<string, 'positive' | 'neutral' | 'negative'>> = {};
-  for (const [brand, insight] of Object.entries(DEFAULT_COMPETITIVE_DATA)) {
+  for (const [brand, insight] of Object.entries(compData)) {
     result[brand] = {};
     const byL1 = groupByL1(insight);
     for (const l1 of L1_ORDER) {
@@ -122,8 +124,6 @@ function computeSentimentMatrix() {
   }
   return result;
 }
-
-const SENTIMENT_MATRIX = computeSentimentMatrix();
 
 // ── Highlight **keywords** in text ───────────────────────────────────────────
 
@@ -139,11 +139,14 @@ function renderHighlightedText(text: string) {
 
 // ── Cross-brand overview panel ────────────────────────────────────────────────
 
-function CrossBrandOverview() {
+function CrossBrandOverview({ compData, sentimentMatrix }: {
+  compData: Record<string, BrandInsight>;
+  sentimentMatrix: Record<string, Record<string, 'positive' | 'neutral' | 'negative'>>;
+}) {
   const [open, setOpen] = React.useState(true);
   const [showSecondarySummary, setShowSecondarySummary] = React.useState(false);
   const [showSecondaryMatrix, setShowSecondaryMatrix] = React.useState(false);
-  const brands = sortBrands(Object.keys(DEFAULT_COMPETITIVE_DATA));
+  const brands = sortBrands(Object.keys(compData));
 
   return (
     <div className="rounded-2xl border border-[#E8E2D9] shadow-[3px_4px_0_rgba(0,0,0,0.06)] overflow-hidden mb-6 bg-white">
@@ -280,7 +283,7 @@ function CrossBrandOverview() {
                         </div>
                       </td>
                       {L1_ORDER.map((l1) => {
-                        const s = SENTIMENT_MATRIX[brand]?.[l1];
+                        const s = sentimentMatrix[brand]?.[l1];
                         if (!s) return (
                           <td key={l1} className="py-2.5 px-4 text-center">
                             <span className="text-gray-200 text-[12px]">—</span>
@@ -320,7 +323,7 @@ function CrossBrandOverview() {
                         </div>
                       </td>
                       {L1_ORDER.map((l1) => {
-                        const s = SENTIMENT_MATRIX[brand]?.[l1];
+                        const s = sentimentMatrix[brand]?.[l1];
                         if (!s) return (
                           <td key={l1} className="py-2.5 px-4 text-center">
                             <span className="text-gray-200 text-[12px]">—</span>
@@ -420,7 +423,7 @@ function InsightItem({ item, brand }: { item: BrandInsightItem; brand: string })
 
 // ── Single brand vertical view ────────────────────────────────────────────────
 
-function SingleBrandView({ insight }: { insight: BrandInsight }) {
+function SingleBrandView({ insight, onEditGroup }: { insight: BrandInsight; onEditGroup?: (groupIdx: number) => void }) {
   const byL1 = groupByL1(insight);
   const [openL1, setOpenL1] = React.useState<Record<string, boolean>>(
     Object.fromEntries(L1_ORDER.map((l) => [l, true])),
@@ -476,9 +479,10 @@ function SingleBrandView({ insight }: { insight: BrandInsight }) {
 
             {isOpen && (
               <div className="px-5 pb-4 space-y-4">
-                {groups.map((group) => (
+                {groups.map((group) => {
+                  const groupIdx = insight.groups.indexOf(group);
+                  return (
                   <div key={group.l2}>
-                    {/* L2 label */}
                     <div className="flex items-center gap-2 mb-2">
                       <span className="text-[12px] font-semibold text-gray-600">{group.l2}</span>
                       <span
@@ -489,6 +493,14 @@ function SingleBrandView({ insight }: { insight: BrandInsight }) {
                       >
                         {SENTIMENT_CONFIG[group.sentiment].label}
                       </span>
+                      {onEditGroup && groupIdx >= 0 && (
+                        <button
+                          onClick={() => onEditGroup(groupIdx)}
+                          className="ml-auto flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10px] text-amber-600 hover:bg-amber-50 border border-amber-200 transition-colors"
+                        >
+                          <Pencil size={9} /> 编辑
+                        </button>
+                      )}
                     </div>
 
                     {/* L3 items */}
@@ -498,7 +510,8 @@ function SingleBrandView({ insight }: { insight: BrandInsight }) {
                       ))}
                     </div>
                   </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
@@ -683,12 +696,18 @@ function CompactInsightItem({ item, brand, defaultOpen }: { item: BrandInsightIt
 export default function CompetitivePage() {
   const { projectId } = useParams<{ projectId: string }>();
   const vocs = useProjectVOCs(projectId);
-  // Subscribe so the page re-renders whenever the user toggles active files in FileBar
   useActiveFileIds();
-  const [selectedBrands, setSelectedBrands] = React.useState<string[]>([]);
+  const editor = useIsEditor();
 
-  // All brands with available insights
-  const allBrands = sortBrands(Object.keys(DEFAULT_COMPETITIVE_DATA));
+  const { data: compData, saving, save } =
+    useContentStore<Record<string, BrandInsight>>('competitive', DEFAULT_COMPETITIVE_DATA);
+
+  const sentimentMatrix = React.useMemo(() => computeSentimentMatrix(compData), [compData]);
+
+  const [selectedBrands, setSelectedBrands] = React.useState<string[]>([]);
+  const [editingGroup, setEditingGroup] = React.useState<{ brand: string; groupIdx: number } | null>(null);
+
+  const allBrands = sortBrands(Object.keys(compData));
 
   // Auto-select first brand
   React.useEffect(() => {
@@ -779,7 +798,7 @@ export default function CompetitivePage() {
       {/* Content */}
       <div className="flex-1 overflow-auto p-6">
         {/* Cross-brand overview — always visible */}
-        <CrossBrandOverview />
+        <CrossBrandOverview compData={compData} sentimentMatrix={sentimentMatrix} />
 
         {selectedBrands.length === 0 && (
           <div className="flex flex-col items-center justify-center py-24 text-center">
@@ -789,12 +808,15 @@ export default function CompetitivePage() {
           </div>
         )}
 
-        {!isMulti && selectedBrands.length === 1 && DEFAULT_COMPETITIVE_DATA[selectedBrands[0]] && (
+        {!isMulti && selectedBrands.length === 1 && compData[selectedBrands[0]] && (
           <>
             <div className="mb-3">
               <span className="text-[11px] text-white bg-[#5B7BBF] px-2.5 py-1 rounded-md font-medium shadow-sm">💬 点击洞察条目可展开用户原声</span>
             </div>
-            <SingleBrandView insight={DEFAULT_COMPETITIVE_DATA[selectedBrands[0]]} />
+            <SingleBrandView
+              insight={compData[selectedBrands[0]]}
+              onEditGroup={editor ? (groupIdx) => setEditingGroup({ brand: selectedBrands[0], groupIdx }) : undefined}
+            />
           </>
         )}
 
@@ -805,11 +827,34 @@ export default function CompetitivePage() {
             </div>
             <ComparisonMatrix
               brands={selectedBrands}
-              insights={DEFAULT_COMPETITIVE_DATA}
+              insights={compData}
             />
           </div>
         )}
       </div>
+
+      {/* Edit drawer */}
+      <CompetitiveEditor
+        open={!!editingGroup}
+        onClose={() => setEditingGroup(null)}
+        brand={editingGroup?.brand ?? ''}
+        group={
+          editingGroup
+            ? compData[editingGroup.brand]?.groups[editingGroup.groupIdx] ?? null
+            : null
+        }
+        saving={saving}
+        onSave={async (updated) => {
+          if (!editingGroup) return;
+          const next = structuredClone(compData);
+          const insight = next[editingGroup.brand];
+          if (insight) {
+            insight.groups[editingGroup.groupIdx] = updated;
+          }
+          await save(next);
+          setEditingGroup(null);
+        }}
+      />
     </div>
   );
 }
