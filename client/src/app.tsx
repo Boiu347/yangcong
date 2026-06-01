@@ -7,6 +7,7 @@ import QualitativePage from './pages/Qualitative/QualitativePage';
 import CompetitivePage from './pages/Competitive/CompetitivePage';
 import QuantitativePage from './pages/Quantitative/QuantitativePage';
 import MarketingPage from './pages/Marketing/MarketingPage';
+import CompetitiveReportsPage from './pages/CompetitiveReports/CompetitiveReportsPage';
 import NotFound from './pages/NotFound/NotFound';
 
 const RoutesComponent = () => {
@@ -26,6 +27,7 @@ const RoutesComponent = () => {
         <Route path="competitive" element={<CompetitivePage />} />
         <Route path="quantitative" element={<QuantitativePage />} />
         <Route path="marketing" element={<MarketingPage />} />
+        <Route path="reports" element={<CompetitiveReportsPage />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />

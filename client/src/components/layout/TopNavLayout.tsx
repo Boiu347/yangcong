@@ -10,6 +10,7 @@ const NAV_ITEMS = [
   { label: '竞品分析',  path: 'competitive' },
   { label: '定量报告',  path: 'quantitative' },
   { label: '营销落地',  path: 'marketing' },
+  { label: '竞品报告',  path: 'reports' },
 ] as const;
 
 export default function TopNavLayout() {
@@ -19,7 +20,7 @@ export default function TopNavLayout() {
   const editor = useIsEditor();
 
   const active = location.pathname.split('/').pop() ?? 'summary';
-  const hideFileBar = active === 'summary' || active === 'marketing';
+  const hideFileBar = active === 'summary' || active === 'marketing' || active === 'reports';
 
   return (
     <div className="fixed inset-0 flex flex-col" style={{ background: '#FEFDF9' }}>
