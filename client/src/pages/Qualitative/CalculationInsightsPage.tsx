@@ -19,6 +19,7 @@ import {
   CalculationInsightTheme,
   InsightEvidenceType,
   SatisfactionInsightTheme,
+  SatisfactionVoicesTheme,
 } from '../../store/calculationInsightsData';
 import { cn } from '@/lib/utils';
 
@@ -36,6 +37,7 @@ const THEME_COLORS: Record<CalculationInsightTheme['id'], string> = {
   service: '#4BA69E',
   renewal: '#E07A6E',
   satisfaction: '#8B6BB8',
+  'satisfaction-voices': '#B8667A',
 };
 
 function SourceBadge({ source }: { source: string }) {
@@ -113,99 +115,6 @@ function SatisfactionSurveyView({ theme, color }: { theme: SatisfactionInsightTh
             </div>
           </article>
         ))}
-      </section>
-
-      <section className="rounded-[22px] border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
-        <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
-          <div>
-            <div className="flex items-center gap-2">
-              <GitBranch size={16} style={{ color }} />
-              <h2 className="text-[15px] font-bold text-gray-900">用户不满意原因诊断</h2>
-            </div>
-            <p className="mt-1 text-[11px] leading-5 text-gray-400">
-              从问卷信号进入原因，再沿匿名用户原话追溯到续购影响。各路径允许重叠，不应相加为总体不满意率。
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-1.5">
-            <SourceBadge source="课程的满意度问卷表" />
-            <SourceBadge source="客户数据详情逐条回答" />
-          </div>
-        </div>
-
-        <div className="mt-5 space-y-4">
-          {theme.dissatisfactionPaths.map((item) => (
-            <article
-              key={item.id}
-              className="overflow-hidden rounded-[22px] border bg-[#FCFCFA]"
-              style={{ borderColor: `${item.color}35` }}
-            >
-              <div className="grid gap-5 p-5 lg:grid-cols-[210px_minmax(0,1fr)_minmax(280px,.85fr)]">
-                <div>
-                  <div className="flex items-start justify-between gap-3">
-                    <span className="text-[28px] font-black tracking-tight" style={{ color: item.color }}>
-                      {item.metric}
-                    </span>
-                    <span
-                      className="rounded-full px-2 py-1 text-[9px] font-bold"
-                      style={{ color: item.color, backgroundColor: `${item.color}12` }}
-                    >
-                      {item.scope}
-                    </span>
-                  </div>
-                  <h3 className="mt-3 text-[16px] font-black text-gray-900">{item.title}</h3>
-                  <p className="mt-2 text-[11px] leading-5 text-gray-500">{item.signal}</p>
-                  <p className="mt-3 text-[9px] text-gray-400">来源：{item.source}</p>
-                </div>
-
-                <div className="border-gray-200 lg:border-x lg:px-5">
-                  <p className="text-[10px] font-bold tracking-[0.12em] text-gray-400">原因路径</p>
-                  <div className="mt-3 flex flex-wrap items-center gap-2">
-                    {item.path.map((step, index) => (
-                      <React.Fragment key={step}>
-                        <span
-                          className="rounded-xl border bg-white px-3 py-2 text-[11px] font-semibold text-gray-700"
-                          style={{ borderColor: `${item.color}30` }}
-                        >
-                          {step}
-                        </span>
-                        {index < item.path.length - 1 && <ArrowRight size={13} className="text-gray-300" />}
-                      </React.Fragment>
-                    ))}
-                  </div>
-                  <div className="mt-4 rounded-xl px-3.5 py-3" style={{ backgroundColor: `${item.color}0C` }}>
-                    <p className="text-[10px] font-bold" style={{ color: item.color }}>{item.purchaseImpact}</p>
-                    <p className="mt-1.5 text-[10px] leading-5 text-gray-500">{item.implication}</p>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex items-center gap-2">
-                    <MessageSquareQuote size={14} style={{ color: item.color }} />
-                    <p className="text-[10px] font-bold tracking-[0.12em] text-gray-400">匿名 VOC</p>
-                  </div>
-                  <div className="mt-3 space-y-2">
-                    {item.voices.map((voice) => (
-                      <blockquote key={voice.text} className="rounded-xl border border-gray-100 bg-white px-3.5 py-3">
-                        <p className="text-[11px] leading-5 text-gray-700">
-                          “<HighlightedVoice text={voice.text} color={item.color} />”
-                        </p>
-                        <footer className="mt-2 flex flex-wrap items-center gap-1.5 text-[9px] font-medium">
-                          <span
-                            className="rounded-full px-2 py-0.5"
-                            style={{ color: item.color, backgroundColor: `${item.color}12` }}
-                          >
-                            {voice.kind}
-                          </span>
-                          <span className="text-gray-400">{voice.context}</span>
-                        </footer>
-                      </blockquote>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
       </section>
 
       <section className="rounded-[22px] border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
@@ -362,6 +271,151 @@ function SatisfactionSurveyView({ theme, color }: { theme: SatisfactionInsightTh
   );
 }
 
+function SatisfactionVoicesView({ theme, color }: { theme: SatisfactionVoicesTheme; color: string }) {
+  return (
+    <>
+      <section
+        className="overflow-hidden rounded-[24px] border bg-white shadow-[0_12px_35px_rgba(30,35,40,0.06)]"
+        style={{ borderColor: `${color}35` }}
+      >
+        <div className="grid gap-6 p-6 lg:grid-cols-[1.4fr_0.75fr] lg:p-8">
+          <div>
+            <p className="text-[11px] font-bold tracking-[0.16em]" style={{ color }}>{theme.eyebrow}</p>
+            <h1 className="mt-3 max-w-4xl text-[26px] font-black leading-[1.3] text-[#242421] sm:text-[32px]">
+              {theme.title}
+            </h1>
+            <p className="mt-4 max-w-4xl text-[14px] leading-7 text-gray-600">{theme.thesis}</p>
+          </div>
+          <div className="rounded-2xl border p-5" style={{ borderColor: `${color}25`, backgroundColor: `${color}0C` }}>
+            <div className="flex items-center gap-2 text-[11px] font-bold" style={{ color }}>
+              <MessageSquareQuote size={14} />
+              开放题语料
+            </div>
+            <p className="mt-3 text-[14px] font-bold leading-6 text-gray-800">{theme.sample}</p>
+            <div className="mt-3 flex flex-wrap gap-1.5 border-t pt-3" style={{ borderColor: `${color}20` }}>
+              <SourceBadge source="课程的满意度问卷表" />
+              <SourceBadge source="客户数据详情逐条回答" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="rounded-[22px] bg-[#2D292A] p-5 text-white shadow-sm sm:p-6">
+        <div className="flex items-center gap-2">
+          <Lightbulb size={16} style={{ color: '#F1B8C5' }} />
+          <h2 className="text-[15px] font-bold">定性总结</h2>
+        </div>
+        <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+          {theme.summaryPoints.map((point, index) => (
+            <article key={point.title} className="rounded-2xl border border-white/10 bg-white/[0.06] p-4">
+              <span className="text-[10px] font-black tracking-[0.12em]" style={{ color: '#F1B8C5' }}>
+                0{index + 1}
+              </span>
+              <h3 className="mt-2 text-[12px] font-bold leading-5">{point.title}</h3>
+              <p className="mt-2 text-[10px] leading-5 text-white/60">{point.detail}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="rounded-[22px] border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
+        <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
+          <div>
+            <div className="flex items-center gap-2">
+              <GitBranch size={16} style={{ color }} />
+              <h2 className="text-[15px] font-bold text-gray-900">不满意原因路径与用户原声</h2>
+            </div>
+            <p className="mt-1 text-[11px] leading-5 text-gray-400">
+              每条路径同时呈现问卷信号、续购影响、业务总结与匿名原声，重点语句已高亮。
+            </p>
+          </div>
+          <span className="text-[10px] text-gray-400">五条路径允许重叠，不相加为总体不满意率</span>
+        </div>
+
+        <div className="mt-5 space-y-4">
+          {theme.dissatisfactionPaths.map((item) => (
+            <article
+              key={item.id}
+              className="overflow-hidden rounded-[22px] border bg-[#FCFCFA]"
+              style={{ borderColor: `${item.color}35` }}
+            >
+              <div className="grid gap-5 p-5 lg:grid-cols-[210px_minmax(0,1fr)_minmax(280px,.85fr)]">
+                <div>
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="text-[28px] font-black tracking-tight" style={{ color: item.color }}>
+                      {item.metric}
+                    </span>
+                    <span
+                      className="rounded-full px-2 py-1 text-[9px] font-bold"
+                      style={{ color: item.color, backgroundColor: `${item.color}12` }}
+                    >
+                      {item.scope}
+                    </span>
+                  </div>
+                  <h3 className="mt-3 text-[16px] font-black text-gray-900">{item.title}</h3>
+                  <p className="mt-2 text-[11px] leading-5 text-gray-500">{item.signal}</p>
+                  <p className="mt-3 text-[9px] text-gray-400">来源：{item.source}</p>
+                </div>
+
+                <div className="border-gray-200 lg:border-x lg:px-5">
+                  <p className="text-[10px] font-bold tracking-[0.12em] text-gray-400">原因路径与总结</p>
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    {item.path.map((step, index) => (
+                      <React.Fragment key={step}>
+                        <span
+                          className="rounded-xl border bg-white px-3 py-2 text-[11px] font-semibold text-gray-700"
+                          style={{ borderColor: `${item.color}30` }}
+                        >
+                          {step}
+                        </span>
+                        {index < item.path.length - 1 && <ArrowRight size={13} className="text-gray-300" />}
+                      </React.Fragment>
+                    ))}
+                  </div>
+                  <div className="mt-4 rounded-xl px-3.5 py-3" style={{ backgroundColor: `${item.color}0C` }}>
+                    <p className="text-[10px] font-bold" style={{ color: item.color }}>{item.purchaseImpact}</p>
+                    <p className="mt-1.5 text-[10px] leading-5 text-gray-500">{item.implication}</p>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-2">
+                    <MessageSquareQuote size={14} style={{ color: item.color }} />
+                    <p className="text-[10px] font-bold tracking-[0.12em] text-gray-400">匿名用户原声</p>
+                  </div>
+                  <div className="mt-3 space-y-2">
+                    {item.voices.map((voice) => (
+                      <blockquote key={voice.text} className="rounded-xl border border-gray-100 bg-white px-3.5 py-3">
+                        <p className="text-[11px] leading-5 text-gray-700">
+                          “<HighlightedVoice text={voice.text} color={item.color} />”
+                        </p>
+                        <footer className="mt-2 flex flex-wrap items-center gap-1.5 text-[9px] font-medium">
+                          <span
+                            className="rounded-full px-2 py-0.5"
+                            style={{ color: item.color, backgroundColor: `${item.color}12` }}
+                          >
+                            {voice.kind}
+                          </span>
+                          <span className="text-gray-400">{voice.context}</span>
+                        </footer>
+                      </blockquote>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="flex items-start gap-2 rounded-xl border border-amber-100 bg-amber-50/70 px-4 py-3">
+        <CircleAlert size={14} className="mt-0.5 shrink-0 text-amber-600" />
+        <p className="text-[10px] leading-5 text-amber-800"><strong>口径说明：</strong>{theme.caveat}</p>
+      </section>
+    </>
+  );
+}
+
 export default function CalculationInsightsPage() {
   const [activeId, setActiveId] = React.useState<CalculationInsightTheme['id']>('segments');
   const theme = CALCULATION_INSIGHT_THEMES.find((item) => item.id === activeId)
@@ -408,7 +462,9 @@ export default function CalculationInsightsPage() {
 
       <main className="min-h-0 flex-1 overflow-y-auto">
         <div className="mx-auto max-w-[1240px] space-y-5 px-4 py-6 sm:px-6 sm:py-8">
-          {theme.layout === 'satisfaction-survey' ? (
+          {theme.layout === 'satisfaction-voices' ? (
+            <SatisfactionVoicesView theme={theme} color={color} />
+          ) : theme.layout === 'satisfaction-survey' ? (
             <SatisfactionSurveyView theme={theme} color={color} />
           ) : (
           <>

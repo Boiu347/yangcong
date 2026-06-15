@@ -103,9 +103,28 @@ export interface SatisfactionInsightTheme {
   caveat: string;
 }
 
-export type CalculationInsightTheme = IndustryInsightTheme | SatisfactionInsightTheme;
+export interface SatisfactionVoicesTheme {
+  layout: 'satisfaction-voices';
+  id: 'satisfaction-voices';
+  tab: string;
+  eyebrow: string;
+  title: string;
+  thesis: string;
+  sample: string;
+  summaryPoints: Array<{
+    title: string;
+    detail: string;
+  }>;
+  dissatisfactionPaths: SatisfactionVocPath[];
+  caveat: string;
+}
 
-export const CALCULATION_INSIGHT_THEMES: CalculationInsightTheme[] = [
+export type CalculationInsightTheme =
+  | IndustryInsightTheme
+  | SatisfactionInsightTheme
+  | SatisfactionVoicesTheme;
+
+const BASE_CALCULATION_INSIGHT_THEMES: Array<IndustryInsightTheme | SatisfactionInsightTheme> = [
   {
     layout: 'industry-story',
     id: 'segments',
@@ -466,9 +485,9 @@ export const CALCULATION_INSIGHT_THEMES: CalculationInsightTheme[] = [
     id: 'satisfaction',
     tab: '满意度调研',
     eyebrow: '05 · 结营体验与后续意向',
-    title: '满意是表层，续购被效果、节奏与匹配度共同卡住。',
+    title: '高满意不等于自然续费，效果可见才是转化关键。',
     thesis:
-      '老师服务和任务安排总体评价较高，但明确续购同类计算营的用户只有 41.3%。逐条回答显示，不满意并非单一问题，而是沿着“效果未显现、节奏不适配、难度不匹配、老师反馈不足、价格价值存疑”五条路径形成，并进一步影响续购判断。',
+      '本页聚焦封闭题分布、体验评价与续购关联：老师服务和任务安排总体评价较高，但明确续购同类计算营的用户只有 41.3%。开放题原因、代表性原声与定性总结请继续查看后面的“用户原声与总结”。',
     sample: '3月期 · N=247 · 96.8%由家长填写 · 一至六年级',
     metrics: [
       {
@@ -706,5 +725,52 @@ export const CALCULATION_INSIGHT_THEMES: CalculationInsightTheme[] = [
     ],
     caveat:
       '本页来自结营后主动填写问卷的人群，可能高估整体满意度；原因路径允许同一用户重复出现，开放题提及量也不等于总体发生率。交叉结果仅表示变量相关，不证明因果，也不能替代真实业务续报率。',
+  },
+];
+
+const satisfactionTheme = BASE_CALCULATION_INSIGHT_THEMES.find(
+  (theme): theme is SatisfactionInsightTheme => theme.id === 'satisfaction',
+);
+
+if (!satisfactionTheme) {
+  throw new Error('Satisfaction insight theme is required');
+}
+
+export const CALCULATION_INSIGHT_THEMES: CalculationInsightTheme[] = [
+  ...BASE_CALCULATION_INSIGHT_THEMES,
+  {
+    layout: 'satisfaction-voices',
+    id: 'satisfaction-voices',
+    tab: '用户原声与总结',
+    eyebrow: '06 · 开放题定性洞察',
+    title: '用户不满意不是一句“体验不好”，而是五条可追溯的阻力路径。',
+    thesis:
+      '本页将开放题逐条编码为效果、节奏、难度、服务与价值五类原因。先看跨路径总结，再回到匿名用户原话，帮助团队同时理解“发生了什么”和“为什么发生”。',
+    sample: '3月期 · N=247 · 两份表格逐条核对 · 20条代表性原声',
+    summaryPoints: [
+      {
+        title: '效果看不见，是最直接的续购断点',
+        detail: '55位用户暂未感知提升，该人群同类计算营明确续购仅5.5%。完成任务不能替代进步证明。',
+      },
+      {
+        title: '节奏问题不是单纯“题量太多”',
+        detail: '家庭时间冲突最普遍，同时存在想减量与想加量的两端需求，核心是缺少可选择的任务档位。',
+      },
+      {
+        title: '难度评价向两端分化',
+        detail: '偏简单与偏困难同时出现，说明统一内容无法稳定覆盖不同年级、基础和训练目标。',
+      },
+      {
+        title: '服务负向样本少，但破坏力强',
+        detail: '老师反馈评价一般的8位用户中，无人明确续购同类计算营，服务感需要被标准化交付。',
+      },
+      {
+        title: '价格异议背后是价值解释不足',
+        detail: '用户会把收费与会员已有内容比较，真正需要被证明的是诊断、反馈、加练和结果变化。',
+      },
+    ],
+    dissatisfactionPaths: satisfactionTheme.dissatisfactionPaths,
+    caveat:
+      '原声均来自匿名开放题，并按代表性与业务意义筛选；加粗内容为语义重点，不改变原意。原因路径允许同一用户重复出现，开放题提及量也不等于总体发生率。',
   },
 ];
