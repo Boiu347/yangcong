@@ -164,6 +164,8 @@
   .scene .uid{font-family:Georgia,serif;font-style:italic;font-weight:700;color:var(--accent);font-size:15px;}
   .scene .who{font-weight:800;font-size:16px;}
   .scene .facts{font-size:12.5px;color:var(--note);}
+  .scene .facts .grade-hl{font-weight:800;color:var(--ink);background:linear-gradient(transparent 58%,var(--hi) 58%);padding:0 2px;}
+  .onion-mark{color:#0095FF;font-weight:800;}
   .scene .tools{margin-left:auto;font-size:12px;color:var(--note);background:var(--bg2);
     padding:3px 10px;border-radius:999px;white-space:nowrap;}
   .scene .body{padding:16px 22px 20px;}
@@ -439,7 +441,7 @@
       <article class="scene">
         <div class="head">
           <span class="uid">01</span><span class="who">吴语遥</span>
-          <span class="facts">江苏苏州 · 初二 · 物理 · 走读 · 班级中等偏下</span>
+          <span class="facts">江苏苏州 · 初二 · 走读 · <span class="grade-hl">班级中等偏下</span></span>
           <span class="tools">小猿学习机 · DeepSeek</span>
         </div>
         <div class="body">
@@ -460,7 +462,7 @@
       <article class="scene">
         <div class="head">
           <span class="uid">02</span><span class="who">徐同学</span>
-          <span class="facts">上海 · 初二 · 化学/语文 · 走读</span>
+          <span class="facts">上海 · 初二 · 走读</span>
           <span class="tools">豆包 · 洋葱</span>
         </div>
         <div class="body">
@@ -483,7 +485,7 @@
       <article class="scene">
         <div class="head">
           <span class="uid">03</span><span class="who">小杰</span>
-          <span class="facts">广东揭阳 · 初一 · 数学 · 重点班 · 前20</span>
+          <span class="facts">广东揭阳 · 初一 · <span class="grade-hl">重点班 · 前20</span></span>
           <span class="tools">科大讯飞 · 小猿 · 元宝</span>
         </div>
         <div class="body">
@@ -502,7 +504,7 @@
       <article class="scene">
         <div class="head">
           <span class="uid">04</span><span class="who">丁同学</span>
-          <span class="facts">安徽六安 · 初三 · 数理化英 · 走读</span>
+          <span class="facts">安徽六安 · 初三 · 走读</span>
           <span class="tools">作业帮 · 洋葱 · 步步高</span>
         </div>
         <div class="body">
@@ -524,7 +526,7 @@
       <article class="scene">
         <div class="head">
           <span class="uid">05</span><span class="who">吕同学</span>
-          <span class="facts">黑龙江绥芬河 · 初二 · 数英 · 普通班中等</span>
+          <span class="facts">黑龙江绥芬河 · 初二 · <span class="grade-hl">普通班中等</span></span>
           <span class="tools">作业帮 · 洋葱（平板）</span>
         </div>
         <div class="body">
@@ -544,7 +546,7 @@
       <article class="scene">
         <div class="head">
           <span class="uid">06</span><span class="who">诺诗</span>
-          <span class="facts">湖南永州 · 初三 · 数英 · 寄宿 · 中等</span>
+          <span class="facts">湖南永州 · 初三 · 寄宿 · <span class="grade-hl">中等</span></span>
           <span class="tools">洋葱（最常用）· 作业帮</span>
         </div>
         <div class="body">
@@ -565,7 +567,7 @@
       <article class="scene">
         <div class="head">
           <span class="uid">07</span><span class="who">梦梅</span>
-          <span class="facts">甘肃兰州 · 六年级 · 数学 · 中等</span>
+          <span class="facts">甘肃兰州 · 六年级 · <span class="grade-hl">中等</span></span>
           <span class="tools">学而思平板 · 豆包 · 小猿</span>
         </div>
         <div class="body">
@@ -586,7 +588,7 @@
       <article class="scene">
         <div class="head">
           <span class="uid">08</span><span class="who">小林</span>
-          <span class="facts">广西南宁 · 初一 · 数学 · 刻苦中等生 · 自驱强</span>
+          <span class="facts">广西南宁 · 初一 · <span class="grade-hl">刻苦中等生 · 自驱强</span></span>
           <span class="tools">洋葱 · 豆包 · 快对</span>
         </div>
         <div class="body">
@@ -1017,6 +1019,35 @@
     `;
   }
   layers.forEach(l => l.addEventListener('click', ()=>setLevel(l.dataset.level)));
+
+  function highlightOnion(root){
+    if(!root || !root.textContent.includes('洋葱')) return;
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    let n;
+    while((n = walker.nextNode())){
+      if(n.parentElement?.closest?.('.onion-mark, .audio-chip, script, style')) continue;
+      if(n.textContent.includes('洋葱')) nodes.push(n);
+    }
+    nodes.forEach(node => {
+      const parts = node.textContent.split(/(洋葱)/g);
+      if(parts.length <= 1) return;
+      const frag = document.createDocumentFragment();
+      parts.forEach(p => {
+        if(!p) return;
+        if(p === '洋葱'){
+          const s = document.createElement('span');
+          s.className = 'onion-mark';
+          s.textContent = p;
+          frag.appendChild(s);
+        }else{
+          frag.appendChild(document.createTextNode(p));
+        }
+      });
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+  document.querySelectorAll('.scene').forEach(scene => highlightOnion(scene));
 
   /* ── 用户原声录音切片 ── */
   (function initVoiceClips(){
