@@ -195,12 +195,19 @@
   },
   "洋葱的不可替代性是可以上课。": {
     "clipUrl": "/clips/paisou/obcnog21/037-01.mp3",
-    "startTime": 721.4,
-    "duration": 26.2
+    "startTime": 719.0,
+    "duration": 17.0
   },
-  "洋葱的不可替代性是可以上课——看洋葱十道错5道，不看错8道。": {
-    "clipUrl": "/clips/paisou/obcnog21/038-01.mp3",
-    "startTime": 721.4,
-    "duration": 26.2
-  }
+  "洋葱的不可替代性是可以上课——看洋葱十道错5道，不看错8道。": [
+    {
+      "clipUrl": "/clips/paisou/obcnog21/038-part1.mp3",
+      "startTime": 719.0,
+      "duration": 17.0
+    },
+    {
+      "clipUrl": "/clips/paisou/obcnog21/038-part2.mp3",
+      "startTime": 1083.5,
+      "duration": 27.0
+    }
+  ]
 }
